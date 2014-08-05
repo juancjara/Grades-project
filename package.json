@@ -10,6 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.7.2",
-    "body-parser": "^1.5.2"
+    "body-parser": "^1.5.2",
+    "mongoose": "^3.8.14",
+    "path": "^0.4.9",
+    "express-session": "^1.7.2",
+    "cookie": "^0.1.2"
   }
 }

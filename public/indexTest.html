@@ -1,0 +1,101 @@
+<html>
+<head>
+    <title></title>
+    <style type="text/css">
+        input{
+            display: block;
+            width: 80%;
+        }
+        label{
+            display: block;
+            font-size: 1.8em;
+            color:red;
+        }
+    </style>
+</head>
+<body>
+    <div id="login"  data-url="login" >
+        <input type="text" class="input" style="display:none"></input>
+        <input type="text" class="output" style="display:none"></input>
+        <button>login</button>
+    </div>
+    <div id="logout"  data-url="logout" >
+        <input type="text" class="input" style="display:none"></input>
+        <input type="text" class="output" style="display:none"></input>
+        <button>logout</button>
+    </div>
+    <div id="addUser"  data-url="User/add" >
+        <label>add user</label>
+        Input<input type="text" class="input" value='{"name":"jc1"}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="addSemester" data-url="Semester/add">
+        <label>add semester</label>
+        Input<input type="text" class="input" value='{"name":"gg"}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="semesters" data-url="Semester/getList">
+        <label>get semesters</label>
+        Input<input type="text" class="input"></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="updateSem" data-url="Semester/update">
+        <label>update semester</label>
+        Input<input type="text" class="input" value='{"id":"53dd2e1071e3c11838bafd09","name":"nuevo"}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="removeSem" data-url="Semester/del">
+        <label>remove semester</label>
+        Input<input type="text" class="input" value='{"id":"53dd2e1071e3c11838bafd09"}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="addCourse" data-url="Course/add">
+        <label>add course</label>
+        Input<input type="text" class="input" value='{ "idSem":"53dd6fa265f9d5f413d9457e","name": "quimica 2", "abr": "Q2" , "code" : "Q202" , "formula"  : {"testgg":"ggg"} }'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="shareCourse" data-url="Course/share">
+        <label>share course</label>
+        Input<input type="text" class="input" value='{"id":""}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="removeCourse" data-url="Course/del">
+        <label>remove course</label>
+        Input<input type="text" class="input" value='{"idSem":"","id":""}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+    $("button").on('click.send',function(){
+        var url = "";//"http://localhost:8765/";
+        var id = this.parentNode.id;
+        
+        url = url + $("#"+id).data("url");
+        var data = $("#"+id +" .input").val();
+        if ( data == ""){
+            data = "{}";
+        }
+        //data = JSON.parse(data);
+        console.log(data);
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            contentType: "application/json; charset=UTF-8",
+            success: function( response ){
+                $("#"+id+" .output").val( JSON.stringify(response) );
+            },
+            dataType: "json"
+        });
+    });
+</script>
+</body>
+</html>
