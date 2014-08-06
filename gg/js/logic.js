@@ -113,7 +113,7 @@ var logic = {
         }
         $("#"+id).append('<div id='+eva.getId()+'>'+eva.getName()+'<input type="text" value="'+value+
                         '"> ['+ eva.getBounds().lower+' , '+eva.getBounds().upper +' ]<input type="checkbox" class="simu" '+checked+'></div>');
-        if ( sons.length > 0 ){
+        if (sons.length){
             for ( var  i=0; i < sons.length ; i++){
                 logic.draw(sons[i],id);
             }
@@ -132,12 +132,13 @@ var logic = {
         if ( sons.length == 0 ){
             return eva.getBounds();
         }
+        no es necesario
         if ( sons.length > 0 ){
             for ( var i = 0 ; i < sons.length ; i++ ){
                 var temp = logic.simulation( sons[i] ),
                     weight = sons[i].getWeight();
                 bounds.lower += temp.lower* weight;
-                bounds.upper += temp.upper;
+                bounds.upper += temp.upper* wei
                 weights += weight;
 
                 if ( temp.lower < minVal.lower ){
@@ -152,7 +153,7 @@ var logic = {
             }
             weightBound.lower = weights;
             weightBound.upper = weights;
-            if ( eva.getDeleteMin() ){
+            if ( eva.shouldDeleteMinimum() ){
                 bounds.lower -= minVal.lower;
                 bounds.upper -= minVal.upper;
                 weightBound.lower -= minWeight.lower;
