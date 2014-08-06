@@ -10,6 +10,8 @@ var courseSchema = new Schema({
 
 var cleanData = function(formula) {
   //TODO
+  //var json = JSON.parse(formula);
+  //locked = false, value = -1
   return formula;
 }
 
@@ -61,32 +63,39 @@ courseSchema.statics.del = function(params, cb) {
 }
 
 courseSchema.statics.addCourse = function(params,cb) {
-    var course = new Course({ 
-        name: params.name,
-        abr : params.abr, 
-        code: params.code,
-        formula : params.formula
-    } );
-    course.save(
-      function(err) {
-        if( err ) {
-            return cb(err);
-        }
-        mongoose.model('Semester').update(
-            {"_id":params.idSem},
-            {$push: {
-              courses: {
-                data:"1+1=3" ,
-                course: course._id
-              }
-            }},
-            function(err){
-                if ( err ){
-                    return cb(err);
-                }
-                return cb(null,course);
-            });
-    });
+  var course = new Course({ 
+    name: params.name,
+    abr : params.abr, 
+    code: params.code,
+    formula : params.formula
+  } );
+  course.save(
+    function(err) {
+      if( err ) {
+          return cb(err);
+      }
+      mongoose.model('Semester').update(
+        {"_id":params.idSem},
+        {$push: {
+          courses: {
+            data:"1+1=3" ,
+            course: course._id
+          }
+        }},
+        function(err){
+            if (err) {
+              return cb(err);
+            }
+            return cb(null,course);
+        });
+  });
+}
+
+courseSchema.statics.search = function(nameParam, cb) {
+  Course.find({
+    name: new RegExp('^'+nameParam+'.*$', 'i'),
+    shared: true
+    }, {name: 1}, cb);
 }
 
 var Course = module.exports = mongoose.model('Course', courseSchema);

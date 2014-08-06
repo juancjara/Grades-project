@@ -38,7 +38,7 @@ exports.share = function(req, res) {
   });
 }
 
-exports.del = function(req,res){
+exports.del = function(req, res){
   Course.del({id: req.body.id, userId: req.session.userId},
     function(err) {
       if (err) res.send({msg: console.log(err)});
@@ -46,7 +46,7 @@ exports.del = function(req,res){
     });
 }
 
-exports.update = function(req,res){
+exports.update = function(req, res){
   Course.findByIdAndUpdate(req.body.id, req.body,
     function(err) {
       if (err) res.send({msg: console.log(err)});
@@ -55,6 +55,14 @@ exports.update = function(req,res){
   );
 }
 
-exports.getFormula = function(req,res) {
+exports.getFormula = function(req, res) {
   getData(req.body.id, {formula: 1, _id: 0}, res);
+}
+
+exports.search = function(req, res) {
+  console.log("name", req.body.name);
+  Course.search(req.body.name, function(err, courses){
+    if (err) res.send({msg: console.log(err)});
+    res.send(courses);
+  });
 }

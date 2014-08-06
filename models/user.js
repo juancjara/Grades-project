@@ -7,8 +7,8 @@ var userSchema = new Schema({
   courses: [{type: Schema.Types.ObjectId, ref: 'Course'}]
 });
 
-userSchema.statics.getCourses = function(params, cb) {
-  User.find({_id: userId }, {}).populate("courses").exec(cb);
+userSchema.statics.getCourses = function(userId, cb) {
+  User.find({_id: userId }, {}).populate("courses","name").exec(cb);
 }
 
 userSchema.statics.addCourse = function(params, cb){
