@@ -30,33 +30,33 @@
         Output<input type="text" class="output"></input>
         <button>Send</button>
     </div>
-    <div id="addSemester" data-url="Semester/add">
-        <label>add semester</label>
-        Input<input type="text" class="input" value='{"name":"gg"}'></input>
-        Output<input type="text" class="output"></input>
-        <button>Send</button>
-    </div>
-    <div id="semesters" data-url="Semester/getList">
-        <label>get semesters</label>
-        Input<input type="text" class="input"></input>
-        Output<input type="text" class="output"></input>
-        <button>Send</button>
-    </div>
-    <div id="updateSem" data-url="Semester/update">
-        <label>update semester</label>
-        Input<input type="text" class="input" value='{"id":"53dd2e1071e3c11838bafd09","name":"nuevo"}'></input>
-        Output<input type="text" class="output"></input>
-        <button>Send</button>
-    </div>
-    <div id="removeSem" data-url="Semester/del">
-        <label>remove semester</label>
-        Input<input type="text" class="input" value='{"id":"53dd2e1071e3c11838bafd09"}'></input>
-        Output<input type="text" class="output"></input>
-        <button>Send</button>
-    </div>
     <div id="addCourse" data-url="Course/add">
         <label>add course</label>
-        Input<input type="text" class="input" value='{ "idSem":"53dd6fa265f9d5f413d9457e","name": "quimica 2", "abr": "Q2" , "code" : "Q202" , "formula"  : {"testgg":"ggg"} }'></input>
+        Input<input type="text" class="input" value='{"id":""}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="createCourse" data-url="Course/create">
+        <label>create course</label>
+        Input<input type="text" class="input" value='{"name": "prueba2", "formula": "1+1"}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="readCourse" data-url="Course/read">
+        <label>read course</label>
+        Input<input type="text" class="input" value='{"id": ""}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="updateCourse" data-url="Course/update">
+        <label>update course</label>
+        Input<input type="text" class="input" value='{"id": "", "name": "", "formula": ""}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="formulaCourse" data-url="Course/getFormula">
+        <label>get formula course</label>
+        Input<input type="text" class="input" value='{"id": ""}'></input>
         Output<input type="text" class="output"></input>
         <button>Send</button>
     </div>
@@ -68,7 +68,7 @@
     </div>
     <div id="removeCourse" data-url="Course/del">
         <label>remove course</label>
-        Input<input type="text" class="input" value='{"idSem":"","id":""}'></input>
+        Input<input type="text" class="input" value='{"id":""}'></input>
         Output<input type="text" class="output"></input>
         <button>Send</button>
     </div>
@@ -78,9 +78,9 @@
         var url = "";//"http://localhost:8765/";
         var id = this.parentNode.id;
         
-        url = url + $("#"+id).data("url");
-        var data = $("#"+id +" .input").val();
-        if ( data == ""){
+        url = url + $("#" + id).data("url");
+        var data = $("#" + id + " .input").val();
+        if (data == "") {
             data = "{}";
         }
         //data = JSON.parse(data);
