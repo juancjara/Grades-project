@@ -1,0 +1,113 @@
+<html>
+<head>
+    <title></title>
+    <style type="text/css">
+        input{
+            display: block;
+            width: 80%;
+        }
+        label{
+            display: block;
+            font-size: 1.8em;
+            color:red;
+        }
+    </style>
+</head>
+<body>
+    <div id="login"  data-url="login" >
+        <input type="text" class="input" style="display:none"></input>
+        <input type="text" class="output" style="display:none"></input>
+        <button>login</button>
+    </div>
+    <div id="logout"  data-url="logout" >
+        <input type="text" class="input" style="display:none"></input>
+        <input type="text" class="output" style="display:none"></input>
+        <button>logout</button>
+    </div>
+    <div id="addUser"  data-url="User/add" >
+        <label>add user</label>
+        Input<input type="text" class="input" value='{"name":"jc1"}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="getCourse"  data-url="User/getCourses" >
+        <label>get courses</label>
+        Input<input type="text" class="input" value=''></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="searchCourse" data-url="Course/search">
+        <label>search course</label>
+        Input<input type="text" class="input" value='{"name":""}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="addCourse" data-url="Course/add">
+        <label>add course</label>
+        Input<input type="text" class="input" value='{"id":""}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="createCourse" data-url="Course/create">
+        <label>create course</label>
+        Input<input type="text" class="input" value='{"name": "prueba2", "formula": "1+1"}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="readCourse" data-url="Course/read">
+        <label>read course</label>
+        Input<input type="text" class="input" value='{"id": ""}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="updateCourse" data-url="Course/update">
+        <label>update course</label>
+        Input<input type="text" class="input" value='{"id": "", "name": "", "formula": ""}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="formulaCourse" data-url="Course/getFormula">
+        <label>get formula course</label>
+        Input<input type="text" class="input" value='{"id": ""}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="shareCourse" data-url="Course/share">
+        <label>share course</label>
+        Input<input type="text" class="input" value='{"id":""}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+    <div id="removeCourse" data-url="Course/del">
+        <label>remove course</label>
+        Input<input type="text" class="input" value='{"id":""}'></input>
+        Output<input type="text" class="output"></input>
+        <button>Send</button>
+    </div>
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+    $("button").on('click.send',function(){
+        var url = "";//"http://localhost:8765/";
+        var id = this.parentNode.id;
+        
+        url = url + $("#" + id).data("url");
+        var data = $("#" + id + " .input").val();
+        if (data == "") {
+            data = "{}";
+        }
+        //data = JSON.parse(data);
+        console.log(data);
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            contentType: "application/json; charset=UTF-8",
+            success: function( response ){
+                $("#"+id+" .output").val( JSON.stringify(response) );
+            },
+            dataType: "json"
+        });
+    });
+</script>
+</body>
+</html>
