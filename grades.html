@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
+
+  <style id="holderjs-style" type="text/css"></style>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Grades</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <form class="form-group" role="search">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-search"></span>
+              </span>
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+          </form>
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Curso 1</a></li>
+            <li><a href="#">Curso 2</a></li>
+            <li><a href="#">Curso 3</a></li>
+            <li><a href="#">Curso 4 </a></li>
+            <li><a href="#">Curso 5 </a></li>
+            <li><a href="#">Curso 6 </a></li>
+            <li><a href="#">Curso 7 </a></li>
+            <li><a href="#">Curso 8 </a></li>
+          </ul>
+          <ul id="controls"class="nav nav-sidebar">
+            <li><input type="text" id="controls-label" class="form-control" placeholder="Etiqueta"></li>
+            <li><input type="text" id="controls-grade" class="form-control" placeholder="Nota"></li>
+            <button id="controls-erase"type="submit" class="btn btn-default">Eliminar</button>
+            <button id="controls-add"type="submit" class="btn btn-default">Agregar Nodo</button>
+            <button id="controls-save"type="submit" class="btn btn-default">Guardar</button>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main full-screen" id="grades-container">
+        </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
