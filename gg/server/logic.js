@@ -1,3 +1,0 @@
-exports.getSemesterInfo = function(userId) {
-    
-}
