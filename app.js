@@ -11,7 +11,7 @@ var express = require('express'),
 mongoose.connect("mongodb://localhost/gradesDB");
 
 function isAuthenticated(req, res, next) {
-  req.session.userId = "53e1b8b4f2b5f8743dd46ded";
+  req.session.userId = "11e42af15f9b16241a4a80f8";
   next();
 }
 
