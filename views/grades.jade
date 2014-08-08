@@ -1,0 +1,50 @@
+doctype
+html(lang='eng')
+  head 
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Grades app
+    link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
+    link(rel='stylesheet', href='dashboard.css') 
+  body
+    div(class=['navbar', 'navbar-inverse', 'navbar-fixed-top'] role='navigation')
+      .container-fluid
+        .navbar-header
+          a.navbar-brand Grades
+    .container-fluid
+      .row
+        div(class='col-sm-3 col-md-2 sidebar')
+          form(id='course-search', class='form-group', role='search')
+            .input-group
+              span.input-group-addon
+                span(class='glyphicon glyphicon-search')
+              input(id='course-search-box', class='form-control', type='text', placeholder='Buscar') 
+          ul(id='course-list', class='nav nav-sidebar')
+            li.active 
+              a Curso 1
+            li 
+              a Curso 2
+            li 
+              a Curso 3
+            li 
+              a Curso 4
+            li
+              a Curso 5
+            li 
+              a Curso 6
+            li 
+              a Curso 7
+          div(id='controls', class='nav nav-sidebar') 
+            input(type='text', id='controls-label', class='form-control', placeholder='Etiqueta')
+            input(type='text', id='controls-label', class='form-control', placeholder='Etiqueta')
+            button(id='controls-erase', class='btn btn-default') Eliminar
+            button(id='controls-add', class='btn btn-default') Agregar Prueba
+            button(id='controls-save', class='btn btn-default') Guardar
+         div(id='grades-container', class='col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main full-screen')
+
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")
+    script(src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js")
+    script(src="http://d3js.org/d3.v3.min.js")
+    script(src="javascript/script.js")
+    script(src="javascript/course.js")
+          

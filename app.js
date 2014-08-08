@@ -11,13 +11,19 @@ var express = require('express'),
 mongoose.connect("mongodb://localhost/gradesDB");
 
 function isAuthenticated(req, res, next) {
-  req.session.userId = "11e42af15f9b16241a4a80f8";
+  req.session.userId = '11e42af15f9b16241a4a80f8'; 
   next();
 }
 
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
 app.use(session({secret: 'ninho rata', saveUninitialized:true, resave:true}));
-app.use( bodyParser.json()); 
+app.use(bodyParser.json()); 
 app.use(express.static(path.join(__dirname, "public")));
+
+app.get('/', function(req, res) {
+  res.render('grades', {});
+});
 
 app.get('/:id', function(req, res) {
   req.session.userId = req.params.id;
