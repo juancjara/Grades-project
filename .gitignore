@@ -12,6 +12,8 @@ Session.vim
 # Logs
 logs
 *.log
+# files
+config.js
 
 # Runtime data
 pids

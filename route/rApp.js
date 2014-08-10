@@ -1,9 +1,12 @@
-exports.login = function(req,res) {
-  req.session.userId = "53d9927ba36b85dc31db49ff";
-  res.send("");
+exports.login = function(req, res) {
+  res.render('login');
 }
 
-exports.logout = function(req,res) {
+exports.index = function(req, res) {
+  res.render('grades');
+}
+
+exports.logout = function(req, res) {
   req.session.destroy();
-  res.send("");
+  res.redirect('/login');
 }
