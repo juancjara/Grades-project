@@ -5,8 +5,15 @@ html(lang='eng')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     title Grades app
     link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
+    link(rel='stylesheet', href='css/bootstrap-social.css')
+    link(rel='stylesheet', href='css/font-awesome.min.css')
   body
-  div
-    a(href='/auth/google') Login Google
-    a(href='/auth/facebook') Login Facebook
-    a(href='/auth/twitter') Login Twitter
+  .container-fluid
+    .row
+      div(class='col-md-3')
+        a(href='/auth/google',class='btn btn-block btn-social btn-google-plus') Login Google
+          i(class='fa fa-google-plus')
+        a(href='/auth/facebook',class='btn btn-block btn-social btn-facebook') Login Facebook
+          i(class='fa fa-facebook')
+        a(href='/auth/twitter',class='btn btn-block btn-social btn-twitter') Login Twitter
+          i(class='fa fa-twitter')
