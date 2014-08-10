@@ -10,7 +10,7 @@ exports.add = function(req, res) {
 }
 
 exports.getCourses = function(req, res) {
-  User.getCourses(req.session.userId, function(err, doc) {
+  User.getCourses(req.user._id, function(err, doc) {
     if (err) res.send({"msg": console.log(err)});
     res.send(doc);
   });
