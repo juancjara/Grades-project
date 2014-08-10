@@ -41,7 +41,9 @@ function tree(container, height, show_node) {
     v: 0, 
     l: 'J', 
     p: {x:tree.cx, y:tree.cy},
+    grade: -1,
     c: [], 
+    childLen: 0,
     f: {},
     level: 1,
   }; 
@@ -60,7 +62,7 @@ function tree(container, height, show_node) {
       _.c.forEach(getVertices);
     }
     getVertices(tree.vis);
-    return v.sort(function(a, b) { return a.v - b.v;});
+    return v;
   }
   
   tree.getEdges = function() {
@@ -73,7 +75,7 @@ function tree(container, height, show_node) {
       _.c.forEach(getEdges);
     }
     getEdges(tree.vis);
-    return e.sort(function(a,b){ return a.v2 - b.v2;}); 
+    return e;
   }
   
   tree.addLeaf = function(_) {
@@ -83,11 +85,14 @@ function tree(container, height, show_node) {
     vertices[cur_key] = {
       v: cur_key, 
       l: 'J', 
+      grade: -1, 
       p: {}, 
       c: [], 
+      childLen: 0,
       f: vertices[_],
       level: vertices[_].level + 1
     };
+    vertices[_].childLen++;
     vertices[_].c.push(vertices[cur_key]);
     cur_key++;
     tree.size++;
@@ -101,6 +106,7 @@ function tree(container, height, show_node) {
     }
     var ancestor = vertices[_].f;
     if (ancestor) {
+      ancestor.childLen--;
       for (var id = 0; id < ancestor.c.length; id++) {
         var obj = ancestor.c[id];
         if (obj === vertices[_]) {
@@ -151,9 +157,16 @@ function tree(container, height, show_node) {
     document.body.appendChild(input);
     input.focus();
   }; 
+
+  tree.simulate = function () {
+    
+  }
  
   redraw = function(){
-    var edges = d3.select("#g_lines").selectAll('line').data(tree.getEdges());
+    var edges = d3.select("#g_lines").selectAll('line')
+                  .data(tree.getEdges(), function(d) {
+                    return d.v2;
+                  });
     
     edges.transition().duration(500)
       .attr('x1',function(d){ return d.p1.x;})
@@ -174,7 +187,9 @@ function tree(container, height, show_node) {
     edges.exit().remove();
 
     var rectangles = d3.select("#g_nodes").selectAll('rect')
-                       .data(tree.getVertices());
+                       .data(tree.getVertices(), function(d) {
+                         return d.v;
+                       });
 
     rectangles.transition()
       .duration(500)
@@ -197,19 +212,21 @@ function tree(container, height, show_node) {
     rectangles.exit().remove();
       
     var labels = d3.select("#g_labels").selectAll('text')
-                   .data(tree.getVertices());
+                   .data(tree.getVertices(), function (d) {
+                     return d.v;
+                   });
     
-    labels.text(function(d){return d.l;}).transition().duration(500)
+    labels.text(function(d){return d.l + '/' + d.grade; }).transition().duration(500)
       .attr('x',function(d){ return d.p.x;})
       .attr('y',function(d){ return d.p.y+5;})
-      .attr('class', function (d) {return d.c.length == 0 ? 'leaf' : ''});
+      .attr('class', function (d) {return d.childLen == 0 ? 'leaf' : ''});
       
     labels.enter()
       .append('text')
         .attr('x',function(d){ return d.f.p.x;})
         .attr('y',function(d){ return d.f.p.y+5;})
-        .attr('class', function (d) {return d.c.length == 0 ? 'leaf' : ''})
-      .text(function(d){return d.l;})
+        .attr('class', function (d) {return d.childLen == 0 ? 'leaf' : ''})
+      .text(function(d){return d.l + '/' + d.grade;})
         .on('click',function(d){ 
           show_node(d);
         })  
@@ -221,7 +238,7 @@ function tree(container, height, show_node) {
   }
   
   getLeafCount = function(_) {
-    if (_.c.length == 0) return 1;
+    if (_.childLen == 0) return 1;
     else return _.c.map(getLeafCount).reduce(function(a,b){ return a+b;});
   };
   
@@ -301,7 +318,7 @@ var control_panel = function() {
       };
       erase_handler = function() {
         tree.removeLeaf(node.v);
-      }
+      };
     },
     set_label: function(new_label) {
       label.val(new_label);
@@ -344,5 +361,8 @@ $(function(){
       panel.init(d);
     });
     panel.set_tree(t);
+  });
+  $('#simulate').click(function() {
+    t.simulate();     
   });
 });
