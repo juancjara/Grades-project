@@ -2,6 +2,7 @@ var courseSearch = function() {
   var form = $('#course-search');
   var search_box = $('#course-search-box');
   var selected = null;
+  var course_ul = $('#course-list');
 
   search_box.keyup(function(event) {
     if (event.which == 13) {
@@ -26,7 +27,7 @@ var courseSearch = function() {
   };
 
   var format_course = function(course) {
-    return $('<li>').append($('<a>', {text: course.name})); 
+    return $('<li>').append($('<a>', {text: course.name}));
   };
 
   form.submit(function(event) {
@@ -45,9 +46,17 @@ var courseSearch = function() {
       course_view.click(function() {
         on_selected(course, course_view);
       });
-      course_ul.append(course_view);   
+      course_ul.append(course_view);
     });
   });
+
+  var add_course = function(course) {
+    var course_view = format_course(course);
+    course_view.on('click', function() {
+      on_selected(course, course_view);
+    });
+  };
+
   return search;
 };
 
