@@ -33,11 +33,12 @@ var courseSearch = function() {
     event.preventDefault();
     // get courses from the input 
     // fill them 
-    var course_list =   
-     [{name: 'Ajax 1'}, 
+    var course_list = [
+      {name: 'Ajax 1'}, 
       {name: 'Ajax 2'}, 
       {name: 'Ajax 3'}, 
-      {name: 'Ajax 4'}]; 
+      {name: 'Ajax 4'}
+    ]; 
     var course_ul = $('#course-list');
     course_ul.empty();
     course_list.forEach(function(course) {
