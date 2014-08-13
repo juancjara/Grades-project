@@ -10,12 +10,12 @@ var userSchema = new Schema({
 });
 
 userSchema.statics.getCourses = function(userId, cb) {
-  User.find({_id: userId }, {}).populate("courses","name").exec(cb);
-}
+  User.findOne({_id: userId }, {}).populate("courses","name").exec(cb);
+};
 
 userSchema.statics.addCourse = function(params, cb){
   User.findByIdAndUpdate(params.userId, {$push: {courses: params.id}}, cb);
-}
+};
 
 userSchema.statics.delCourse = function(params, cb){
   User.findOne({_id: params.userId},
@@ -25,7 +25,7 @@ userSchema.statics.delCourse = function(params, cb){
       user.courses.splice(idx, 1);
       user.save(cb);
   });
-}
+};
 
 userSchema.statics.findOrCreate = function(params, cb){
   User.findOne(params, function(err, user){
@@ -34,6 +34,6 @@ userSchema.statics.findOrCreate = function(params, cb){
     var newUser = new User(params);
     newUser.save(cb);
   });
-}
+};
 
 var User = module.exports = mongoose.model('User', userSchema);

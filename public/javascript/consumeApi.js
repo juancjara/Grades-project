@@ -3,7 +3,7 @@ var api = (function() {
     $.ajax({
       type: 'POST',
       url: url,
-      data: data || {},
+      data: JSON.stringify(data) || {},
       contentType: 'application/json; charset=UTF-8',
       dataType: 'json',
       success: cb
@@ -17,13 +17,13 @@ var api = (function() {
     'updateCourse': 'Course/update',
     'getFormulaCourse': 'Course/getFormula',
     'shareCourse': 'Course/share',
-    'deleteCourse': 'Couse/del',
+    'deleteCourse': 'Course/del',
     'logout': 'logout'
   };
 
   return {
     consume: function(nameFun, data, cb) {
       post(urls[nameFun], data, cb);
-    };
+    }
   };
 })();

@@ -13,7 +13,7 @@ var cleanData = function(formula) {
   //var json = JSON.parse(formula);
   //locked = false, value = -1
   return formula;
-}
+};
 
 courseSchema.statics.share = function(id, cb) {
   Course.findById(id).exec( 
@@ -23,7 +23,7 @@ courseSchema.statics.share = function(id, cb) {
       var clone = new Course({name: course.name, shared: true, formula: baseFormula});
       clone.save(cb);
     });
-}
+};
 
 courseSchema.statics.add = function(params, cb) {
   Course.findById(params.id).exec(
@@ -40,7 +40,7 @@ courseSchema.statics.add = function(params, cb) {
       });
     }
   );
-}
+};
 
 courseSchema.statics.create = function(params, cb) {
   var course = new Course(params);
@@ -52,7 +52,7 @@ courseSchema.statics.create = function(params, cb) {
         return cb(null, course);
       });
   });
-}
+};
 
 courseSchema.statics.del = function(params, cb) {
   Course.findByIdAndRemove(params.id,
@@ -60,7 +60,7 @@ courseSchema.statics.del = function(params, cb) {
       if (err) return cb(err);
       mongoose.model('User').delCourse(params, cb);  
   });
-}
+};
 
 courseSchema.statics.addCourse = function(params,cb) {
   var course = new Course({ 
@@ -89,13 +89,13 @@ courseSchema.statics.addCourse = function(params,cb) {
             return cb(null,course);
         });
   });
-}
+};
 
 courseSchema.statics.search = function(nameParam, cb) {
   Course.find({
     name: new RegExp('^'+nameParam+'.*$', 'i'),
     shared: true
     }, {name: 1}, cb);
-}
+};
 
 var Course = module.exports = mongoose.model('Course', courseSchema);

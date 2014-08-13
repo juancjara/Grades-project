@@ -105,6 +105,7 @@ line{
 }
 
 
+
 /*
  * Main content
  */
@@ -142,3 +143,48 @@ line{
   border-radius: 50%;
 }
 
+/*
+ * list courses
+ */
+
+#search-results {
+  max-height: 320px;
+  overflow: auto;
+  overflow-y: scroll;
+}
+
+.course:hover .hover-basic-menu {
+  display: block;
+}
+
+.edit-menu {
+  background-color: white;
+  border-top: 1px blue solid;
+  border-bottom: 1px blue solid;
+  color: #428bca;
+  display: block;
+  padding: 7px 20px;
+}
+
+
+.glyphicon {
+  cursor: pointer;
+  margin-left: 3px;
+}
+
+.menu-icon {
+  float:right;
+  font-size: 1.2em;
+}
+
+.click-menu {
+  display: none;
+}
+
+.hide {
+  display: none;
+}
+
+#remove-search {
+  top: 0px;
+}
