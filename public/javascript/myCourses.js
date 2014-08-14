@@ -33,8 +33,6 @@ var course = function(apiWS) {
   var stop_editing = function() {
     var $el_on_edit = $('.edit-menu');
     if ($el_on_edit) {
-      console.log("eliminar");
-      console.log("gg",$('.hide'));
       $('.hide').removeClass('hide');
       $el_on_edit.remove();
     };   
