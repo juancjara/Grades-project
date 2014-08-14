@@ -7,11 +7,11 @@ exports.add = function(req, res) {
     if (err) res.send({"msg": console.log(err)});
     res.send(user);
   });
-}
+};
 
 exports.getCourses = function(req, res) {
   User.getCourses(req.user._id, function(err, doc) {
     if (err) res.send({"msg": console.log(err)});
     res.send(doc);
   });
-}
+};
