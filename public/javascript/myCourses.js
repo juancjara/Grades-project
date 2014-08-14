@@ -1,23 +1,21 @@
 var course = function(apiWS) {
   var api_ws = apiWS;
   var $course_ul = $('#course-list');
-  var $new_course = $('#new-course');
   var $btn_my_courses = $('#my-courses');
 
   $btn_my_courses.on('click',function(){
     $course_ul.toggle('slow');
   });
 
-  var create_course = function(event) {
+  var create_course = function(name_course) {
     var data = {
-      name: $('#course-search-box').val(),
-      formula : ''
+      name: name_course,
+      formula: ''
     };
     api_ws.consume('createCourse', data, function(course) {
       add_course(course);
     });
-  }
-  $new_course.on('click',create_course);
+  };
 
   var on_selected = function(course, courseHTML) {
     if (handler.selected_handler) {
@@ -157,7 +155,8 @@ var course = function(apiWS) {
 
   var handler = {
     selected_handler: null,
-    add : add_course
+    add : add_course,
+    create: create_course
   };
 
   return handler;
