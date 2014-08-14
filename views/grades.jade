@@ -7,10 +7,7 @@ html(lang='eng')
     link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
     link(rel='stylesheet', href='dashboard.css')
   body
-    div(class=['navbar', 'navbar-inverse', 'navbar-fixed-top'] role='navigation')
-      .container-fluid
-        .navbar-header
-          a.navbar-brand Grades
+    include ./includes/navigation.jade
     .container-fluid
       .row
         div(class='col-sm-3 col-md-2 sidebar')
@@ -19,7 +16,6 @@ html(lang='eng')
               span.input-group-addon
                 span(id='btn-search', class='glyphicon glyphicon-search')
               input(id='course-search-box', class='form-control', type='text', placeholder='Buscar')
-              //span(id='add', class='icon-input glyphicon glyphicon-plus form-control-feedback')
               span(id='remove-search', class='icon-input glyphicon glyphicon-remove form-control-feedback')
           div(id='no-results') No hay resultados. Click en 
             span(id='new-course', class='glyphicon glyphicon-plus') 
@@ -48,3 +44,4 @@ html(lang='eng')
     script(src="javascript/script.js")
     script(src="javascript/courseSearch.js")
     script(src="javascript/myCourses.js")
+    script(src="javascript/main.js")

@@ -31,8 +31,14 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', rApp.index);
-app.get('/login', rApp.login);
+var redirect_url = {
+  successRedirect: '/index',
+  failureRedirect: '/' 
+}
+
+app.get('/index', rApp.index);
+app.get('/about', rApp.about);
+app.get('/', rApp.login);
 app.get('/logout', rApp.logout);
 
 app.get('/auth/google',
@@ -42,12 +48,6 @@ app.get('/auth/google',
       'https://www.googleapis.com/auth/userinfo.email'] 
     })
 );
-
-var redirect_url = {
-  successRedirect: '/',
-  failureRedirect: '/login' 
-}
-
 app.get('/auth/google/callback',
   passport.authenticate('google', redirect_url));
 
@@ -70,6 +70,8 @@ app.post('/Course/share', isAuthenticated, rCourse.share)
 
 app.post('/User/add', rUser.add);
 app.post('/User/getCourses', isAuthenticated, rUser.getCourses);
+
+app.post('/contact', rApp.contact);
 
 app.listen(process.env.PORT || 8765);
 console.log("Express server listening on port 8765");

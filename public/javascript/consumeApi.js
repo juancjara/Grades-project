@@ -18,7 +18,7 @@ var api = (function() {
     'getFormulaCourse': 'Course/getFormula',
     'shareCourse': 'Course/share',
     'deleteCourse': 'Course/del',
-    'logout': 'logout'
+    'contactForm': 'contact'
   };
 
   return {

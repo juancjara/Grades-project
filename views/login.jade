@@ -7,15 +7,18 @@ html(lang='eng')
     link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
     link(rel='stylesheet', href='css/bootstrap-social.css')
     link(rel='stylesheet', href='css/font-awesome.min.css')
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Oleo+Script')
+    link(rel='stylesheet', href='css/login.css')
   body
     .container-fluid
       .row
-        div(class='col-md-3')
-          a(href='/auth/google', class='btn btn-block btn-social btn-google-plus') Login Google
+        div(class='center-block block-login text-center')
+          div(class='main-title') Notas PUCP
+          a(href='/auth/google', class='btn-lg btn-block btn-social btn-google-plus') Login Google
             i(class='fa fa-google-plus')
-          a(href='/auth/facebook', class='btn btn-block btn-social btn-facebook') Login Facebook
+          a(href='/auth/facebook', class='btn-lg btn-block btn-social btn-facebook') Login Facebook
             i(class='fa fa-facebook')
-          a(href='/auth/twitter', class='btn btn-block btn-social btn-twitter') Login Twitter
+          a(href='/auth/twitter', class='btn-lg btn-block btn-social btn-twitter') Login Twitter
             i(class='fa fa-twitter')
 
-    include ./includes/footer.jade
+    //include ./includes/footer.jade
