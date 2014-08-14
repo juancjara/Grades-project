@@ -149,8 +149,7 @@ line{
 
 #search-results {
   max-height: 320px;
-  overflow: auto;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .course:hover .hover-basic-menu {
@@ -194,4 +193,8 @@ line{
 
 #add {
   right: 20px;
+}
+
+#no-results {
+  display: none;
 }
