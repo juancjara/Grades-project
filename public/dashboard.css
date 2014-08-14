@@ -166,10 +166,13 @@ line{
   padding: 7px 20px;
 }
 
-
 .glyphicon {
   cursor: pointer;
   margin-left: 3px;
+}
+
+.icon-input {
+  top: 0px;
 }
 
 .menu-icon {
@@ -186,5 +189,9 @@ line{
 }
 
 #remove-search {
-  top: 0px;
+  margin-top: 1px;
+}
+
+#add {
+  right: 20px;
 }

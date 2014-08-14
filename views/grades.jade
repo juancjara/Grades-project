@@ -18,16 +18,16 @@ html(lang='eng')
             .input-group
               span.input-group-addon
                 span(id='btn-search', class='glyphicon glyphicon-search')
-              input(id='course-search-box', class='form-control', type='text', placeholder='Buscar') 
-              span(id='remove-search', class='glyphicon glyphicon-remove form-control-feedback')
+              input(id='course-search-box', class='form-control', type='text', placeholder='Buscar')
+              //span(id='add', class='icon-input glyphicon glyphicon-plus form-control-feedback')
+              span(id='remove-search', class='icon-input glyphicon glyphicon-remove form-control-feedback')
+          div(id='no-results') No hay resultados. Click en 
+            span(id='new-course'class='glyphicon glyphicon-plus') 
+            |   para crearlo.
+            
           ul(id='search-results', class='nav nav-sidebar')
           button(id='my-courses', class='btn btn-primary') Mis cursos
           ul(id='course-list', class='nav nav-sidebar')
-
-          button(class='btn btn-primary') Nuevo Curso
-          div(id='course-data', class='nav nav-sidebar') Datos del curso
-            input(id='name', placeholder='Nombre')
-            button(id='save-course') Guardar
 
           div(class='nav nav-sidebar')
             button(id='simulate', class='btn btn-default') Simular
