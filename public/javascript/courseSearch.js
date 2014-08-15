@@ -1,4 +1,3 @@
-//:TODO visual OK message on api response
 var courseSearch = function(apiWS) {
   var api_ws = apiWS;
   var $form = $('#course-search');

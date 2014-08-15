@@ -1,5 +1,7 @@
-var course = function(apiWS) {
+var course = function(apiWS, msg, strings) {
   var api_ws = apiWS;
+  var msg = msg;
+  var strings = strings;
   var $course_ul = $('#course-list');
   var $btn_my_courses = $('#my-courses');
 
@@ -13,7 +15,9 @@ var course = function(apiWS) {
       formula: ''
     };
     api_ws.consume('createCourse', data, function(course) {
+      if(course.msg) return console.log('error',course.msg);
       add_course(course);
+      msg.show_ok_msg(strings.course_create_ok);
     });
   };
 
@@ -23,10 +27,12 @@ var course = function(apiWS) {
     }
   };
 
+
   var on_share = function(id) {
     api_ws.consume('shareCourse', {id: id},
       function(res) {
-        if(res.msg != 'OK') return console.log('error');
+        if(res.msg != 'OK') return console.log('error',res.msg);
+        msg.show_ok_msg(strings.course_share_ok);
     });
   }
 
@@ -86,6 +92,7 @@ var course = function(apiWS) {
       api_ws.consume('updateCourse', data, 
         function(res) {
           if(res.msg != 'OK') return console.log('error'.res.msg);
+          msg.show_ok_msg(strings.course_edit_ok);
           $el.find('.name').text(data.name);
           stop_editing();
           e.stopPropagation();
@@ -105,6 +112,7 @@ var course = function(apiWS) {
       function(res) {
         if(res.msg != 'OK') return console.log('error'.res.msg);
         courseHTML.remove();
+        msg.show_ok_msg(strings.course_remove_ok);
     });
   };
 

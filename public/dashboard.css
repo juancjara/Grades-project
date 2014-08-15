@@ -198,3 +198,21 @@ line{
 #no-results {
   display: none;
 }
+
+#messages {
+  position:absolute;
+  left:0;
+  right:0;
+  margin-left:auto;
+  margin-right:auto;
+  z-index: 1001;
+  max-width: 300px;
+  top: 10em;
+}
+
+#messages *{
+  
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
