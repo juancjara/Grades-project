@@ -195,24 +195,30 @@ line{
   right: 20px;
 }
 
-#no-results {
-  display: none;
+#course-list {
+  padding-left: 5px;
 }
 
 #messages {
-  position:absolute;
   left:0;
-  right:0;
   margin-left:auto;
   margin-right:auto;
-  z-index: 1001;
   max-width: 300px;
+  position:absolute;
+  right:0;
   top: 10em;
+  z-index: 1001;
 }
 
-#messages *{
-  
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 20px;
+#messages *{  
+  margin: 10px auto;
+}
+
+#my-courses {
+  display: block;
+  margin-bottom: 5px;
+}
+
+#no-results {
+  display: none;
 }

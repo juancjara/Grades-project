@@ -73,9 +73,7 @@ app.post('/User/getCourses', isAuthenticated, rUser.getCourses);
 
 app.post('/contact', rApp.contact);
 
-app.get('*', function(req, res){
-  res.send('what???', 404);
-});
+app.get('*', rApp.error404);
 
 app.listen(process.env.PORT || 8765);
 console.log("Express server listening on port 8765");
