@@ -20,6 +20,7 @@ function getOffsetRect(elem) {
     return { top: Math.round(top), left: Math.round(left) }
 }
 
+<<<<<<< HEAD
 var Node = function(key) {
   this.v = key; 
   this.l = 'J';
@@ -93,8 +94,16 @@ function tree(container, show_node, get_size) {
   };
   var cur_key = 0;
 
-  tree.vis = new Node(0);
-  tree.vis.p = {x: tree.cx, y: tree.cy};
+  tree.vis = {
+    v: 0, 
+    l: 'J', 
+    p: {x:tree.cx, y:tree.cy},
+    grade: -1,
+    c: [], 
+    childLen: 0,
+    f: {},
+    level: 1,
+  }; 
   var vertices = {};
   vertices[cur_key] = tree.vis;
   cur_key++;
@@ -130,9 +139,16 @@ function tree(container, show_node, get_size) {
     if (vertices[_].level > 2) {
       return;
     }
-    vertices[cur_key] = new Node(cur_key);
-    vertices[cur_key].f = vertices[_];
-    vertices[cur_key].level = vertices[_].level + 1;
+    vertices[cur_key] = {
+      v: cur_key, 
+      l: 'J', 
+      grade: -1, 
+      p: {}, 
+      c: [], 
+      childLen: 0,
+      f: vertices[_],
+      level: vertices[_].level + 1
+    };
     vertices[_].childLen++;
     vertices[_].c.push(vertices[cur_key]);
     cur_key++;
@@ -198,58 +214,7 @@ function tree(container, show_node, get_size) {
   }; 
 
   tree.simulate = function () {
-    var simulation = function(node) {
-      var weights = 0,
-          bounds = {lower:0, upper: 0},
-          minVal = {lower:21, upper: 21},
-          minWeight =  {lower: 0, upper: 0},
-          weightBound = {lower: 0, upper: 0};
-
-      if (!node.childLen && !node.isLocked()){
-        return {lower: 0, upper : 20};
-      }
-      if (!node.childLen){
-        return node.getBounds();
-      }
-
-      node.c.forEach(function(d) {
-        var temp = simulation(d);  
-        var weight = d.getWeight();
-        bounds.lower += temp.lower * weight;
-        bounds.upper += temp.upper * weight;
-        weights += weight;
-
-        if (temp.lower < minVal.lower){
-          minVal.lower = temp.lower;
-          minWeight.lower = weight;
-        }
-
-        if (temp.upper < minVal.upper){
-          minVal.upper = temp.upper;
-          minWeight.upper = weight;
-        }
-      });
-
-      weightBound.lower = weights;
-      weightBound.upper = weights;
-
-      if (node.shouldDeleteMinimum()) {
-        bounds.lower -= minVal.lower;
-        bounds.upper -= minVal.upper;
-        weightBound.lower -= minWeight.lower;
-        weightBound.upper -= minWeight.upper;
-      }
-
-      bounds.lower /= weightBound.lower;
-      bounds.upper /= weightBound.upper;
-      var precision = node.getPrecision();
-      bounds.lower = Math.floor(bounds.lower * precision) / precision;
-      bounds.upper = Math.floor(bounds.upper * precision) / precision;
-      node.setBounds(bounds);
-      return bounds;
-    }
-    simulation(tree.vis);
-    redraw();
+    
   }
  
   redraw = function(){
@@ -342,7 +307,7 @@ function tree(container, show_node, get_size) {
           return d.f.p.y+5;
         })
         .attr('class', function (d) {return d.childLen == 0 ? 'leaf' : ''})
-      .text(function(d){return d.getLabel();})
+      .text(function(d){return d.l + '/' + d.grade;})
         .on('click',function(d){ 
           show_node(d);
         })  
@@ -422,7 +387,7 @@ var control_panel = function() {
     },
     on_save: function() {
       cur_node.l = label.val();
-      cur_node.grade = parseInt(grade.val());
+      cur_node.grade = grade.val();
       tree.redraw();
     }
   };
@@ -448,7 +413,6 @@ $(function(){
     container.css('height', size.height);
   };
   var panel = control_panel();
-  var t;
   $(window).on('load', function() { 
     t = tree('#grades-container', panel.init, get_container_size);
     panel.set_tree(t);

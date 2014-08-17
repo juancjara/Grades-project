@@ -98,6 +98,7 @@ line{
 }
 
 
+
 /*
  * Main content
  */
@@ -132,3 +133,82 @@ line{
   border-radius: 50%;
 }
 
+/*
+ * list courses
+ */
+
+#search-results {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.course:hover .hover-basic-menu {
+  display: block;
+}
+
+.edit-menu {
+  background-color: white;
+  border-top: 1px blue solid;
+  border-bottom: 1px blue solid;
+  color: #428bca;
+  display: block;
+  padding: 7px 20px;
+}
+
+.glyphicon {
+  cursor: pointer;
+  margin-left: 3px;
+}
+
+.icon-input {
+  top: 0px;
+}
+
+.menu-icon {
+  float:right;
+  font-size: 1.2em;
+}
+
+.click-menu {
+  display: none;
+}
+
+.hide {
+  display: none;
+}
+
+#remove-search {
+  margin-top: 1px;
+}
+
+#add {
+  right: 20px;
+}
+
+#course-list {
+  padding-left: 5px;
+}
+
+#messages {
+  left:0;
+  margin-left:auto;
+  margin-right:auto;
+  max-width: 300px;
+  position:absolute;
+  right:0;
+  top: 10em;
+  z-index: 1001;
+}
+
+#messages *{  
+  margin: 10px auto;
+}
+
+#my-courses {
+  display: block;
+  margin-bottom: 5px;
+}
+
+#no-results {
+  display: none;
+}

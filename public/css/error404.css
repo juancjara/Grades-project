@@ -1,0 +1,39 @@
+body {
+  font-family: 'Courgette', cursive;
+  background: #567;
+  text-align: center;
+}
+
+.wrap {
+  margin: 0 auto;
+  max-width: 30em;
+}
+
+.logo h1 {
+  color: #8F8E8C;
+  font-size: 200px;
+  margin-bottom: 1px;
+  text-shadow: 1px 1px 6px #fff;
+}
+
+.logo p{
+  color: rgb(228, 146, 162);
+  font-size: 2em;
+  margin-top: 1px;
+}
+
+a{
+  background: #8F8E8C;
+  display: block;
+  color: white;
+  font-family: arial, serif;
+  font-size: 1em;
+  font-weight: bold;
+  margin: 0 auto;
+  padding: 7px 0;
+  text-decoration: none;
+  width: 250px;
+  -webkit-border-radius:3em;
+  -moz-border-radius:.1em;
+  -border-radius:.1em;
+}

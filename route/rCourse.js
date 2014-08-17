@@ -47,7 +47,14 @@ exports.del = function(req, res){
 }
 
 exports.update = function(req, res){
-  Course.findByIdAndUpdate(req.body.id, req.body,
+  var newData = {};
+  if (req.body.name) {
+    newData.name = req.body.name;
+  }
+  if (req.body.formula) {
+    newData.formula = req.body.formula;
+  }
+  Course.findByIdAndUpdate(req.body.id, newData,
     function(err) {
       if (err) res.send({msg: console.log(err)});
       res.send({msg: "OK"});
@@ -60,7 +67,6 @@ exports.getFormula = function(req, res) {
 }
 
 exports.search = function(req, res) {
-  console.log("name", req.body.name);
   Course.search(req.body.name, function(err, courses){
     if (err) res.send({msg: console.log(err)});
     res.send(courses);
