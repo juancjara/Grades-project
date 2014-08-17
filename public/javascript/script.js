@@ -20,7 +20,7 @@ function getOffsetRect(elem) {
     return { top: Math.round(top), left: Math.round(left) }
 }
 
-<<<<<<< HEAD
+
 var Node = function(key) {
   this.v = key; 
   this.l = 'J';
