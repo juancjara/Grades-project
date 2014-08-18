@@ -6,17 +6,22 @@ html(lang='eng')
     title Grades app
     link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
     link(rel='stylesheet', href='dashboard.css')
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Oleo+Script')
   body
     include ./includes/navigation.jade
+    
     .container-fluid
       .row
-        div(class='col-sm-3 col-md-2 sidebar')
+        span(id='show-left-panel', class='glyphicon glyphicon-chevron-right')
+        //col-sm-4 col-md-3 col-lg-2
+        div(id='left-panel', class='sidebar')
           form(id='course-search', class='form-group', role='search')
             .input-group
               span.input-group-addon
                 span(id='btn-search', class='glyphicon glyphicon-search')
-              input(id='course-search-box', class='form-control', type='text', placeholder='Buscar')
+              input(id='course-search-box', class='form-control', type='text', placeholder='Buscar', required)
               span(id='remove-search', class='icon-input glyphicon glyphicon-remove form-control-feedback')
+              span(id='hide-left-panel', class='glyphicon glyphicon-chevron-left')
           div(id='no-results') No hay resultados. Click en 
             span(id='new-course', class='glyphicon glyphicon-plus') 
             |   para crearlo.
