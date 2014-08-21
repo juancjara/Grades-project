@@ -2,18 +2,22 @@ var main = {
   init: function(api, strings) {
     var courseList = courseSearch(api, main, strings);
     var my_list = course(api, main, strings);
+    var $left_panel = $("#left-panel");
+    var width_sidebar = parseInt($left_panel.css('width'));
+    var $toggle_sidebar = $("#toggle-left-panel");
 
-    var $hide_left_panel = $("#hide-left-panel");
-    var $show_left_panel = $("#show-left-panel");
-
-    var toggle_left_panel = function(e) {
-      $('#left-panel').toggle('slow');
-      $show_left_panel.toggle();
+    var toggle_sidebar = function(e) {
+      console.log(width_sidebar);
+      var next_left = width_sidebar - parseInt($toggle_sidebar.css('left'));
+      $left_panel.toggle('slow');
+      $toggle_sidebar.animate({'left': next_left + 'px'}, 'slow');
+      var $grades_container = $('#grades-container');
+      if ( $grades_container.css('z-index') == '2' ) {
+        $grades_container.animate({'left': next_left + 'px'}, 'slow');
+      }
       e.stopPropagation();
     };
-
-    $show_left_panel.on('click', toggle_left_panel);
-    $hide_left_panel.on('click', toggle_left_panel);
+    $toggle_sidebar.on('click', toggle_sidebar);
 
     var selected_handler = function(course, elem) {
       $('#left-panel .active').removeClass('active');
