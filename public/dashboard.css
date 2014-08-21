@@ -4,6 +4,7 @@ h3 {
   margin-top: 5px;
   margin-left: 30px;
   text-align: center;
+
 }
 
 circle, rect {
@@ -59,6 +60,9 @@ line{
   color: #fff;
   background-color: #428bca;
 }
+/*
+ * list courses
+ */
 
 #search-results {
   max-height: 320px;
