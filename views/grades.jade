@@ -5,46 +5,46 @@ html(lang='eng')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     title Grades app
     link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
-    link(rel='stylesheet', href='dashboard.css') 
+    link(rel='stylesheet', href='dashboard.css')
   body
-    div(class=['navbar', 'navbar-inverse', 'navbar-fixed-top'] role='navigation')
-      .container-fluid
-        .navbar-header
-          a.navbar-brand Grades
+    include ./includes/navigation.jade
     .container-fluid
       .row
         div(class='col-sm-3 col-md-2 sidebar')
           form(id='course-search', class='form-group', role='search')
             .input-group
               span.input-group-addon
-                span(class='glyphicon glyphicon-search')
-              input(id='course-search-box', class='form-control', type='text', placeholder='Buscar') 
+                span(id='btn-search', class='glyphicon glyphicon-search')
+              input(id='course-search-box', class='form-control', type='text', placeholder='Buscar')
+              span(id='remove-search', class='icon-input glyphicon glyphicon-remove form-control-feedback')
+          div(id='no-results') No hay resultados. Click en 
+            span(id='new-course', class='glyphicon glyphicon-plus') 
+            |   para crearlo.
+            
+          ul(id='search-results', class='nav nav-sidebar')
+          button(id='my-courses', class='btn btn-primary') Mis cursos
           ul(id='course-list', class='nav nav-sidebar')
-            li.active 
-              a Curso 1
-            li 
-              a Curso 2
-            li 
-              a Curso 3
-            li 
-              a Curso 4
-            li
-              a Curso 5
-            li 
-              a Curso 6
-            li 
-              a Curso 7
+
+          div(class='nav nav-sidebar')
+            button(id='simulate', class='btn btn-default') Simular
           div(id='controls', class='nav nav-sidebar') 
             input(type='text', id='controls-label', class='form-control', placeholder='Etiqueta')
-            input(type='text', id='controls-label', class='form-control', placeholder='Etiqueta')
+            input(type='text', id='controls-grade', class='form-control', placeholder='Nota')
             button(id='controls-erase', class='btn btn-default') Eliminar
             button(id='controls-add', class='btn btn-default') Agregar Prueba
             button(id='controls-save', class='btn btn-default') Guardar
-         div(id='grades-container', class='col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main full-screen')
+         div(id='grades-container', class='col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2')
+
+    div(id='messages', class='center-block')
+
+    include ./includes/footer.jade
 
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")
     script(src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js")
     script(src="http://d3js.org/d3.v3.min.js")
+    script(src="javascript/consumeApi.js")
     script(src="javascript/script.js")
-    script(src="javascript/course.js")
-          
+    script(src="javascript/courseSearch.js")
+    script(src="javascript/myCourses.js")
+    script(src="javascript/string.js")
+    script(src="javascript/main.js")

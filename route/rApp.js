@@ -1,9 +1,26 @@
-exports.login = function(req,res) {
-  req.session.userId = "53d9927ba36b85dc31db49ff";
-  res.send("");
+exports.login = function(req, res) {
+  res.render('login');
+};
+
+exports.index = function(req, res) {
+  res.render('grades');
+};
+
+exports.about = function(req, res) {
+  res.render('about');
+};
+
+exports.logout = function(req, res) {
+  req.session.destroy();
+  res.redirect('/login');
+};
+
+exports.error404 = function(req, res){
+  res.render('404');
 }
 
-exports.logout = function(req,res) {
-  req.session.destroy();
-  res.send("");
-}
+exports.contact = function(req, res) {
+
+  console.log(req.body);
+  res.send({});
+};

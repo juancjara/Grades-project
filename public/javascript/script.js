@@ -20,19 +20,76 @@ function getOffsetRect(elem) {
     return { top: Math.round(top), left: Math.round(left) }
 }
 
-function tree(container, height, show_node) {
+
+var Node = function(key) {
+  this.v = key; 
+  this.l = 'J';
+  this.p = {x:0, y:0};
+  this.grade = -1;
+  this.c = [];
+  this.childLen = 0;
+  this.f = {};
+  this.level = 1;
+};
+
+Node.prototype.getLabel = function () {
+  var b = this.getBounds();
+  if (this.isLocked()) {
+    return this.l + '/' + this.grade + '/' + b.lower + '/' + b.upper;  
+  }
+  if (b) {
+    return this.l + '/' + b.lower + '/' + b.upper;
+  }
+  return this.l + '/' + this.grade;
+};
+
+Node.prototype.isLocked = function() {
+  return this.grade != -1;
+};
+
+Node.prototype.getWeight = function() {
+  return 1;
+};
+
+Node.prototype.getBounds = function() {
+  if (this.isLocked()) {
+    return {lower: this.grade, upper: this.grade};
+  }
+  if (this.childLen == 0) {
+    return {lower: 0, upper: 20};
+  }
+  return this.bounds;
+};
+
+Node.prototype.setBounds = function(bound) {
+  this.bounds = bound;
+};
+
+Node.prototype.shouldDeleteMinimum = function() {
+  return false;
+};
+
+Node.prototype.getPrecision = function() {
+  return 100;
+};
+
+function tree(container, show_node, get_size) {
   var svgW = 1000, svgH = 600, vRad = 12;
   var tree = {cx:svgW/2, cy:20, w:70, h:70};
   var nodeFeatures = {
-    width : 48,
-    height : 36, 
-    rx : 5, 
-    ry : 5,
-    getX : function (x) {
+    width: 48,
+    height: 36, 
+    rx: 5, 
+    ry: 5,
+    getX: function(x) {
       return (2*x - this.width)/2 ;
     },
-    getY : function (y) {
+    getY: function(y) {
       return (2*y - this.height)/2;     
+    },
+    get_top_node_size: function() {
+      var cur_size = get_size();
+      return {x: cur_size.width/2, y: tree.cy};
     }
   };
   var cur_key = 0;
@@ -41,7 +98,9 @@ function tree(container, height, show_node) {
     v: 0, 
     l: 'J', 
     p: {x:tree.cx, y:tree.cy},
+    grade: -1,
     c: [], 
+    childLen: 0,
     f: {},
     level: 1,
   }; 
@@ -60,7 +119,7 @@ function tree(container, height, show_node) {
       _.c.forEach(getVertices);
     }
     getVertices(tree.vis);
-    return v.sort(function(a, b) { return a.v - b.v;});
+    return v;
   }
   
   tree.getEdges = function() {
@@ -73,7 +132,7 @@ function tree(container, height, show_node) {
       _.c.forEach(getEdges);
     }
     getEdges(tree.vis);
-    return e.sort(function(a,b){ return a.v2 - b.v2;}); 
+    return e;
   }
   
   tree.addLeaf = function(_) {
@@ -83,15 +142,17 @@ function tree(container, height, show_node) {
     vertices[cur_key] = {
       v: cur_key, 
       l: 'J', 
+      grade: -1, 
       p: {}, 
       c: [], 
+      childLen: 0,
       f: vertices[_],
       level: vertices[_].level + 1
     };
+    vertices[_].childLen++;
     vertices[_].c.push(vertices[cur_key]);
     cur_key++;
     tree.size++;
-    reposition(tree.vis);
     redraw();
   }
 
@@ -101,6 +162,7 @@ function tree(container, height, show_node) {
     }
     var ancestor = vertices[_].f;
     if (ancestor) {
+      ancestor.childLen--;
       for (var id = 0; id < ancestor.c.length; id++) {
         var obj = ancestor.c[id];
         if (obj === vertices[_]) {
@@ -109,7 +171,6 @@ function tree(container, height, show_node) {
         }
       }
     }
-    reposition(tree.vis);
     delete vertices[_];
     redraw();
   }
@@ -151,9 +212,22 @@ function tree(container, height, show_node) {
     document.body.appendChild(input);
     input.focus();
   }; 
+
+  tree.simulate = function () {
+    
+  }
  
   redraw = function(){
-    var edges = d3.select("#g_lines").selectAll('line').data(tree.getEdges());
+    tree.vis.p = nodeFeatures.get_top_node_size();
+    var tree_svg = d3.select('#treesvg');
+    var size = get_size();
+    tree_svg.attr('width', size.width); 
+    tree_svg.attr('height', size.height);
+    reposition(tree.vis);
+    var edges = d3.select("#g_lines").selectAll('line')
+                  .data(tree.getEdges(), function(d) {
+                    return d.v2;
+                  });
     
     edges.transition().duration(500)
       .attr('x1',function(d){ return d.p1.x;})
@@ -174,7 +248,9 @@ function tree(container, height, show_node) {
     edges.exit().remove();
 
     var rectangles = d3.select("#g_nodes").selectAll('rect')
-                       .data(tree.getVertices());
+                       .data(tree.getVertices(), function(d) {
+                         return d.v;
+                       });
 
     rectangles.transition()
       .duration(500)
@@ -183,8 +259,18 @@ function tree(container, height, show_node) {
     
     rectangles.enter()
       .append('rect')
-        .attr('x', function(d){ return nodeFeatures.getX(d.f.p.x);})
-        .attr('y', function(d){ return nodeFeatures.getY(d.f.p.y);})
+        .attr('x', function(d){ 
+          if (!d.f.p) {
+            return nodeFeatures.getX(d.p.x);
+          }
+          return nodeFeatures.getX(d.f.p.x);
+        })
+        .attr('y', function(d){ 
+          if (!d.f.p) {
+            return nodeFeatures.getX(d.p.y);
+          }
+          return nodeFeatures.getY(d.f.p.y);
+        })
         .attr('width', nodeFeatures.width)
         .attr('height', nodeFeatures.height)
         .attr('rx', nodeFeatures.rx)
@@ -197,19 +283,31 @@ function tree(container, height, show_node) {
     rectangles.exit().remove();
       
     var labels = d3.select("#g_labels").selectAll('text')
-                   .data(tree.getVertices());
+                   .data(tree.getVertices(), function (d) {
+                     return d.v;
+                   });
     
-    labels.text(function(d){return d.l;}).transition().duration(500)
+    labels.text(function(d){ return d.getLabel(); }).transition().duration(500)
       .attr('x',function(d){ return d.p.x;})
-      .attr('y',function(d){ return d.p.y+5;})
-      .attr('class', function (d) {return d.c.length == 0 ? 'leaf' : ''});
+      .attr('y',function(d){ return d.p.y + 5;})
+      .attr('class', function (d) {return d.childLen == 0 ? 'leaf' : ''});
       
     labels.enter()
       .append('text')
-        .attr('x',function(d){ return d.f.p.x;})
-        .attr('y',function(d){ return d.f.p.y+5;})
-        .attr('class', function (d) {return d.c.length == 0 ? 'leaf' : ''})
-      .text(function(d){return d.l;})
+        .attr('x', function(d){ 
+          if (!d.f.p) {
+            return d.p.x;
+          }
+          return d.f.p.x;
+        })
+        .attr('y', function(d){ 
+          if (!d.f.p) {
+            return d.p.y + 5;
+          }
+          return d.f.p.y+5;
+        })
+        .attr('class', function (d) {return d.childLen == 0 ? 'leaf' : ''})
+      .text(function(d){return d.l + '/' + d.grade;})
         .on('click',function(d){ 
           show_node(d);
         })  
@@ -221,7 +319,7 @@ function tree(container, height, show_node) {
   }
   
   getLeafCount = function(_) {
-    if (_.c.length == 0) return 1;
+    if (_.childLen == 0) return 1;
     else return _.c.map(getLeafCount).reduce(function(a,b){ return a+b;});
   };
   
@@ -235,45 +333,14 @@ function tree(container, height, show_node) {
     });   
   }; 
   
-  initialize = function(container, height){
-    svgW = $(container).width();
-    svgH = $(container).height();
-    d3.select(container)
-      .append("svg")
-        .attr("width", svgW)
-        .attr("height", svgH)
-        .attr('id','treesvg');
-
-    d3.select("#treesvg").append('g').attr('id','g_lines').selectAll('line')
-      .data(tree.getEdges()).enter().append('line')
-        .attr('x1',function(d){ return d.p1.x;})
-        .attr('y1',function(d){ return d.p1.y;})
-        .attr('x2',function(d){ return d.p2.x;})
-        .attr('y2',function(d){ return d.p2.y;});
-
-    d3.select("#treesvg").append('g').attr('id','g_nodes').selectAll('rect')
-      .data(tree.getVertices()).enter()
-      .append('rect')
-        .attr('x', function(d){ return nodeFeatures.getX(d.p.x); })
-        .attr('y', function(d){ return nodeFeatures.getY(d.p.y); })
-        .attr('width', nodeFeatures.width)
-        .attr('height', nodeFeatures.height)
-        .attr('rx', nodeFeatures.rx)
-        .attr('ry', nodeFeatures.ry)
-      .on('click', function(d){
-        show_node(d);
-      });
-      
-    d3.select("#treesvg").append('g').attr('id','g_labels').selectAll('text')
-      .data(tree.getVertices()).enter().append('text')
-        .attr('x',function(d){ return d.p.x;})
-        .attr('y',function(d){ return d.p.y+5;})
-        .text(function(d){return d.l;})
-      .on('click',function(d){
-        show_node(d)
-      });  
-  }
-  initialize(container, height);
+  initialize = function(container){
+    d3.select(container).append('svg').attr('id', 'treesvg');
+    var tree_svg = d3.select('#treesvg');
+    tree_svg.append('g').attr('id', 'g_lines');
+    tree_svg.append('g').attr('id', 'g_nodes');
+    tree_svg.append('g').attr('id', 'g_labels');
+  };
+  initialize(container);
   tree.redraw = redraw;
   return tree;
 }
@@ -301,7 +368,7 @@ var control_panel = function() {
       };
       erase_handler = function() {
         tree.removeLeaf(node.v);
-      }
+      };
     },
     set_label: function(new_label) {
       label.val(new_label);
@@ -331,18 +398,32 @@ var control_panel = function() {
 }; 
 
 $(function(){
-  var get_height = function () {
-    var h = $(window).height();
-    return h - 50;
-  }
-  $(window).on('load resize', function() {
-    $('#grades-container').height(get_height());
-  });
+  var get_container_size = function() {
+    var container = $('#grades-container');
+    var margin_left = parseInt(container.css('margin-left'));
+    var container_width = parseInt(container.css('width'));
+    return {
+      width: container_width - margin_left, 
+      height: $(window).height() - 50
+    };
+  };
+  var resize_container = function () {
+    var size = get_container_size();
+    var container = $('#grades-container');
+    container.css('height', size.height);
+  };
   var panel = control_panel();
   $(window).on('load', function() { 
-    var t = tree('#grades-container', get_height(), function(d) {
-      panel.init(d);
-    });
+    t = tree('#grades-container', panel.init, get_container_size);
     panel.set_tree(t);
+    resize_container();
+    t.redraw();
+    $(window).on('resize', function() {
+      resize_container();
+      t.redraw();
+    });
+  });
+  $('#simulate').click(function() {
+    t.simulate();     
   });
 });
