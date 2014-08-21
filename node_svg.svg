@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="125px" height="110px" viewBox="0 0 125 110" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.4 (8054) - http://www.bohemiancoding.com/sketch -->
+    <title>node 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="node-template" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="node" sketch:type="MSLayerGroup" transform="translate(1.000000, 1.000000)">
+            <g id="controls" transform="translate(4.000000, 32.000000)" style="display: none">
+                <g id="decimals" transform="translate(0.053432, -0.455162)" stroke="#979797" fill="#D8D8D8" sketch:type="MSShapeGroup">
+                    <polygon id="Triangle-1" transform="translate(8.939040, 33.020304) scale(1, -1) translate(-8.939040, -33.020304) " points="8.9390402 24.0203043 17.9621771 42.0203043 -0.08409672 42.0203043 "></polygon>
+                    <polygon id="Triangle-2" points="8.9390402 0 17.9621771 18 -0.08409672 18 "></polygon>
+                </g>
+                <g id="remove" transform="translate(54.954087, 57.102273)" fill="#000000" sketch:type="MSShapeGroup">
+                    <path d="M10.2706786,8.05187097 L15.694715,2.64335484 C16.3013541,2.03870968 16.3013541,1.05832258 15.694715,0.453677419 C15.0883348,-0.150967742 14.1046167,-0.150967742 13.4990129,0.453677419 L8.07471774,5.86193548 L2.65068138,0.453419355 C2.04455994,-0.150967742 1.06110073,-0.150967742 0.454979288,0.453419355 C-0.151659763,1.05832258 -0.151659763,2.03870968 0.454979288,2.64309677 L5.87901565,8.0516129 L0.454979288,13.460129 C-0.151659763,14.0650323 -0.151659763,15.0454194 0.454979288,15.6495484 C0.758040009,15.952 1.15556457,16.1032258 1.55283033,16.1032258 C1.9500961,16.1032258 2.34762066,15.952 2.65068138,15.6495484 L8.07471774,10.2412903 L13.4987541,15.6495484 C13.8018148,15.952 14.1993394,16.1032258 14.5966051,16.1032258 C14.9938709,16.1032258 15.3913955,15.952 15.6944562,15.6495484 C16.3010952,15.0449032 16.3010952,14.0645161 15.6944562,13.460129 L10.2706786,8.05187097 L10.2706786,8.05187097 Z" id="Shape"></path>
+                </g>
+                <g id="add" transform="translate(30.954087, 56.000000)" fill="#000000" sketch:type="MSShapeGroup">
+                    <path d="M14.5404316,6.5978772 L9.32782406,6.5978772 L9.32782406,1.37455775 C9.32782406,0.615572779 8.71328506,0 7.95608522,0 C7.19865677,0 6.58434639,0.615801872 6.58434639,1.37455775 L6.58434639,6.5978772 L1.37173883,6.5978772 C0.614310373,6.5978772 0,7.21367908 0,7.97243496 C0,8.73141993 0.614310373,9.34699271 1.37173883,9.34699271 L6.58434639,9.34699271 L6.58434639,14.5703122 C6.58434639,15.3292971 7.19865677,15.9448699 7.95608522,15.9448699 C8.71351368,15.9448699 9.32782406,15.3292971 9.32782406,14.5703122 L9.32782406,9.34699271 L14.5404316,9.34699271 C15.2978601,9.34699271 15.9121704,8.73119083 15.9121704,7.97243496 C15.9121704,7.21322089 15.2978601,6.5978772 14.5404316,6.5978772 L14.5404316,6.5978772 Z" id="Shape"></path>
+                </g>
+                <text id="mode" sketch:type="MSTextLayer" font-family="Helvetica" font-size="19" font-weight="normal" fill="#000000">
+                    <tspan x="77" y="72">R</tspan>
+                </text>
+            </g>
+            <g id="data">
+                <rect id="container" stroke="#7C7C7C" stroke-width="0.950000048" fill="#FFFFFF" sketch:type="MSShapeGroup" x="26.943662" y="20.6923077" width="69.7627712" height="64.4538439" rx="2.85000014"></rect>
+                <g id="simulated" transform="translate(41.493016, 62.359293)" font-size="12.8738881" font-family="Helvetica" fill="#000000" sketch:type="MSTextLayer" font-weight="normal">
+                    <text id="low">
+                        <tspan x="-0.282811415" y="12.811416">10</tspan>
+                    </text>
+                    <text id="up">
+                        <tspan x="24.2969711" y="12.811416">12</tspan>
+                    </text>
+                </g>
+                <text id="grade" sketch:type="MSTextLayer" font-family="Helvetica" font-size="42.0755229" font-weight="normal" sketch:alignment="middle" fill="#000000">
+                    <tspan x="37.6849854" y="59.0341043">15</tspan>
+                </text>
+                <text id="label" sketch:type="MSTextLayer" font-family="Helvetica" font-size="17.2240805" font-weight="normal" fill="#000000">
+                    <tspan x="44.1194662" y="16.2528028">EX 1</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>
