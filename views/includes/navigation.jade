@@ -1,8 +1,11 @@
-div(class=['navbar', 'navbar-inverse', 'navbar-fixed-top'] role='navigation')
-  .container-fluid
-    .navbar-header
-      a.navbar-brand Grades
-    ul(class='nav navbar-nav navbar-right')
+.container
+  .header
+    ul(class='nav nav-pills pull-right')
+      li#home
+        a(href='/') Home
+      //li#about
+        //a(href='about') Contacto
       li
-        a(href='/logout')
+        a(href='logout', title='Cerrar sesión')
           span(class='glyphicon glyphicon-log-out')
+    h3.text-muted Notas Pucp
