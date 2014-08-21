@@ -1,5 +1,7 @@
-var courseSearch = function(apiWS) {
+var courseSearch = function(apiWS, msg, strings) {
   var api_ws = apiWS;
+  var msg = msg;
+  var strings = strings;
   var $form = $('#course-search');
   var $search_box = $('#course-search-box');
   var $btn_search = $('#btn-search');
@@ -58,7 +60,13 @@ var courseSearch = function(apiWS) {
 
   $form.on('submit', function(event) { 
     event.preventDefault();
-    api_ws.consume('searchCourse', {name: $search_box.val()},
+    var to_find = $search_box.val();
+    if (!to_find || !to_find.length) {
+      console.log("er",to_find);
+      msg.show_err_submit($search_box, strings.input_required );
+      return;
+    };
+    api_ws.consume('searchCourse', {name: to_find},
       function(res) {
       $no_results_msg.hide();
       if (res.msg) return console.log('error',res.msg);

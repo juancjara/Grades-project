@@ -3,5 +3,6 @@ var strings = {
   course_edit_ok: 'Información actualizada.',
   course_remove_ok: 'Curso eliminado.',
   course_share_ok: 'Curso compartido.',
-  course_error: 'GG feeder'
+  course_error: 'GG feeder',
+  input_required: 'Campo obligatorio'
 };

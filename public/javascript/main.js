@@ -1,10 +1,26 @@
 var main = {
   init: function(api, strings) {
-    var courseList = courseSearch(api);
+    var courseList = courseSearch(api, main, strings);
     var my_list = course(api, main, strings);
+    var $left_panel = $("#left-panel");
+    var width_sidebar = parseInt($left_panel.css('width'));
+    var $toggle_sidebar = $("#toggle-left-panel");
+
+    var toggle_sidebar = function(e) {
+      console.log(width_sidebar);
+      var next_left = width_sidebar - parseInt($toggle_sidebar.css('left'));
+      $left_panel.toggle('slow');
+      $toggle_sidebar.animate({'left': next_left + 'px'}, 'slow');
+      var $grades_container = $('#grades-container');
+      if ( $grades_container.css('z-index') == '2' ) {
+        $grades_container.animate({'left': next_left + 'px'}, 'slow');
+      }
+      e.stopPropagation();
+    };
+    $toggle_sidebar.on('click', toggle_sidebar);
 
     var selected_handler = function(course, elem) {
-      $('.active').removeClass('active');
+      $('#left-panel .active').removeClass('active');
       elem.addClass('active');
       $('.click-menu').hide();
       elem.find('.click-menu').show();
@@ -32,6 +48,11 @@ var main = {
   show_err_msg: function(msg) {
     main.show_msg(msg, 'alert-danger');
   },
+  show_err_submit: function(elem, content) {
+    console.log("elem",elem);
+    elem.tooltip({title: content});
+    elem.tooltip('show');
+  },
   show_msg: function(msg, classParam) {
     var init_template = main.config.msg_template;
     var $template = $(init_template.part1 + classParam + init_template.part2 +
@@ -45,5 +66,6 @@ var main = {
   }
 }
 $(function() {
+  $('#home').addClass('active');
   main.init(api, strings);
 });

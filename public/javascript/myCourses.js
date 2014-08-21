@@ -89,6 +89,11 @@ var course = function(apiWS, msg, strings) {
         id: course._id,
         name: $editTemplate.find(".name").val()
       };
+      if (!data.name || !data.name.length) {
+        msg.show_err_submit($editTemplate.find(".name"), strings.input_required );
+        e.stopPropagation();
+        return;
+      }
       api_ws.consume('updateCourse', data, 
         function(res) {
           if(res.msg != 'OK') return console.log('error'.res.msg);
