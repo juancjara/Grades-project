@@ -194,6 +194,94 @@ line{
   margin-top: 4px;
 }
 
+/* social sidebar */
+
+.social-sidebar a {
+  background-color: black;
+  background: #222;
+  color: white;
+  font-size: 18px;
+  height: 50px;
+  line-height: 50px;
+  list-style-type: none;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  width: 50px;
+}
+
+.social-sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.social-sidebar {
+  margin-top: -75px; /* (li * a:width) / -2 */
+  overflow: visible;
+  position: fixed;
+  right: 0px;
+  top: 50%;    
+}
+
+.social-sidebar .social-icon {
+  float:right;
+}
+
+.social-sidebar .social-text {
+  white-space: nowrap;
+  position: absolute;
+  right: 150%;
+  top: 0;
+  visibility: hidden;
+  padding-right: 4px;
+  width: 100px;
+  transform-origin: 0;
+  transition: all .5s ease .300ms;
+  opacity: 0;
+  transform: rotateY(45deg);
+  border-radius: 5px;
+}
+.social-sidebar a:hover .social-text {
+  visibility: visible;
+  opacity: 1;
+  transform: rotateY(0)
+}
+
+.social-sidebar a span:after {
+  content: "";
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  width: 0px; 
+  height: 0px;
+  left:100%;
+  display:block;
+  position:absolute;
+  top: 32%;
+  border-left: 10px solid #3b5998;
+}
+
+
+.social-sidebar li:first-child a { border-radius: 5px 0 0 0; }
+.social-sidebar li:last-child a { border-radius: 0 0 0 5px; }
+
+.social-sidebar li:first-child a:hover,
+.social-sidebar li:first-child .social-text { background: #3b5998 }
+.social-sidebar li:first-child .social-text:after {
+    border-left: 10px solid #3b5998;
+}
+.social-sidebar li:nth-child(2) a:hover,
+.social-sidebar li:nth-child(2) .social-text { background: #00acee }
+.social-sidebar li:nth-child(2) .social-text:after {
+    border-left: 10px solid #00acee;
+}
+.social-sidebar li:nth-child(3) a:hover,
+.social-sidebar li:nth-child(3) .social-text { background: #dd4b39 }
+.social-sidebar li:nth-child(3) .social-text:after {
+    border-left: 10px solid #dd4b39;
+}
+
+
 @media (min-width: 970px) {
   .sidebar {
     display: block;
