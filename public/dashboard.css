@@ -13,6 +13,10 @@ circle, rect {
   stroke-width:2px;
 }
 
+#grade tspan {
+  cursor: text;
+}
+
 .leaf {
   fill: red;
 }
