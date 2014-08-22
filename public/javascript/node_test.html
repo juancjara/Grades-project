@@ -3,7 +3,16 @@
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
   <script src="nodeView.js"></script>
+  <style type="text/css">
+    #label tspan,
+    #grade tspan,
+    #up tspan,
+    #low tspan {
+      cursor: text;
+    }
+  </style>
   <script type="text/javascript">
+
   window.addEventListener('load', function() {
     d3.xml('node_svg.svg', 'image/svg+xml', function(error, data) {
       var nodeTemplate = data.documentElement.getElementById('node-template');

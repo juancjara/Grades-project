@@ -283,7 +283,7 @@ function Edge(oBegin, oEnd, edgeView) {
 
 function Node(nodeId, nodeView){
   var id = nodeId;
-  var decimals = null;
+  var decimals = 2;
   var displayControls = false;
   var grade = null;
   var label = null;
@@ -356,6 +356,7 @@ function Node(nodeId, nodeView){
       }
     }
   };
+  //set events
   d3.select(view).select('#data')
     .on('click', node.toggleControls);
   d3.select(view).select('#add')
@@ -370,6 +371,14 @@ function Node(nodeId, nodeView){
     precision = 1 - precision;
     Sprecision.text(arrPrecision[precision]);
   });
+  d3.select(view).select('#inc-decimals')
+    .on('click', function() {
+      decimals++;
+    });
+  d3.select(view).select('#dec-decimals')
+    .on('click', function() {
+      decimals--;
+    });
   return node;
 }
 
