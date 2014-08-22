@@ -1,3 +1,67 @@
+function getOffsetRect(elem) {
+  // (1)
+  var box = elem.getBoundingClientRect();
+
+  var body = document.body;
+  var docElem = document.documentElement;
+
+  // (2)
+  var scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop;
+  var scrollLeft = window.pageXOffset || docElem.scrollLeft || body.scrollLeft;
+
+  // (3)
+  var clientTop = docElem.clientTop || body.clientTop || 0;
+  var clientLeft = docElem.clientLeft || body.clientLeft || 0;
+
+  // (4)
+  var top  = box.top +  scrollTop - clientTop;
+  var left = box.left + scrollLeft - clientLeft;
+
+  return { 
+    top: Math.round(top), 
+    left: Math.round(left) 
+  };
+}
+
+
+function bindTextArea(svgText, saveChange) {
+  var input = document.createElement('textarea');
+  var coords = getOffsetRect(svgText);
+  var style = input.style;
+  style.resize = 'none';
+  style.position = 'absolute'; 
+  style.background = 'none';
+  style.left = coords.left + 'px';
+  style.top = coords.top + 'px';
+  style.width = svgText.width + 'px';
+  style.height = svgText.hegth + 'px';
+  style.outline = 'none';
+  style.overflow = 'hidden';
+  style.border = '0 none #FFF';
+  style['-webkit-transform-origin'] = 'center center';
+  input.textContent = svgText.textContent;
+  var saveAndRemove = function() {
+    var text = input.value.trim();
+    // if its empty the svg will be unclickable
+    if (text) {
+      saveChange(text);
+      svgText.textContent = text;
+    }
+    $(input).remove();
+    svgText.style.display = '';
+  };
+  $(input).focusout(saveAndRemove);
+  $(input).keyup(function(event) { 
+    // enter keycode
+    if (event.which == 13) {
+      saveAndRemove();
+    }
+  });
+  svgText.style.display = 'none';
+  document.body.appendChild(input);
+  input.focus();
+}
+
 var NodeMgrGen = 
   function(nodeContainer, edgeContainer, nodeTemplate, rootOrigin){
   var nodes = {};
@@ -290,7 +354,7 @@ function Node(nodeId, nodeView){
 
   var nodeFeatures = {
     width: 96,
-    height: 109, 
+    height: 109,
   };
 
   function transformTo(newOrigin, op) {
@@ -351,7 +415,16 @@ function Node(nodeId, nodeView){
     }
   };
   d3.select(view).select('#data')
-    .on('click', node.toggleControls);
+    .on('click', function() {
+      var target = d3.event.target;
+      if (target.id) {
+        node.toggleControls();
+      } else {
+        bindTextArea(target, function() {
+          console.log(arguments); 
+        });
+      }
+    });
   d3.select(view).select('#add')
     .on('click', function() {
       NodeMgr.addNode(id); 
