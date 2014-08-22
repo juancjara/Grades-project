@@ -7,9 +7,11 @@ var main = {
     var $toggle_sidebar = $("#toggle-left-panel");
 
     var toggle_sidebar = function(e) {
-      console.log(width_sidebar);
+      
       var next_left = width_sidebar - parseInt($toggle_sidebar.css('left'));
-      $left_panel.toggle('slow');
+      var sidebar_left = -1 * width_sidebar - parseInt($left_panel.css('left')) ;
+      console.log("left", sidebar_left);
+      $left_panel.animate({'left': sidebar_left + 'px'}, 'slow');
       $toggle_sidebar.animate({'left': next_left + 'px'}, 'slow');
       var $grades_container = $('#grades-container');
       if ( $grades_container.css('z-index') == '2' ) {
@@ -53,7 +55,7 @@ var main = {
     elem.tooltip({title: content});
     elem.tooltip('show');
   },
-  show_msg: function(msg, classParam) {
+  show_msg: function(msg, classParam) { 
     var init_template = main.config.msg_template;
     var $template = $(init_template.part1 + classParam + init_template.part2 +
         msg + init_template.part3);

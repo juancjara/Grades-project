@@ -218,6 +218,9 @@ var NodeMgrGen =
         change();
       });
       changes = [];
+    },
+    changePrecision: function() {
+
     }
   }; 
 
@@ -287,6 +290,9 @@ function Node(nodeId, nodeView){
   var origin = null;
   var view = nodeView;
   var children = [];
+  var arrPrecision = ['R', 'F'];
+  var precision = 0;
+  var Sprecision = d3.select(view).select('#precision');
 
   var nodeFeatures = {
     width: 96,
@@ -360,6 +366,10 @@ function Node(nodeId, nodeView){
     .on('click', function() {
       NodeMgr.removeNode(id); 
     });
+  Sprecision.on('click', function() {
+    precision = 1 - precision;
+    Sprecision.text(arrPrecision[precision]);
+  });
   return node;
 }
 
