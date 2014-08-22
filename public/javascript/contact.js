@@ -16,5 +16,6 @@ var contact = {
 };
 
 $(function() {
+  $('#about').addClass('active');
   contact.init(api);
 });

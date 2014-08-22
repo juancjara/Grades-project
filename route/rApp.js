@@ -12,7 +12,7 @@ exports.about = function(req, res) {
 
 exports.logout = function(req, res) {
   req.session.destroy();
-  res.redirect('/login');
+  res.redirect('/');
 };
 
 exports.error404 = function(req, res){

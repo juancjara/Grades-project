@@ -282,6 +282,9 @@ var NodeMgrGen =
         change();
       });
       changes = [];
+    },
+    changePrecision: function() {
+
     }
   }; 
 
@@ -344,13 +347,16 @@ function Edge(oBegin, oEnd, edgeView) {
 
 function Node(nodeId, nodeView){
   var id = nodeId;
-  var decimals = null;
+  var decimals = 2;
   var displayControls = false;
   var grade = null;
   var label = null;
   var origin = null;
   var view = nodeView;
   var children = [];
+  var arrPrecision = ['R', 'F'];
+  var precision = 0;
+  var Sprecision = d3.select(view).select('#precision');
 
   var nodeFeatures = {
     width: 96,
@@ -414,6 +420,7 @@ function Node(nodeId, nodeView){
       }
     }
   };
+  //set events
   d3.select(view).select('#data')
     .on('click', function() {
       var target = d3.event.target;
@@ -432,6 +439,18 @@ function Node(nodeId, nodeView){
   d3.select(view).select("#remove")
     .on('click', function() {
       NodeMgr.removeNode(id); 
+    });
+  Sprecision.on('click', function() {
+    precision = 1 - precision;
+    Sprecision.text(arrPrecision[precision]);
+  });
+  d3.select(view).select('#inc-decimals')
+    .on('click', function() {
+      decimals++;
+    });
+  d3.select(view).select('#dec-decimals')
+    .on('click', function() {
+      decimals--;
     });
   return node;
 }
