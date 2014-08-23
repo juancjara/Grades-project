@@ -35,7 +35,7 @@
                     <tspan x="9.74127259" y="47.8003348">15.00</tspan>
                 </text>
                 <text id="label" sketch:type="MSTextLayer" font-family="Helvetica" font-size="17.2240805" font-weight="normal" fill="#000000">
-                    <tspan x="24.1194662" y="16.2528028">EX 1</tspan>
+                    <tspan x="24.1194662" y="16.2528028" id="label">EX 1</tspan>
                 </text>
             </g>
         </g>
