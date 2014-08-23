@@ -18,14 +18,17 @@ function getOffsetRect(elem) {
   var left = box.left + scrollLeft - clientLeft;
 
   return { 
-    top: top - 4, 
-    left: left - 4 
+    top: top - 3, 
+    left: left - 1
   };
 }
 
 
-function bindTextArea(svgText, saveChange) {
-  var input = document.createElement('textarea');
+function bindEdit(svgText, format, setup) {
+  setup = setup || function() {};
+  var input = document.createElement('input');
+  setup(input);
+  input.value = svgText.textContent;
   var coords = getOffsetRect(svgText);
   var style = input.style;
   var svgStyle = getComputedStyle(svgText);
@@ -34,9 +37,8 @@ function bindTextArea(svgText, saveChange) {
   style.background = 'none';
   style.left = coords.left + 'px';
   style.top = coords.top + 'px';
-  style.width = Math.round(svgStyle.width) + 'px';
+  style['width'] = Math.round(svgText.getBBox().width + 20) + 'px';
   style.height = Math.round(svgStyle.heigth) + 'px';
-  console.log(svgText.getBBox());
   style['font-family'] = svgStyle['font-family'];
   style['font-size'] = svgStyle['font-size'];
   style['font-weight'] = svgStyle['font-weight'];
@@ -44,13 +46,11 @@ function bindTextArea(svgText, saveChange) {
   style.overflow = 'hidden';
   style.border = '0 none #FFF';
   style['-webkit-transform-origin'] = 'center center';
-  input.textContent = svgText.textContent;
   var saveAndRemove = function() {
     var text = input.value.trim();
     // if its empty the svg will be unclickable
     if (text) {
-      saveChange(text);
-      svgText.textContent = text;
+      svgText.textContent = format(text);
     }
     $(input).hide();
     svgText.style.display = '';
@@ -429,12 +429,48 @@ function Node(nodeId, nodeView){
   d3.select(view).select('#data')
     .on('click', function() {
       var target = d3.event.target;
-      if (target.id) {
-        node.toggleControls();
-      } else {
-        bindTextArea(target, function() {
-          console.log(arguments); 
-        });
+      console.log(target);
+      switch (target.id) {
+        case 'container': 
+          node.toggleControls();
+          break;
+        case 'label':
+          bindEdit(target, 
+            // format
+            function(text) { 
+              return text; 
+            });
+          break; 
+        default:
+          bindEdit(target, 
+            // format
+            function(text) {
+              var value = "";
+              var decimals = 0;
+              if (text.indexOf('.') == -1) {
+                if (decimals == 0) {
+                  value = text;
+                } else {
+                  value = text + '.' + Array(1+decimals).join('0');
+                }
+              } else {
+                var matches = text.match(/(\d*)[.](\d*)/);
+                var ent = matches[1], dec = matches[2].substr(0, decimals);
+                dec = dec + Array((1 + decimals)-dec.length).join('0');
+                if (decimals == 0) {
+                  value = ent; 
+                } else {
+                  value = ent + '.' + dec; 
+                }
+              }
+              return value;
+            },
+            // setup
+            function (input) {
+              input.type = 'number';
+              input.min = '0';
+              input.max = '20';
+            });
       }
     });
   d3.select(view).select('#add')
