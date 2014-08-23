@@ -290,6 +290,22 @@ var NodeMgrGen =
     },
     changePrecision: function() {
 
+    },
+    getFormula: function() {
+      function getFormula(id) {
+        var vertex = getVertex(id);
+        var eva = nodes[id].formatFormula();
+
+        if (!vertex.isLeaf()) {
+          vertex.forEachChild(function(childId) {
+            eva.children.push(getFormula(childId));
+          });
+        }
+        return eva;
+      }
+      var result = getFormula(rootId);
+      console.log(result);
+      return result;
     }
   }; 
 
@@ -310,6 +326,7 @@ window.addEventListener('load', function(){
                          d3.select('#edges'),
                          nodeTemplate, 
                          {x: 900, y: 60});
+    $("#formula").on('click',NodeMgr.getFormula);
   });
 });
 
@@ -423,6 +440,14 @@ function Node(nodeId, nodeView){
       } else {
         node.showControls();
       }
+    },
+    formatFormula: function() {
+      return {
+        _id: id,
+        grade: grade,
+        label: label,
+        children: []
+      };
     }
   };
   //set events
