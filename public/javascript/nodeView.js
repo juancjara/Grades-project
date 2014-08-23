@@ -1,3 +1,72 @@
+function getOffsetRect(elem) {
+  // (1)
+  var box = elem.getBoundingClientRect();
+
+  var body = document.body;
+  var docElem = document.documentElement;
+
+  // (2)
+  var scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop;
+  var scrollLeft = window.pageXOffset || docElem.scrollLeft || body.scrollLeft;
+
+  // (3)
+  var clientTop = docElem.clientTop || body.clientTop || 0;
+  var clientLeft = docElem.clientLeft || body.clientLeft || 0;
+
+  // (4)
+  var top  = box.top +  scrollTop - clientTop;
+  var left = box.left + scrollLeft - clientLeft;
+
+  return { 
+    top: top - 3, 
+    left: left - 1
+  };
+}
+
+
+function bindEdit(svgText, format, setup) {
+  setup = setup || function() {};
+  var input = document.createElement('input');
+  setup(input);
+  input.value = svgText.textContent;
+  var coords = getOffsetRect(svgText);
+  var style = input.style;
+  var svgStyle = getComputedStyle(svgText);
+  style.resize = 'none';
+  style.position = 'absolute'; 
+  style.background = 'none';
+  style.left = coords.left + 'px';
+  style.top = coords.top + 'px';
+  style['width'] = Math.round(svgText.getBBox().width + 20) + 'px';
+  style.height = Math.round(svgStyle.heigth) + 'px';
+  style['font-family'] = svgStyle['font-family'];
+  style['font-size'] = svgStyle['font-size'];
+  style['font-weight'] = svgStyle['font-weight'];
+  style.outline = 'none';
+  style.overflow = 'hidden';
+  style.border = '0 none #FFF';
+  style['-webkit-transform-origin'] = 'center center';
+  var saveAndRemove = function() {
+    var text = input.value.trim();
+    // if its empty the svg will be unclickable
+    if (text) {
+      svgText.textContent = format(text);
+    }
+    $(input).hide();
+    svgText.style.display = '';
+  };
+  $(input).focusout(saveAndRemove);
+  $(input).keyup(function(event) { 
+    // enter keycode
+    if (event.which == 13) {
+      saveAndRemove();
+    }
+  });
+  svgText.style.display = 'none';
+  document.body.appendChild(input);
+  input.focus();
+}
+
 var NodeMgrGen = 
   function(nodeContainer, edgeContainer, nodeTemplate, rootOrigin){
   var nodes = {};
@@ -296,7 +365,7 @@ function Node(nodeId, nodeView){
 
   var nodeFeatures = {
     width: 96,
-    height: 109, 
+    height: 109,
   };
 
   function transformTo(newOrigin, op) {
@@ -358,7 +427,52 @@ function Node(nodeId, nodeView){
   };
   //set events
   d3.select(view).select('#data')
-    .on('click', node.toggleControls);
+    .on('click', function() {
+      var target = d3.event.target;
+      console.log(target);
+      switch (target.id) {
+        case 'container': 
+          node.toggleControls();
+          break;
+        case 'label':
+          bindEdit(target, 
+            // format
+            function(text) { 
+              return text; 
+            });
+          break; 
+        default:
+          bindEdit(target, 
+            // format
+            function(text) {
+              var value = "";
+              var decimals = 0;
+              if (text.indexOf('.') == -1) {
+                if (decimals == 0) {
+                  value = text;
+                } else {
+                  value = text + '.' + Array(1+decimals).join('0');
+                }
+              } else {
+                var matches = text.match(/(\d*)[.](\d*)/);
+                var ent = matches[1], dec = matches[2].substr(0, decimals);
+                dec = dec + Array((1 + decimals)-dec.length).join('0');
+                if (decimals == 0) {
+                  value = ent; 
+                } else {
+                  value = ent + '.' + dec; 
+                }
+              }
+              return value;
+            },
+            // setup
+            function (input) {
+              input.type = 'number';
+              input.min = '0';
+              input.max = '20';
+            });
+      }
+    });
   d3.select(view).select('#add')
     .on('click', function() {
       NodeMgr.addNode(id); 
