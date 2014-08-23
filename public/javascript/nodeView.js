@@ -18,8 +18,8 @@ function getOffsetRect(elem) {
   var left = box.left + scrollLeft - clientLeft;
 
   return { 
-    top: Math.round(top), 
-    left: Math.round(left) 
+    top: top - 4, 
+    left: left - 4 
   };
 }
 
@@ -28,13 +28,18 @@ function bindTextArea(svgText, saveChange) {
   var input = document.createElement('textarea');
   var coords = getOffsetRect(svgText);
   var style = input.style;
+  var svgStyle = getComputedStyle(svgText);
   style.resize = 'none';
   style.position = 'absolute'; 
   style.background = 'none';
   style.left = coords.left + 'px';
   style.top = coords.top + 'px';
-  style.width = svgText.width + 'px';
-  style.height = svgText.hegth + 'px';
+  style.width = Math.round(svgStyle.width) + 'px';
+  style.height = Math.round(svgStyle.heigth) + 'px';
+  console.log(svgText.getBBox());
+  style['font-family'] = svgStyle['font-family'];
+  style['font-size'] = svgStyle['font-size'];
+  style['font-weight'] = svgStyle['font-weight'];
   style.outline = 'none';
   style.overflow = 'hidden';
   style.border = '0 none #FFF';
@@ -47,7 +52,7 @@ function bindTextArea(svgText, saveChange) {
       saveChange(text);
       svgText.textContent = text;
     }
-    $(input).remove();
+    $(input).hide();
     svgText.style.display = '';
   };
   $(input).focusout(saveAndRemove);
