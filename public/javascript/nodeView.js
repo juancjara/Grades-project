@@ -192,6 +192,64 @@ var NodeMgrGen =
     updatePosition(rootId, orig.x, orig.y);
   }
 
+ function simulate() {
+    var simulation = function(vertexId) {
+      var vertex = getVertex(vertexId);
+      var node = getNode(vertexId);
+      var weights = 0,
+          bounds = {lower:0, upper: 0},
+          minVal = {lower:21, upper: 21},
+          minWeight =  {lower: 0, upper: 0},
+          weightBound = {lower: 0, upper: 0};
+
+      if (vertex.isLeaf()){
+        return node.getBounds();
+      }
+
+      vertex.forEachChild(function(childId) {
+        var temp = simulation(childId);  
+        var child = getNode(childId);
+        var weight = child.getWeight();
+        bounds.lower += temp.lower * weight;
+        bounds.upper += temp.upper * weight;
+        weights += weight;
+
+        if (temp.lower < minVal.lower){
+          minVal.lower = temp.lower;
+          minWeight.lower = weight;
+        }
+
+        if (temp.upper < minVal.upper){
+          minVal.upper = temp.upper;
+          minWeight.upper = weight;
+        }
+      });
+
+      weightBound.lower = weights;
+      weightBound.upper = weights;
+
+      if (node.shouldDeleteMinimum()) {
+        bounds.lower -= minVal.lower;
+        bounds.upper -= minVal.upper;
+        weightBound.lower -= minWeight.lower;
+        weightBound.upper -= minWeight.upper;
+      }
+
+      bounds.lower /= weightBound.lower;
+      bounds.upper /= weightBound.upper;
+      var precision = node.getPrecision();
+      bounds.lower = Math.floor(bounds.lower * precision) / precision;
+      bounds.upper = Math.floor(bounds.upper * precision) / precision;
+      // TODO: query node to round or floor the result
+      console.log(vertexId);
+      console.log(bounds);
+      node.setBounds(bounds);
+      return bounds;
+    }
+    simulation(rootId);
+    redraw();
+  }
+
   function redraw() {
     updateLeafNumber();
     updatePosition();
@@ -246,6 +304,7 @@ var NodeMgrGen =
 
       // update tree
       ancestorVertex.push(childId); 
+      ancestor.setEditable(false);
       childVertex.setPrev(nodeKey);
       child.setOrigin(ancestorOrigin, true);
 
@@ -267,14 +326,19 @@ var NodeMgrGen =
       if (!vertex.isRoot()) {
         var prev = getVertex(vertex.getPrev()); 
         prev.removeChild(nodeKey);
+        if (prev.isLeaf()) {
+          var node = getNode(vertex.getPrev()); 
+          node.setEditable(true);
+        }
       }
       forEachDecendant(nodeKey, function(id) {
         nodes[id].hide();
         if (!vertices[id].isRoot()) {
           edges[id].hide(); 
         }
-        delete node[id]; 
-        delete vertex[id];
+        delete nodes[id]; 
+        delete vertices[id];
+        delete edges[id];
       });
       nodeManager.animateChanges(); 
       redraw();
@@ -288,9 +352,7 @@ var NodeMgrGen =
       });
       changes = [];
     },
-    changePrecision: function() {
-
-    }
+    simulate: simulate
   }; 
 
   root = nodeManager.createNode().node;
@@ -352,12 +414,14 @@ function Edge(oBegin, oEnd, edgeView) {
 
 function Node(nodeId, nodeView){
   var id = nodeId;
+  var isEditable = true;
   var decimals = 2;
   var displayControls = false;
   var grade = null;
   var label = null;
   var origin = null;
   var view = nodeView;
+  var bounds = {upper: 20, lower: 0};
   var children = [];
   var arrPrecision = ['R', 'F'];
   var precision = 0;
@@ -376,6 +440,9 @@ function Node(nodeId, nodeView){
   }
 
   var node = {
+    setEditable: function (canEdit) {
+      isEditable = canEdit; 
+    },
     setOrigin: function(newOrigin, apply) {
       origin = transformTo(newOrigin, -1);
       if (apply) {
@@ -391,6 +458,31 @@ function Node(nodeId, nodeView){
     },
     addChild: function(childId) {
       children.push(childId); 
+    },
+    setBounds: function(newBounds) {
+      bounds = newBounds; 
+      d3.select(view).select('#min')
+            .node().textContent = formatNumber(""+bounds.lower);
+
+      d3.select(view).select('#max')
+            .node().textContent = formatNumber(""+bounds.upper);
+    },
+    getPrecision: function() {
+      return +Math.pow(10, decimals); 
+    },
+    getWeight: function() {
+      // TODO: change weight
+      return 1; 
+    },
+    shouldDeleteMinimum: function() {
+      // TODO: delete minimum
+      return false;
+    },
+    getBounds: function() {
+      if (!isEditable) {
+        return {upper: 20, lower: 0}; 
+      }
+      return bounds;
     },
     moveTo: function(newOrigin) {
       node.setOrigin(newOrigin);
@@ -425,11 +517,24 @@ function Node(nodeId, nodeView){
       }
     }
   };
+
+  function formatNumber(text) {
+    var value = "";
+    var matches = text.match(/(\d*)[.]?(\d*)/);
+    var ent = matches[1], dec = matches[2].substr(0, decimals);
+    dec = dec + Array((1 + decimals)-dec.length).join('0');
+    if (decimals == 0) {
+      value = ent; 
+    } else {
+      value = ent + '.' + dec; 
+    }
+    return value;
+  }
+
   //set events
   d3.select(view).select('#data')
     .on('click', function() {
       var target = d3.event.target;
-      console.log(target);
       switch (target.id) {
         case 'container': 
           node.toggleControls();
@@ -438,38 +543,32 @@ function Node(nodeId, nodeView){
           bindEdit(target, 
             // format
             function(text) { 
+              label = text;
               return text; 
             });
           break; 
         default:
+          if (!isEditable) {
+            return; 
+          }
           bindEdit(target, 
-            // format
+            // format to save
             function(text) {
-              var value = "";
-              var decimals = 0;
-              if (text.indexOf('.') == -1) {
-                if (decimals == 0) {
-                  value = text;
-                } else {
-                  value = text + '.' + Array(1+decimals).join('0');
-                }
-              } else {
-                var matches = text.match(/(\d*)[.](\d*)/);
-                var ent = matches[1], dec = matches[2].substr(0, decimals);
-                dec = dec + Array((1 + decimals)-dec.length).join('0');
-                if (decimals == 0) {
-                  value = ent; 
-                } else {
-                  value = ent + '.' + dec; 
-                }
+              var formated = formatNumber(text);
+              if (target.id == 'max') {
+                bounds.upper = parseFloat(formated); 
+              } else if (target.id == 'min') {
+                bounds.lower = parseFloat(formated); 
               }
-              return value;
+              NodeMgr.simulate();
+              return formated;
             },
             // setup
-            function (input) {
+            function(input) {
               input.type = 'number';
               input.min = '0';
               input.max = '20';
+              input.step = ''+ Math.pow(10, -decimals);
             });
       }
     });
@@ -488,10 +587,16 @@ function Node(nodeId, nodeView){
   d3.select(view).select('#inc-decimals')
     .on('click', function() {
       decimals++;
+      if (decimals > 2) {
+        decimals = 2; 
+      }
     });
   d3.select(view).select('#dec-decimals')
     .on('click', function() {
       decimals--;
+      if (decimals < 0) {
+        decimals = 0; 
+      }
     });
   return node;
 }

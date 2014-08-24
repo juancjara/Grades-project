@@ -25,10 +25,10 @@
                 <rect id="container" stroke="#7C7C7C" stroke-width="0.950000048" fill="#FFFFFF" sketch:type="MSShapeGroup" x="7" y="21" width="69.7627712" height="64.4538439" rx="2.85000014"></rect>
                 <g id="simulated" transform="translate(22.493016, 54.359293)" font-size="12" font-family="Helvetica" fill="#000000" sketch:type="MSTextLayer" font-weight="normal">
                     <text id="low">
-                        <tspan x="0.506983629" y="25">10.00</tspan>
+                        <tspan id="min" x="0.506983629" y="25">00.00</tspan>
                     </text>
                     <text id="up">
-                        <tspan x="-0.493016371" y="11">12.00</tspan>
+                        <tspan id="max" x="-0.493016371" y="11">20.00</tspan>
                     </text>
                 </g>
                 <text id="grade" sketch:type="MSTextLayer" font-family="Helvetica" font-size="25" font-weight="normal" sketch:alignment="middle" fill="#000000">
