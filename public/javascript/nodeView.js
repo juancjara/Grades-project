@@ -1,4 +1,4 @@
-function getOffsetRect(elem) {
+  function getOffsetRect(elem) {
   // (1)
   var box = elem.getBoundingClientRect();
 
