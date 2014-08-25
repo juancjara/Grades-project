@@ -1,4 +1,4 @@
-function getOffsetRect(elem) {
+  function getOffsetRect(elem) {
   // (1)
   var box = elem.getBoundingClientRect();
 
@@ -367,10 +367,8 @@ var NodeMgrGen =
         }
         return eva;
       }
-      var result = getFormula(rootId);
-      console.log(result);
-      return result;
-    }
+      return getFormula(rootId);
+    },
     simulate: simulate
   }; 
 
