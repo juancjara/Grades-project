@@ -32,20 +32,17 @@ var main = {
     };
     $toggle_sidebar.on('click', toggle_sidebar);
 
-    function clean() {
+    var selected_handler = function(course, elem) {
       $('#left-panel .active').removeClass('active');
       elem.addClass('active');
       $('.click-menu').hide();
       elem.find('.click-menu').show();
-    };
-
-    var selected_handler = function(course, elem) {
-      clean();
       console.log(course);
       if (course.formula) {
         NodeMgr.import(JSON.parse(course.formula));
       }
       else{
+        console.log("no formula");
         NodeMgr.newTree();
       }
       //console.log(course);
