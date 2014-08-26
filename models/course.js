@@ -77,7 +77,7 @@ courseSchema.statics.del = function(params, cb) {
       mongoose.model('User').delCourse(params, cb);  
   });
 };
-
+/*
 courseSchema.statics.addCourse = function(params,cb) {
   var course = new Course({ 
     name: params.name,
@@ -106,7 +106,7 @@ courseSchema.statics.addCourse = function(params,cb) {
         });
   });
 };
-
+*/
 courseSchema.statics.search = function(nameParam, cb) {
   Course.find({
     name: new RegExp('^'+nameParam+'.*$', 'i'),
