@@ -53,6 +53,7 @@ function bindEdit(svgText, format, setup) {
       svgText.textContent = format(text);
     }
     $(input).hide();
+    $(input).remove();
     svgText.style.display = '';
   };
   $(input).focusout(saveAndRemove);
@@ -229,8 +230,8 @@ var NodeMgrGen =
       weightBound.upper = weights;
 
       if (node.shouldDeleteMinimum()) {
-        bounds.lower -= minVal.lower;
-        bounds.upper -= minVal.upper;
+        bounds.lower -= minVal.lower * minWeight.lower;
+        bounds.upper -= minVal.upper * minWeight.upper;
         weightBound.lower -= minWeight.lower;
         weightBound.upper -= minWeight.upper;
       }
@@ -238,10 +239,10 @@ var NodeMgrGen =
       bounds.lower /= weightBound.lower;
       bounds.upper /= weightBound.upper;
       var precision = node.getPrecision();
-      bounds.lower = Math.floor(bounds.lower * precision) / precision;
-      bounds.upper = Math.floor(bounds.upper * precision) / precision;
-      // TODO: query node to round or floor the result
-      console.log(vertexId);
+      var round = node.shouldRound()? 0.5:0.0;
+      bounds.lower = Math.floor(bounds.lower * precision + round) / precision;
+      bounds.upper = Math.floor(bounds.upper * precision + round) / precision;
+      console.log(weightBound);
       console.log(bounds);
       node.setBounds(bounds);
       return bounds;
@@ -311,11 +312,6 @@ var NodeMgrGen =
       var edge = nodeManager.createEdge(nodeKey, childId);
       
       redraw();
-      /*
-      nodeManager.appendChange(child.moveTo(
-            {x: ancestorOrigin.x + 100, 
-             y: ancestorOrigin.y + 100}));
-             */
       nodeManager.animateChanges(); 
     }, 
     removeNode: function(nodeKey) {
@@ -352,9 +348,6 @@ var NodeMgrGen =
       });
       changes = [];
     },
-    changePrecision: function() {
-
-    },
     getFormula: function() {
       function getFormula(id) {
         var vertex = getVertex(id);
@@ -370,8 +363,12 @@ var NodeMgrGen =
       var result = getFormula(rootId);
       console.log(result);
       return result;
+    },
+    simulate: simulate,
+    moveRoot: function (newOrigin) {
+      root.moveTo(newOrigin); 
+      redraw();
     }
-    simulate: simulate
   }; 
 
   root = nodeManager.createNode().node;
@@ -394,6 +391,7 @@ window.addEventListener('load', function(){
     $("#formula").on('click',NodeMgr.getFormula);
   });
 });
+
 
 function Edge(oBegin, oEnd, edgeView) {
   var begin = oBegin; 
@@ -433,19 +431,24 @@ function Edge(oBegin, oEnd, edgeView) {
 }
 
 function Node(nodeId, nodeView){
-  var id = nodeId;
-  var isEditable = true;
   var decimals = 2;
   var displayControls = false;
   var grade = null;
+  var id = nodeId;
+  var isEditable = true;
   var label = null;
   var origin = null;
   var view = nodeView;
+  var weight = 1;
+
   var bounds = {upper: 20, lower: 0};
   var children = [];
-  var arrPrecision = ['R', 'F'];
-  var precision = 0;
-  var Sprecision = d3.select(view).select('#precision');
+  var arrTrunk = ['R', 'F'];
+  var arrDelete = ['P', 'D'];
+  var trunk = 0;
+  var deleteMin = 0;
+  var STrunk = d3.select(view).select('#trunk-behavior');
+  var SDeleteMin = d3.select(view).select('#delete-min');
 
   var nodeFeatures = {
     width: 96,
@@ -490,13 +493,14 @@ function Node(nodeId, nodeView){
     getPrecision: function() {
       return +Math.pow(10, decimals); 
     },
+    shouldRound: function() {
+      return trunk == 0; 
+    },
     getWeight: function() {
-      // TODO: change weight
-      return 1; 
+      return weight; 
     },
     shouldDeleteMinimum: function() {
-      // TODO: delete minimum
-      return false;
+      return deleteMin == 1;
     },
     getBounds: function() {
       if (!isEditable) {
@@ -546,12 +550,30 @@ function Node(nodeId, nodeView){
     }
   };
 
-  function formatNumber(text) {
+  function updateNumbers(decs) {
+     var numbs = ['max', 'min'];
+     numbs.forEach(function(id) {
+       var node = d3.select(view).select('#'+id).node();
+       node.textContent = 
+         formatNumber(node.textContent, {zeroPadding: true, decimals: decs});
+     });
+  }
+
+  function formatNumber(text, ops) {
+    var decs = decimals;
+    var zeroPad = true;
+    if (arguments.length > 1) {
+      decs = ops.decimals;
+      zeroPad = ops.zeroPadding; 
+    }
     var value = "";
     var matches = text.match(/(\d*)[.]?(\d*)/);
-    var ent = matches[1], dec = matches[2].substr(0, decimals);
-    dec = dec + Array((1 + decimals)-dec.length).join('0');
-    if (decimals == 0) {
+    var ent = matches[1], dec = matches[2].substr(0, decs);
+    if (zeroPad) {
+      ent = Array(3-ent.length).join('0') + ent; 
+      dec = dec + Array((1 + decs)-dec.length).join('0');
+    }
+    if (decs == 0) {
       value = ent; 
     } else {
       value = ent + '.' + dec; 
@@ -563,6 +585,9 @@ function Node(nodeId, nodeView){
   d3.select(view).select('#data')
     .on('click', function() {
       var target = d3.event.target;
+      if (!target.id) {
+        return;
+      }
       switch (target.id) {
         case 'container': 
           node.toggleControls();
@@ -576,7 +601,7 @@ function Node(nodeId, nodeView){
             });
           break; 
         default:
-          if (!isEditable) {
+          if (!isEditable && target.id != 'weight') {
             return; 
           }
           bindEdit(target, 
@@ -587,6 +612,10 @@ function Node(nodeId, nodeView){
                 bounds.upper = parseFloat(formated); 
               } else if (target.id == 'min') {
                 bounds.lower = parseFloat(formated); 
+              } else if (target.id == 'weight') {
+                formated = 
+                  formatNumber(text, {zeroPadding: false, decimals: 0});
+                weight = parseInt(formated);  
               }
               NodeMgr.simulate();
               return formated;
@@ -596,7 +625,11 @@ function Node(nodeId, nodeView){
               input.type = 'number';
               input.min = '0';
               input.max = '20';
-              input.step = ''+ Math.pow(10, -decimals);
+              if (target.id == 'weight') {
+                input.step = '' + 1; 
+              } else {
+                input.step = '' + Math.pow(10, -decimals);
+              }
             });
       }
     });
@@ -608,9 +641,15 @@ function Node(nodeId, nodeView){
     .on('click', function() {
       NodeMgr.removeNode(id); 
     });
-  Sprecision.on('click', function() {
-    precision = 1 - precision;
-    Sprecision.text(arrPrecision[precision]);
+  STrunk.on('click', function() {
+    trunk = 1 - trunk;
+    STrunk.text(arrPrecision[trunk]);
+    NodeMgr.simulate();
+  });
+  SDeleteMin.on('click', function() {
+    deleteMin = 1 - deleteMin; 
+    SDeleteMin.text(arrDelete[deleteMin]);
+    NodeMgr.simulate();
   });
   d3.select(view).select('#inc-decimals')
     .on('click', function() {
@@ -618,6 +657,8 @@ function Node(nodeId, nodeView){
       if (decimals > 2) {
         decimals = 2; 
       }
+      NodeMgr.simulate();
+      updateNumbers(decimals);
     });
   d3.select(view).select('#dec-decimals')
     .on('click', function() {
@@ -625,6 +666,8 @@ function Node(nodeId, nodeView){
       if (decimals < 0) {
         decimals = 0; 
       }
+      NodeMgr.simulate();
+      updateNumbers(decimals);
     });
   return node;
 }
