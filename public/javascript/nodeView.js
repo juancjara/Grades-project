@@ -46,6 +46,7 @@ function bindEdit(svgText, format, setup) {
   style.overflow = 'hidden';
   style.border = '0 none #FFF';
   style['-webkit-transform-origin'] = 'center center';
+  style['z-index'] = 3;
   var saveAndRemove = function() {
     var text = input.value.trim();
     // if its empty the svg will be unclickable
@@ -315,8 +316,8 @@ var NodeMgrGen =
       nodeManager.animateChanges();
       return childInfo;
     }, 
-    removeNode: function(nodeKey) {
-      if (nodeKey == rootId) {
+    removeNode: function(nodeKey, force) {
+      if (nodeKey == rootId && !force) {
         return;
       }
       var vertex = getVertex(nodeKey);
@@ -368,13 +369,20 @@ var NodeMgrGen =
       root.moveTo(newOrigin); 
       redraw();
     },
+    cleanSvg: function() {
+      if (root) {
+        nodeManager.removeNode(rootId, true);
+      }
+    },
     newTree: function() {
+      nodeManager.cleanSvg();
       root = nodeManager.createNode().node;
       root.setOrigin(rootOrigin);
       nodeManager.appendChange(root.moveTo(rootOrigin));
       nodeManager.animateChanges();    
     },
     import: function(tree) {
+      nodeManager.cleanSvg();
       root = nodeManager.createNode(tree).node;
       root.setOrigin(rootOrigin);
       nodeManager.appendChange(root.moveTo(rootOrigin));
