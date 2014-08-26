@@ -131,10 +131,6 @@ line{
   z-index: 1001;
 }
 
-#messages *{  
-  margin: 10px auto; 
-}
-
 #my-courses {
   display: block;
   margin-bottom: 5px;

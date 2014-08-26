@@ -470,11 +470,11 @@ function Node(nodeId, nodeView, data){
   var SDeleteMin = d3.select(view).select('#delete-min');
 
   if (data) {
-    isEditable = data.isEditable;
     decimals = data.decimals;
     label = data.label;
     bounds = data.bounds;
-    precision = data.precision;
+    trunk = data.trunk;
+    deleteMin = data.deleteMin;
   }
 
   var nodeFeatures = {
@@ -570,10 +570,11 @@ function Node(nodeId, nodeView, data){
     formatFormula: function() {
       return {
         isEditable: isEditable,
-        decimals: decimals
+        decimals: decimals,
         label: label,
         bounds: bounds,
-        precision: precision,
+        trunk: trunk,
+        deleteMin: deleteMin,
         children: []
       };
     }

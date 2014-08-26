@@ -26,7 +26,9 @@ var main = {
       elem.addClass('active');
       $('.click-menu').hide();
       elem.find('.click-menu').show();
-      console.log(course);
+      //console.log(course);
+      //TODO: nodemanager iniciar con curso con getformula
+      //iniciar template utilizar id y jugar con formula nomas
     };
 
     my_list.selected_handler = selected_handler;
@@ -38,9 +40,9 @@ var main = {
   config: {
     msg_template: {
       part1: '<div class="alert ',
-      part2: '" role="alert"><button class="close" data-dismiss="alert">'+
-             '<span aria-hidden="true">&times<span class="sr-only">Close'+
-             '</span></span></button>',
+      part2: '" role="alert"><button type="button" class="close" data-dismiss="alert">'+
+             '<span aria-hidden="true">&times</span><span class="sr-only">Close'+
+             '</span></button>',
       part3: '</div>'
     }
   },

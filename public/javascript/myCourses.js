@@ -34,7 +34,7 @@ var course = function(apiWS, msg, strings) {
         if(res.msg != 'OK') return console.log('error',res.msg);
         msg.show_ok_msg(strings.course_share_ok);
     });
-  }
+  };
 
   var stop_editing = function() {
     var $el_on_edit = $('.edit-menu');
@@ -59,17 +59,16 @@ var course = function(apiWS, msg, strings) {
 
   var off_click_outside = function() {
     $('html').off('click.edit');
-  }
+  };
 
   var on_edit = function(course, courseHTML) {
     var $el = courseHTML.children().first();
     var $editTemplate = $('<span class="clearfix edit-menu">'+
-        '<input type="text" value="'+course.name+'" class="name pull-left">'+
+        '<input type="text" value="'+$el.find('.name').text()+'" class="name pull-left">'+
         '<span class="menu-icon">'+
         '<span class="ok glyphicon glyphicon-ok"></span>'+
         '<span class="cancel glyphicon glyphicon-remove"></span>'+
         '</span></span>');
-
     $el.hide();
 
     var stop_editing = function() {
@@ -91,6 +90,11 @@ var course = function(apiWS, msg, strings) {
       };
       if (!data.name || !data.name.length) {
         msg.show_err_submit($editTemplate.find(".name"), strings.input_required );
+        e.stopPropagation();
+        return;
+      }
+      if (data.name.length > 30) {
+        msg.show_err_submit($editTemplate.find('.name'), strings.input_max_length);
         e.stopPropagation();
         return;
       }

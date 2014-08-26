@@ -62,10 +62,13 @@ var courseSearch = function(apiWS, msg, strings) {
     event.preventDefault();
     var to_find = $search_box.val();
     if (!to_find || !to_find.length) {
-      console.log("er",to_find);
       msg.show_err_submit($search_box, strings.input_required );
       return;
     };
+    if (to_find.length > 30) {
+      msg.show_err_submit($search_box, strings.input_max_length);
+      return;
+    }
     api_ws.consume('searchCourse', {name: to_find},
       function(res) {
       $no_results_msg.hide();

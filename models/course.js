@@ -10,9 +10,17 @@ var courseSchema = new Schema({
 
 var cleanData = function(formula) {
   //TODO
-  //var json = JSON.parse(formula);
-  //locked = false, value = -1
   return formula;
+  /*var bounds = {upper: 20, lower: 0};
+  var eva = JSON.parse(formula);
+  function clean(eva) {
+    eva.bounds = bounds;
+    var children = eva.children;
+    for (var i = 0; i < children.length; i++) {
+      clean(children[i]);
+    };
+  }
+  return JSON.stringify(eva);*/
 };
 
 courseSchema.statics.share = function(id, cb) {
