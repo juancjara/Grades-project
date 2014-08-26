@@ -6,7 +6,8 @@ var courseSchema = new Schema({
   name:  String,
   formula: String,
   shared: {type: Boolean, default: false},
-  votes: Number
+  votes: Number,
+  user : {type: ObjectId, ref: 'User'},
 });
 
 var cleanData = function(formula) {
@@ -24,12 +25,18 @@ var cleanData = function(formula) {
   return JSON.stringify(eva);*/
 };
 
-courseSchema.statics.share = function(id, cb) {
-  Course.findById(id).exec( 
+courseSchema.statics.share = function(params, cb) {
+  Course.findById(params.courseId).exec( 
     function(err, course) {
       if (err) return cb(err);
       var baseFormula = cleanData();
-      var clone = new Course({name: course.name, shared: true, formula: baseFormula, votes: 0});
+      var clone = new Course({
+        name: course.name,
+        shared: true,
+        formula: baseFormula,
+        votes: 0,
+        user: params.userId
+      });
       clone.save(cb);
     });
 };
