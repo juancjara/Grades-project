@@ -5,6 +5,17 @@ var main = {
     var $left_panel = $("#left-panel");
     var width_sidebar = parseInt($left_panel.css('width'));
     var $toggle_sidebar = $("#toggle-left-panel");
+    var NodeMgr = null;
+
+    d3.xml('node_template.svg', 'image/svg+xml', function(error, data) {
+      var nodeTemplate = data.documentElement.getElementById('node-template');
+      NodeMgr = NodeMgrGen(d3.select('#nodes'), 
+                           d3.select('#edges'),
+                           nodeTemplate, 
+                           {x: 900, y: 60});
+      //NodeMgr.newTree();
+      //$("#formula").on('click',NodeMgr.getFormula);
+    });
 
     var toggle_sidebar = function(e) {
       
@@ -27,6 +38,15 @@ var main = {
       $('.click-menu').hide();
       elem.find('.click-menu').show();
       console.log(course);
+      if (course.formula) {
+        NodeMgr.import(JSON.parse(course.formula));
+      }
+      else{
+        NodeMgr.newTree();
+      }
+      //console.log(course);
+      //TODO: nodemanager iniciar con curso con getformula
+      //iniciar template utilizar id y jugar con formula nomas
     };
 
     my_list.selected_handler = selected_handler;
@@ -38,9 +58,9 @@ var main = {
   config: {
     msg_template: {
       part1: '<div class="alert ',
-      part2: '" role="alert"><button class="close" data-dismiss="alert">'+
-             '<span aria-hidden="true">&times<span class="sr-only">Close'+
-             '</span></span></button>',
+      part2: '" role="alert"><button type="button" class="close" data-dismiss="alert">'+
+             '<span aria-hidden="true">&times</span><span class="sr-only">Close'+
+             '</span></button>',
       part3: '</div>'
     }
   },

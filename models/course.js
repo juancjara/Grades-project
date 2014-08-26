@@ -5,39 +5,62 @@ var mongoose = require('mongoose'),
 var courseSchema = new Schema({
   name:  String,
   formula: String,
-  shared: {type: Boolean, default: false}
+  shared: {type: Boolean, default: false},
+  votes: Number,
+  user : {type: ObjectId, ref: 'User'},
 });
 
 var cleanData = function(formula) {
   //TODO
-  //var json = JSON.parse(formula);
-  //locked = false, value = -1
   return formula;
+  /*var bounds = {upper: 20, lower: 0};
+  var eva = JSON.parse(formula);
+  function clean(eva) {
+    eva.bounds = bounds;
+    var children = eva.children;
+    for (var i = 0; i < children.length; i++) {
+      clean(children[i]);
+    };
+  }
+  return JSON.stringify(eva);*/
 };
 
-courseSchema.statics.share = function(id, cb) {
-  Course.findById(id).exec( 
+courseSchema.statics.share = function(params, cb) {
+  Course.findById(params.courseId).exec( 
     function(err, course) {
       if (err) return cb(err);
       var baseFormula = cleanData();
-      var clone = new Course({name: course.name, shared: true, formula: baseFormula});
+      var clone = new Course({
+        name: course.name,
+        shared: true,
+        formula: baseFormula,
+        votes: 0,
+        user: params.userId
+      });
       clone.save(cb);
     });
 };
+
 
 courseSchema.statics.add = function(params, cb) {
   Course.findById(params.id).exec(
     function(err, course){
       if (err) return cb(err);
-      var clone = new Course({name: course.name, formula: course.formula});
-      clone.save(function(err) {
-        if (err) return cb(err);
-        mongoose.model('User').addCourse({userId: params.userId, id: clone._id},
-          function(err) {
+      var votes = course.votes + 1;
+      Course.findByIdAndUpdate(params.id, {votes: votes},
+        function(err) {
+          if (err) return cb(err);
+          var clone = new Course({name: course.name, formula: course.formula});
+          clone.save(function(err) {
             if (err) return cb(err);
-            return cb(null, clone);
+            mongoose.model('User').addCourse({userId: params.userId, id: clone._id},
+              function(err) {
+                if (err) return cb(err);
+                return cb(null, clone);
+              });
           });
-      });
+        }
+      );
     }
   );
 };
@@ -61,7 +84,7 @@ courseSchema.statics.del = function(params, cb) {
       mongoose.model('User').delCourse(params, cb);  
   });
 };
-
+/*
 courseSchema.statics.addCourse = function(params,cb) {
   var course = new Course({ 
     name: params.name,
@@ -90,12 +113,12 @@ courseSchema.statics.addCourse = function(params,cb) {
         });
   });
 };
-
+*/
 courseSchema.statics.search = function(nameParam, cb) {
   Course.find({
     name: new RegExp('^'+nameParam+'.*$', 'i'),
     shared: true
-    }, {name: 1}, cb);
+    }, {name: 1}, {sort: {votes: -1}}, cb);
 };
 
 var Course = module.exports = mongoose.model('Course', courseSchema);

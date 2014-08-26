@@ -32,7 +32,12 @@ exports.read = function(req, res) {
 }
 
 exports.share = function(req, res) {
-  Course.share(req.body.id, function(err) {
+  var params = {
+    courseId: req.body.id,
+    userId: req.user._id
+  };
+  console.log(params);
+  Course.share(params, function(err) {
     if (err) res.send({msg: console.log(err)});
     res.send({msg: "OK"});
   });
