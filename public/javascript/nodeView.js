@@ -392,7 +392,6 @@ var NodeMgrGen =
       nodeManager.appendChange(root.moveTo(rootOrigin));
       nodeManager.animateChanges();
       addChildren(rootId, root);
-      
       function addChildren(id, node) {
         var children = node.children;
         for (var i = 0; i < children.length; i++){

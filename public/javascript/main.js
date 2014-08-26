@@ -14,7 +14,10 @@ var main = {
                            nodeTemplate, 
                            {x: 900, y: 60});
       //NodeMgr.newTree();
-      //$("#formula").on('click',NodeMgr.getFormula);
+      $("#formula").on('click',function() {
+        var formula = NodeMgr.export;
+        console.log(formula);
+      });
     });
 
     var toggle_sidebar = function(e) {
