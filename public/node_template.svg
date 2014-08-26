@@ -4,7 +4,7 @@
     <title>node-template</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
         <g id="node-template" sketch:type="MSLayerGroup" transform="translate(1.234929, -5.723291)">
             <g id="controls" transform="translate(-0.137846, 32.000000)" style="display: none;">
                 <g id="remove" transform="translate(38.955422, 54.206729)" fill="#000000" sketch:type="MSShapeGroup">
@@ -56,7 +56,7 @@
                 </g>
                 <g transform="translate(12.000000, 0.000000)" font-size="18" font-family="Helvetica" fill="#000000" sketch:type="MSTextLayer" font-weight="normal">
                     <text >
-                        <tspan id="label" x="-0.1085466" y="17.9102115">EX 1</tspan>
+                        <tspan id="label" x="-0.1085466" y="17.9102115">Label</tspan>
                     </text>
                 </g>
             </g>
