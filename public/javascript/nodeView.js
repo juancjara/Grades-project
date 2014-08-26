@@ -277,10 +277,10 @@ var NodeMgrGen =
       edges[toId] = e;
       return e;
     },
-    createNode: function() {
+    createNode: function(data) {
       var id = getNodeId(); 
       nodeView = template.cloneNode(true);
-      nodes[id] = Node(id, nodeView);
+      nodes[id] = Node(id, nodeView,data);
       vertices[id] = Vertex(id);
       nodeContainer.node().appendChild(nodeView);
       var node = nodes[id];
@@ -292,8 +292,8 @@ var NodeMgrGen =
       };
       return nodeInfo;
     },
-    addNode: function(nodeKey) {
-      var childInfo = nodeManager.createNode(); 
+    addNode: function(nodeKey, data) {
+      var childInfo = nodeManager.createNode(data); 
       var child = childInfo.node;
       var childId = childInfo.id;
       var childVertex = childInfo.vertex;
@@ -316,7 +316,8 @@ var NodeMgrGen =
             {x: ancestorOrigin.x + 100, 
              y: ancestorOrigin.y + 100}));
              */
-      nodeManager.animateChanges(); 
+      nodeManager.animateChanges();
+      return childInfo;
     }, 
     removeNode: function(nodeKey) {
       if (nodeKey == rootId) {
@@ -355,7 +356,7 @@ var NodeMgrGen =
     changePrecision: function() {
 
     },
-    getFormula: function() {
+    export: function() {
       function getFormula(id) {
         var vertex = getVertex(id);
         var eva = nodes[id].formatFormula();
@@ -369,13 +370,32 @@ var NodeMgrGen =
       }
       return getFormula(rootId);
     },
-    simulate: simulate
+    simulate: simulate,
+    newTree: function() {
+      root = nodeManager.createNode().node;
+      root.setOrigin(rootOrigin);
+      nodeManager.appendChange(root.moveTo(rootOrigin));
+      nodeManager.animateChanges();    
+    },
+    import: function(tree) {
+      root = nodeManager.createNode(tree).node;
+      root.setOrigin(rootOrigin);
+      nodeManager.appendChange(root.moveTo(rootOrigin));
+      nodeManager.animateChanges();
+
+      var actualId = root.id;
+
+      function addChildren(id, node) {
+        var children = node.children;
+        for (var i = 0; i < children.length, i++){
+          var info = nodeManager.addNode(id, children[i]);
+          addChildren(info.id, children[i]);
+        }
+      }
+    }
   }; 
 
-  root = nodeManager.createNode().node;
-  root.setOrigin(rootOrigin);
-  nodeManager.appendChange(root.moveTo(rootOrigin));
-  nodeManager.animateChanges();
+  
 
   return nodeManager;
 };
@@ -430,7 +450,7 @@ function Edge(oBegin, oEnd, edgeView) {
   return edge;
 }
 
-function Node(nodeId, nodeView){
+function Node(nodeId, nodeView, data){
   var id = nodeId;
   var isEditable = true;
   var decimals = 2;
@@ -444,6 +464,14 @@ function Node(nodeId, nodeView){
   var arrPrecision = ['R', 'F'];
   var precision = 0;
   var Sprecision = d3.select(view).select('#precision');
+
+  if (data) {
+    isEditable = data.isEditable;
+    decimals = data.decimals;
+    label = data.label;
+    bounds = data.bounds;
+    precision = data.precision;
+  }
 
   var nodeFeatures = {
     width: 96,

@@ -23,7 +23,6 @@ exports.error404 = function(req, res){
 }
 
 exports.contact = function(req, res) {
-  console.log(req.body);
   var contact = new Contact(req.body);
   contact.save(function(err,model) {
     if(err) return res.senc({msg: console.log(err)});

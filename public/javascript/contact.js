@@ -8,9 +8,7 @@ var contact = {
         msg: $('#msg').val(),
         email: $('#email').val()
       };
-      console.log(formData);
       api.consume('contactForm', formData, function(res) {
-        console.log(res);
         $("#text").text("Enviado");
         $(".alert").show();
         setTimeout(function() {

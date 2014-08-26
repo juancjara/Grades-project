@@ -7,14 +7,15 @@ module.exports = function(grunt) {
           'public/javascript/min/grades.min.js': [
             'public/javascript/spin.min.js',
             'public/javascript/consumeApi.js',
-            'public/javascript/script.js',
             'public/javascript/courseSearch.js',
             'public/javascript/myCourses.js',
             'public/javascript/string.js',
+            'public/javascript/nodeView.js',
             'public/javascript/main.js'
           ],
           'public/javascript/min/about.min.js': [
             'public/javascript/consumeApi.js',
+            'public/javascript/spin.min.js',
             'public/javascript/contact.js'
           ]
         }
