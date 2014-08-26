@@ -17,6 +17,11 @@ html(lang='eng')
     .container
       .row
         h1 Contáctanos
+        div(class='alert alert-success',style='display:none')
+          button(class='close', data-dismiss='alert')
+            span(aria-hidden='true') &times
+              span(class='sr-only') Close
+          div(id='text')
         form(id='contact', role='form')
           fieldset
             .form-group
@@ -32,14 +37,18 @@ html(lang='eng')
             .form-group
               label Mensaje
               textarea(id='msg', rows='11', class='form-control')
+            .form-group
+              label Email para recibir respuesta
+              input(id='email', type='text', class='form-control')
             .actions
               input(type='submit', value='Enviar', class='btn btn-info pull-right')  
-    
     div(id='spin')
 
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")
+
     if production
       script(src="javascript/min/about.min.js")
     else
+      script(src="javascript/spin.min.js")
       script(src="javascript/consumeApi.js")
       script(src="javascript/contact.js")

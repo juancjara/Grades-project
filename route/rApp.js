@@ -1,3 +1,6 @@
+var mongoose = require('mongoose');
+var Contact = require('./../models/contact.js');
+
 exports.login = function(req, res) {
   res.render('login');
 };
@@ -20,7 +23,10 @@ exports.error404 = function(req, res){
 }
 
 exports.contact = function(req, res) {
-
-  console.log(req.body);
-  res.send({});
+  var contact = new Contact(req.body);
+  contact.save(function(err,model) {
+    if(err) return res.senc({msg: console.log(err)});
+    model = model || {};
+    res.send(model);
+  }); 
 };

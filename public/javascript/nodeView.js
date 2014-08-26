@@ -1,4 +1,4 @@
-function getOffsetRect(elem) {
+  function getOffsetRect(elem) {
   // (1)
   var box = elem.getBoundingClientRect();
 
@@ -278,10 +278,10 @@ var NodeMgrGen =
       edges[toId] = e;
       return e;
     },
-    createNode: function() {
+    createNode: function(data) {
       var id = getNodeId(); 
       nodeView = template.cloneNode(true);
-      nodes[id] = Node(id, nodeView);
+      nodes[id] = Node(id, nodeView, data);
       vertices[id] = Vertex(id);
       nodeContainer.node().appendChild(nodeView);
       var node = nodes[id];
@@ -293,8 +293,8 @@ var NodeMgrGen =
       };
       return nodeInfo;
     },
-    addNode: function(nodeKey) {
-      var childInfo = nodeManager.createNode(); 
+    addNode: function(nodeKey, data) {
+      var childInfo = nodeManager.createNode(data); 
       var child = childInfo.node;
       var childId = childInfo.id;
       var childVertex = childInfo.vertex;
@@ -312,7 +312,8 @@ var NodeMgrGen =
       var edge = nodeManager.createEdge(nodeKey, childId);
       
       redraw();
-      nodeManager.animateChanges(); 
+      nodeManager.animateChanges();
+      return childInfo;
     }, 
     removeNode: function(nodeKey) {
       if (nodeKey == rootId) {
@@ -348,7 +349,7 @@ var NodeMgrGen =
       });
       changes = [];
     },
-    getFormula: function() {
+    export: function() {
       function getFormula(id) {
         var vertex = getVertex(id);
         var eva = nodes[id].formatFormula();
@@ -360,21 +361,36 @@ var NodeMgrGen =
         }
         return eva;
       }
-      var result = getFormula(rootId);
-      console.log(result);
-      return result;
+      return getFormula(rootId);
     },
     simulate: simulate,
     moveRoot: function (newOrigin) {
       root.moveTo(newOrigin); 
       redraw();
+    },
+    newTree: function() {
+      root = nodeManager.createNode().node;
+      root.setOrigin(rootOrigin);
+      nodeManager.appendChange(root.moveTo(rootOrigin));
+      nodeManager.animateChanges();    
+    },
+    import: function(tree) {
+      root = nodeManager.createNode(tree).node;
+      root.setOrigin(rootOrigin);
+      nodeManager.appendChange(root.moveTo(rootOrigin));
+      nodeManager.animateChanges();
+
+      var actualId = root.id;
+
+      function addChildren(id, node) {
+        var children = node.children;
+        for (var i = 0; i < children.length; i++){
+          var info = nodeManager.addNode(id, children[i]);
+          addChildren(info.id, children[i]);
+        }
+      }
     }
   }; 
-
-  root = nodeManager.createNode().node;
-  root.setOrigin(rootOrigin);
-  nodeManager.appendChange(root.moveTo(rootOrigin));
-  nodeManager.animateChanges();
 
   return nodeManager;
 };
@@ -388,6 +404,7 @@ window.addEventListener('load', function(){
                          d3.select('#edges'),
                          nodeTemplate, 
                          {x: 900, y: 60});
+    NodeMgr.newTree();
     $("#formula").on('click',NodeMgr.getFormula);
   });
 });
@@ -430,7 +447,9 @@ function Edge(oBegin, oEnd, edgeView) {
   return edge;
 }
 
-function Node(nodeId, nodeView){
+function Node(nodeId, nodeView, data){
+  var id = nodeId;
+  var isEditable = true;
   var decimals = 2;
   var displayControls = false;
   var grade = null;
@@ -449,6 +468,14 @@ function Node(nodeId, nodeView){
   var deleteMin = 0;
   var STrunk = d3.select(view).select('#trunk-behavior');
   var SDeleteMin = d3.select(view).select('#delete-min');
+
+  if (data) {
+    isEditable = data.isEditable;
+    decimals = data.decimals;
+    label = data.label;
+    bounds = data.bounds;
+    precision = data.precision;
+  }
 
   var nodeFeatures = {
     width: 96,
