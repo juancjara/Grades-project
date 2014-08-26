@@ -7,7 +7,7 @@ h3 {
 
 }
 
-circle, rect {
+circle, rect { 
   fill:white;
   stroke:steelblue;  
   stroke-width:2px;
@@ -48,6 +48,9 @@ line{
   z-index: 1;
 }
 
+#grades-container h4 {
+  text-align: center;
+}
 
 .nav-sidebar {
   margin-right: -21px; 
@@ -196,6 +199,7 @@ line{
   background-color: black;
   background: #222;
   color: white;
+  cursor: pointer;
   font-size: 18px;
   height: 50px;
   line-height: 50px;

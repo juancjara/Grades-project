@@ -5,6 +5,17 @@ var main = {
     var $left_panel = $("#left-panel");
     var width_sidebar = parseInt($left_panel.css('width'));
     var $toggle_sidebar = $("#toggle-left-panel");
+    var NodeMgr = null;
+
+    d3.xml('node_template.svg', 'image/svg+xml', function(error, data) {
+      var nodeTemplate = data.documentElement.getElementById('node-template');
+      NodeMgr = NodeMgrGen(d3.select('#nodes'), 
+                           d3.select('#edges'),
+                           nodeTemplate, 
+                           {x: 900, y: 60});
+      //NodeMgr.newTree();
+      //$("#formula").on('click',NodeMgr.getFormula);
+    });
 
     var toggle_sidebar = function(e) {
       
@@ -21,11 +32,22 @@ var main = {
     };
     $toggle_sidebar.on('click', toggle_sidebar);
 
-    var selected_handler = function(course, elem) {
+    function clean() {
       $('#left-panel .active').removeClass('active');
       elem.addClass('active');
       $('.click-menu').hide();
       elem.find('.click-menu').show();
+    };
+
+    var selected_handler = function(course, elem) {
+      clean();
+      console.log(course);
+      if (course.formula) {
+        NodeMgr.import(JSON.parse(course.formula));
+      }
+      else{
+        NodeMgr.newTree();
+      }
       //console.log(course);
       //TODO: nodemanager iniciar con curso con getformula
       //iniciar template utilizar id y jugar con formula nomas

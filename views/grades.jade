@@ -37,20 +37,14 @@ html(lang='eng')
           button(id='my-courses', class='btn btn-primary') Mis cursos
           ul(id='course-list', class='nav nav-sidebar')
 
-          div(class='nav nav-sidebar')
-            button(id='simulate', class='btn btn-default') Simular
-          div(id='controls', class='nav nav-sidebar') 
-            input(type='text', id='controls-label', class='form-control', placeholder='Etiqueta')
-            input(type='text', id='controls-grade', class='form-control', placeholder='Nota')
-            button(id='controls-erase', class='btn btn-default') Eliminar
-            button(id='controls-add', class='btn btn-default') Agregar Prueba
-            button(id='controls-save', class='btn btn-default') Guardar
-        button#toggle-left-panel
+        button#toggle-left-panel  
             span.sr-only
             span.icon-bar
             span.icon-bar
             span.icon-bar
-        div(id='grades-container', class='col-sm-9 col-md-10') GG
+        h4(id="course-name") Fisica
+        div(id='grades-container', class='col-sm-9 col-md-10')
+
 
     div(id='messages', class='center-block')
     div(id='spin')
@@ -70,7 +64,6 @@ html(lang='eng')
             onclick= "window.open('https://plus.google.com/share?ur\l=www.joindota.com', 'Share to Google+','width=600,height=460,menubar=no,location=no,status=no')")
             span(class='social-text') Google+
 
-    include ./includes/footer.jade
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")
     script(src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js")
     script(src="http://d3js.org/d3.v3.min.js")
