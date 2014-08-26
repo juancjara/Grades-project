@@ -5,7 +5,8 @@ var mongoose = require('mongoose'),
 var courseSchema = new Schema({
   name:  String,
   formula: String,
-  shared: {type: Boolean, default: false}
+  shared: {type: Boolean, default: false},
+  votes: Number
 });
 
 var cleanData = function(formula) {
@@ -28,24 +29,31 @@ courseSchema.statics.share = function(id, cb) {
     function(err, course) {
       if (err) return cb(err);
       var baseFormula = cleanData();
-      var clone = new Course({name: course.name, shared: true, formula: baseFormula});
+      var clone = new Course({name: course.name, shared: true, formula: baseFormula, votes: 0});
       clone.save(cb);
     });
 };
+
 
 courseSchema.statics.add = function(params, cb) {
   Course.findById(params.id).exec(
     function(err, course){
       if (err) return cb(err);
-      var clone = new Course({name: course.name, formula: course.formula});
-      clone.save(function(err) {
-        if (err) return cb(err);
-        mongoose.model('User').addCourse({userId: params.userId, id: clone._id},
-          function(err) {
+      var votes = course.votes + 1;
+      Course.findByIdAndUpdate(params.id, {votes: votes},
+        function(err) {
+          if (err) return cb(err);
+          var clone = new Course({name: course.name, formula: course.formula});
+          clone.save(function(err) {
             if (err) return cb(err);
-            return cb(null, clone);
+            mongoose.model('User').addCourse({userId: params.userId, id: clone._id},
+              function(err) {
+                if (err) return cb(err);
+                return cb(null, clone);
+              });
           });
-      });
+        }
+      );
     }
   );
 };
@@ -103,7 +111,7 @@ courseSchema.statics.search = function(nameParam, cb) {
   Course.find({
     name: new RegExp('^'+nameParam+'.*$', 'i'),
     shared: true
-    }, {name: 1}, cb);
+    }, {name: 1}, {sort: {votes: -1}}, cb);
 };
 
 var Course = module.exports = mongoose.model('Course', courseSchema);
