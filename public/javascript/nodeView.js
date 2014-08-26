@@ -387,7 +387,7 @@ var NodeMgrGen =
 
       function addChildren(id, node) {
         var children = node.children;
-        for (var i = 0; i < children.length, i++){
+        for (var i = 0; i < children.length; i++){
           var info = nodeManager.addNode(id, children[i]);
           addChildren(info.id, children[i]);
         }
@@ -409,6 +409,7 @@ window.addEventListener('load', function(){
                          d3.select('#edges'),
                          nodeTemplate, 
                          {x: 900, y: 60});
+    NodeMgr.newTree();
     $("#formula").on('click',NodeMgr.getFormula);
   });
 });
@@ -564,9 +565,11 @@ function Node(nodeId, nodeView, data){
     },
     formatFormula: function() {
       return {
-        _id: id,
-        grade: grade,
+        isEditable: isEditable,
+        decimals: decimals
         label: label,
+        bounds: bounds,
+        precision: precision,
         children: []
       };
     }
