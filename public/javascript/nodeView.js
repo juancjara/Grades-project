@@ -376,14 +376,18 @@ var NodeMgrGen =
     },
     newTree: function() {
       nodeManager.cleanSvg();
-      root = nodeManager.createNode().node;
+      var nodeInfo = nodeManager.createNode();
+      root = nodeInfo.node;
+      rootId = root.id;
       root.setOrigin(rootOrigin);
       nodeManager.appendChange(root.moveTo(rootOrigin));
       nodeManager.animateChanges();    
     },
     import: function(tree) {
       nodeManager.cleanSvg();
-      root = nodeManager.createNode(tree).node;
+      var nodeInfo = nodeManager.createNode();
+      root = nodeInfo.node;
+      rootId = nodeInfo.id;
       root.setOrigin(rootOrigin);
       nodeManager.appendChange(root.moveTo(rootOrigin));
       nodeManager.animateChanges();
