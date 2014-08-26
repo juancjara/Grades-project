@@ -42,7 +42,6 @@ var main = {
         NodeMgr.import(JSON.parse(course.formula));
       }
       else{
-        console.log("no formula");
         NodeMgr.newTree();
       }
       //console.log(course);

@@ -378,7 +378,7 @@ var NodeMgrGen =
       nodeManager.cleanSvg();
       var nodeInfo = nodeManager.createNode();
       root = nodeInfo.node;
-      rootId = root.id;
+      rootId = nodeInfo.id;
       root.setOrigin(rootOrigin);
       nodeManager.appendChange(root.moveTo(rootOrigin));
       nodeManager.animateChanges();    
@@ -391,9 +391,8 @@ var NodeMgrGen =
       root.setOrigin(rootOrigin);
       nodeManager.appendChange(root.moveTo(rootOrigin));
       nodeManager.animateChanges();
-
-      var actualId = root.id;
-
+      addChildren(rootId, root);
+      
       function addChildren(id, node) {
         var children = node.children;
         for (var i = 0; i < children.length; i++){
@@ -407,21 +406,6 @@ var NodeMgrGen =
   return nodeManager;
 };
 
-var NodeMgr = null;
-/*
-window.addEventListener('load', function(){
-  d3.xml('node_template.svg', 'image/svg+xml', function(error, data) {
-    var nodeTemplate = data.documentElement.getElementById('node-template');
-    NodeMgr = NodeMgrGen(d3.select('#nodes'), 
-                         d3.select('#edges'),
-                         nodeTemplate, 
-                         {x: 900, y: 60});
-    NodeMgr.newTree();
-    $("#formula").on('click',NodeMgr.getFormula);
-  });
-});
-
-*/
 function Edge(oBegin, oEnd, edgeView) {
   var begin = oBegin; 
   var end = oEnd;
