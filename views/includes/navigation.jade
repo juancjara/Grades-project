@@ -1,11 +1,13 @@
-.container
-  .header
-    ul(class='nav nav-pills pull-right')
-      li#home
-        a(href='/') Home
-      li#about
-        a(href='about') Contacto
-      li
-        a(href='logout', title='Cerrar sesión')
-          span(class='glyphicon glyphicon-log-out')
-    h3.text-muted Notas Pucp
+div(class='container pull-right')
+  ul(class='nav nav-pills pull-right')
+    li#about
+      a(href='about') Contacto
+    li
+      a(id='save-formula' href="#")
+        span(class='glyphicon glyphicon-floppy-disk')
+    li
+      a(href='logout', title='Cerrar sesión')
+        span(class='glyphicon glyphicon-log-out')
+  h3.text-muted 
+    span Notas 
+    span(id="course-name") Pucp

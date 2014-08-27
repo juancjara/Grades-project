@@ -26,13 +26,13 @@ var course = function(apiWS, msg, strings) {
     if (handler.selected_handler) {
       api_ws.consume('getFormulaCourse', {id: course._id}, function(res) {
         handler.selected_handler(res,courseHTML);
-        $("#save-formula").on('click', function() {
+        $("#save-formula").on('click', function(event) {
+          event.stopPropagation();
           save_formula(course);
         }).show();
       });
     }
   };
-
 
   var on_share = function(id) {
     api_ws.consume('shareCourse', {id: id},
