@@ -4,7 +4,14 @@ h3 {
   margin-top: 5px;
   margin-left: 30px;
   text-align: center;
+}
 
+.tooltip {
+  z-index: 99999;
+}
+
+#home {
+  text-decoration: none;
 }
 
 circle, rect { 
@@ -220,7 +227,8 @@ line{
   overflow: visible;
   position: fixed;
   right: 0px;
-  top: 50%;    
+  top: 50%;
+  z-index: 99999;
 }
 
 .social-sidebar .social-icon {

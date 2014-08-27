@@ -1,20 +1,22 @@
 NodeMgr = null;
 
 var main = {
-  init: function(api, strings) {
-    var courseList = courseSearch(api, main, strings);
-    var my_list = course(api, main, strings);
-    var $left_panel = $("#left-panel");
-    var width_sidebar = parseInt($left_panel.css('width'));
-    var $toggle_sidebar = $("#toggle-left-panel");
-
+  load: function(api, strings) {
     d3.xml('node_template.svg', 'image/svg+xml', function(error, data) {
       var nodeTemplate = data.documentElement.getElementById('node-template');
       NodeMgr = NodeMgrGen(d3.select('#nodes'), 
                            d3.select('#edges'),
                            nodeTemplate, 
                            {x: 900, y: 60});
+      main.init(api, strings);
     });
+  },
+  init: function(api, strings) {
+    var courseList = courseSearch(api, main, strings);
+    var my_list = course(api, main, strings);
+    var $left_panel = $("#left-panel");
+    var width_sidebar = parseInt($left_panel.css('width'));
+    var $toggle_sidebar = $("#toggle-left-panel");
 
     var toggle_sidebar = function(e) {
       
@@ -45,16 +47,25 @@ var main = {
       }
     };
 
+    var remove_tree = function() {
+      $('#save-formula').hide().off('click');
+      $('#course-name').text("");      
+      NodeMgr.cleanSvg();
+
+    };
+
     var get_formula = function() {
       return JSON.stringify(NodeMgr.export());
-    }
+    };
 
     my_list.selected_handler = selected_handler;
     my_list.get_formula = get_formula;
+    my_list.remove = remove_tree;
 
     courseList.add_handler = my_list.add;
     courseList.selected_handler = selected_handler;
     courseList.new_course_handler = my_list.create;
+    courseList.remove = remove_tree();
   },
   config: {
     msg_template: {
@@ -89,6 +100,5 @@ var main = {
   }
 }
 $(function() {
-  $('#home').addClass('active');
-  main.init(api, strings);
+  main.load(api, strings);
 });
