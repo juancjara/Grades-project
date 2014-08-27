@@ -6,6 +6,10 @@ h3 {
   text-align: center;
 }
 
+.tooltip {
+  z-index: 99999;
+}
+
 #home {
   text-decoration: none;
 }
