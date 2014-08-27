@@ -12,8 +12,9 @@ var courseSchema = new Schema({
 
 var cleanData = function(formula) {
   //TODO
-  return formula;
-  /*var bounds = {upper: 20, lower: 0};
+  //return formula;
+  var bounds = {upper: 20, lower: 0};
+  console.log("GG");
   var eva = JSON.parse(formula);
   function clean(eva) {
     eva.bounds = bounds;
@@ -22,14 +23,16 @@ var cleanData = function(formula) {
       clean(children[i]);
     };
   }
-  return JSON.stringify(eva);*/
+  clean(eva);
+  return JSON.stringify(eva);
 };
 
 courseSchema.statics.share = function(params, cb) {
+  console.log(params.courseId);
   Course.findById(params.courseId).exec( 
     function(err, course) {
       if (err) return cb(err);
-      var baseFormula = cleanData();
+      var baseFormula = cleanData(course.formula);
       var clone = new Course({
         name: course.name,
         shared: true,

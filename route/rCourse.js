@@ -68,7 +68,7 @@ exports.update = function(req, res){
 }
 
 exports.getFormula = function(req, res) {
-  getData(req.body.id, {formula: 1, _id: 0}, res);
+  getData(req.body.id, {formula: 1, name: 1}, res);
 }
 
 exports.search = function(req, res) {

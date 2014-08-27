@@ -5,6 +5,7 @@ var course = function(apiWS, msg, strings) {
   var $course_ul = $('#course-list');
   var $btn_my_courses = $('#my-courses');
 
+
   $btn_my_courses.on('click',function(){
     $course_ul.toggle('slow');
   });
@@ -23,7 +24,12 @@ var course = function(apiWS, msg, strings) {
 
   var on_selected = function(course, courseHTML) {
     if (handler.selected_handler) {
-      handler.selected_handler(course,courseHTML);
+      api_ws.consume('getFormulaCourse', {id: course._id}, function(res) {
+        handler.selected_handler(res,courseHTML);
+        $("#save-formula").on('click', function() {
+          save_formula(course);
+        }).show();
+      });
     }
   };
 
@@ -59,6 +65,20 @@ var course = function(apiWS, msg, strings) {
 
   var off_click_outside = function() {
     $('html').off('click.edit');
+  };
+
+  var save_formula = function(course) {
+
+    var data = {
+      id: course._id,
+      formula: handler.get_formula()
+    }
+    
+    api_ws.consume('updateCourse', data , 
+      function(res) {
+        if(res.msg != 'OK') return console.log('error'.res.msg);
+        msg.show_ok_msg(strings.course_edit_ok);
+    });
   };
 
   var on_edit = function(course, courseHTML) {
@@ -171,7 +191,8 @@ var course = function(apiWS, msg, strings) {
   var handler = {
     selected_handler: null,
     add : add_course,
-    create: create_course
+    create: create_course,
+    get_formula: null
   };
 
   return handler;
