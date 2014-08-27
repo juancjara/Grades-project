@@ -28,7 +28,8 @@ var courseSearch = function(apiWS, msg, strings) {
   var search = {
     selected_handler: null,
     add_handler: null,
-    new_course_handler: null
+    new_course_handler: null,
+    remove: null
   };
 
   var on_selected = function(course, courseHTML) {
@@ -41,6 +42,7 @@ var courseSearch = function(apiWS, msg, strings) {
 
   var on_remove = function(courseHTML) {
     courseHTML.remove();
+    search.remove();
   };
 
   var on_add = function(idParam) {

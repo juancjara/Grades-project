@@ -372,6 +372,8 @@ var NodeMgrGen =
     cleanSvg: function() {
       if (root) {
         nodeManager.removeNode(rootId, true);
+        root = null;
+        rootId = null;
       }
       nodeContainer.selectAll("*").remove();
       edgeContainer.selectAll("*").remove();

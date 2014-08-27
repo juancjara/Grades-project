@@ -27,7 +27,6 @@ var course = function(apiWS, msg, strings) {
       api_ws.consume('getFormulaCourse', {id: course._id}, function(res) {
         handler.selected_handler(res,courseHTML);
         $("#save-formula").on('click', function(event) {
-          save_formula(course);
           save_formula(course._id);
         }).show();
       });
@@ -142,6 +141,7 @@ var course = function(apiWS, msg, strings) {
         if(res.msg != 'OK') return console.log('error'.res.msg);
         courseHTML.remove();
         msg.show_ok_msg(strings.course_remove_ok);
+        handler.remove();
     });
   };
 
@@ -197,7 +197,8 @@ var course = function(apiWS, msg, strings) {
     selected_handler: null,
     add : add_course_from_list,
     create: create_course,
-    get_formula: null
+    get_formula: null,
+    remove: null
   };
 
   return handler;
