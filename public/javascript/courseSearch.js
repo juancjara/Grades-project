@@ -56,8 +56,8 @@ var courseSearch = function(apiWS, msg, strings) {
   var format_course = function(course) {
     var template = '<li class="course"><a><span class="name">'+course.name+'</span>'+
         '<span class="menu-icon click-menu">'+
-        '<span class="add glyphicon glyphicon-floppy-disk"></span>'+
-        '<span class="remove glyphicon glyphicon-remove"></span></a>'+
+        '<span class="add glyphicon glyphicon-floppy-disk" title="Agregar a mis cursos"></span>'+
+        '<span class="remove glyphicon glyphicon-remove" title="Eliminar de búsqueda"></span></a>'+
         '</a></li>'     
     return $(template);
   };
