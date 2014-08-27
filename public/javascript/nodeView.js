@@ -370,29 +370,32 @@ var NodeMgrGen =
       redraw();
     },
     cleanSvg: function() {
+
       if (root) {
         nodeManager.removeNode(rootId, true);
       }
+      nodeContainer.selectAll("*").remove();
+      edgeContainer.selectAll("*").remove();
+
     },
     newTree: function() {
       nodeManager.cleanSvg();
       var nodeInfo = nodeManager.createNode();
       root = nodeInfo.node;
       rootId = nodeInfo.id;
-      root.setOrigin(rootOrigin);
+      root.setOrigin(rootOrigin, true);
       nodeManager.appendChange(root.moveTo(rootOrigin));
       nodeManager.animateChanges();    
     },
     import: function(tree) {
       nodeManager.cleanSvg();
-      var nodeInfo = nodeManager.createNode();
+      var nodeInfo = nodeManager.createNode(tree);
       root = nodeInfo.node;
       rootId = nodeInfo.id;
-      root.setOrigin(rootOrigin);
+      root.setOrigin(rootOrigin, true);
       nodeManager.appendChange(root.moveTo(rootOrigin));
       nodeManager.animateChanges();
-      addChildren(rootId, root);
-      
+      addChildren(rootId, tree);
       function addChildren(id, node) {
         var children = node.children;
         for (var i = 0; i < children.length; i++){
@@ -669,7 +672,7 @@ function Node(nodeId, nodeView, data){
     });
   STrunk.on('click', function() {
     trunk = 1 - trunk;
-    STrunk.text(arrPrecision[trunk]);
+    STrunk.text(arrTrunk[trunk]);
     NodeMgr.simulate();
   });
   SDeleteMin.on('click', function() {

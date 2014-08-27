@@ -1,3 +1,5 @@
+NodeMgr = null;
+
 var main = {
   init: function(api, strings) {
     var courseList = courseSearch(api, main, strings);
@@ -5,7 +7,6 @@ var main = {
     var $left_panel = $("#left-panel");
     var width_sidebar = parseInt($left_panel.css('width'));
     var $toggle_sidebar = $("#toggle-left-panel");
-    var NodeMgr = null;
 
     d3.xml('node_template.svg', 'image/svg+xml', function(error, data) {
       var nodeTemplate = data.documentElement.getElementById('node-template');
@@ -13,8 +14,6 @@ var main = {
                            d3.select('#edges'),
                            nodeTemplate, 
                            {x: 900, y: 60});
-      //NodeMgr.newTree();
-      //$("#formula").on('click',NodeMgr.getFormula);
     });
 
     var toggle_sidebar = function(e) {
@@ -36,20 +35,22 @@ var main = {
       $('#left-panel .active').removeClass('active');
       elem.addClass('active');
       $('.click-menu').hide();
+      $('#save-formula').hide().off('click');
+      $('#course-name').text(course.name);
       elem.find('.click-menu').show();
-      console.log(course);
       if (course.formula) {
         NodeMgr.import(JSON.parse(course.formula));
-      }
-      else{
+      } else {
         NodeMgr.newTree();
       }
-      //console.log(course);
-      //TODO: nodemanager iniciar con curso con getformula
-      //iniciar template utilizar id y jugar con formula nomas
     };
 
+    var get_formula = function() {
+      return JSON.stringify(NodeMgr.export());
+    }
+
     my_list.selected_handler = selected_handler;
+    my_list.get_formula = get_formula;
 
     courseList.add_handler = my_list.add;
     courseList.selected_handler = selected_handler;
