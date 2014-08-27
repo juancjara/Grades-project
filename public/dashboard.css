@@ -227,7 +227,8 @@ line{
   overflow: visible;
   position: fixed;
   right: 0px;
-  top: 50%;    
+  top: 50%;
+  z-index: 99999;
 }
 
 .social-sidebar .social-icon {
