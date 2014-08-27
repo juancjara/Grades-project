@@ -294,7 +294,7 @@ var NodeMgrGen =
       };
       return nodeInfo;
     },
-    addNode: function(nodeKey, data) {
+    addNode: function(nodeKey, data, noDraw) {
       var childInfo = nodeManager.createNode(data); 
       var child = childInfo.node;
       var childId = childInfo.id;
@@ -312,7 +312,7 @@ var NodeMgrGen =
 
       var edge = nodeManager.createEdge(nodeKey, childId);
       
-      redraw();
+      if (!noDraw) { redraw(); };
       nodeManager.animateChanges();
       return childInfo;
     }, 
@@ -370,7 +370,6 @@ var NodeMgrGen =
       redraw();
     },
     cleanSvg: function() {
-
       if (root) {
         nodeManager.removeNode(rootId, true);
         root = null;
@@ -378,7 +377,6 @@ var NodeMgrGen =
       }
       nodeContainer.selectAll("*").remove();
       edgeContainer.selectAll("*").remove();
-
     },
     newTree: function() {
       nodeManager.cleanSvg();
@@ -401,10 +399,11 @@ var NodeMgrGen =
       function addChildren(id, node) {
         var children = node.children;
         for (var i = 0; i < children.length; i++){
-          var info = nodeManager.addNode(id, children[i]);
+          var info = nodeManager.addNode(id, children[i], true);
           addChildren(info.id, children[i]);
         }
       }
+      redraw();
     }
   }; 
 
@@ -470,13 +469,6 @@ function Node(nodeId, nodeView, data){
   var STrunk = d3.select(view).select('#trunk-behavior');
   var SDeleteMin = d3.select(view).select('#delete-min');
 
-  if (data) {
-    decimals = data.decimals;
-    label = data.label;
-    bounds = data.bounds;
-    trunk = data.trunk;
-    deleteMin = data.deleteMin;
-  }
 
   var nodeFeatures = {
     width: 96,
@@ -491,6 +483,33 @@ function Node(nodeId, nodeView, data){
   }
 
   var node = {
+    setData: function(data) {
+      node.setDecimals(data.decimals);
+      node.setLabel(data.label);
+      node.setBounds(data.bounds);
+      node.setTrunkBehavior(data.trunk);
+      node.setWeight(data.weight);
+      node.setDeleteMinimum(data.deleteMin);
+    },
+    setDecimals: function(dec) {
+      decimals = dec;
+      updateNumbers(dec); 
+    },
+    setLabel: function(lbl) {
+      if (!lbl || lbl == "") {
+        lbl = "-"; 
+      }
+      label = lbl; 
+      d3.select(view).select("#label").text(label);
+    },
+    setTrunkBehavior: function(trnk) {
+      STrunk.text(arrTrunk[trnk]);
+      trunk = trunk; 
+    },
+    setDeleteMinimum: function(shouldDeleteMinimum) {
+      SDeleteMin.text(arrDelete[shouldDeleteMinimum]);
+      deleteMin = shouldDeleteMinimum;
+    },
     setEditable: function (canEdit) {
       isEditable = canEdit; 
     },
@@ -500,6 +519,13 @@ function Node(nodeId, nodeView, data){
         d3.select(view)
           .attr('transform', 'translate('+origin.x+','+origin.y+')');
       }
+    },
+    setWeight: function(nWeight) {
+      if (!nWeight) {
+        nWeight = 1; 
+      }
+      weight = parseInt(nWeight); 
+      d3.select(view).select("#weight").text(nWeight);
     },
     getOrigin: function() {
       return transformTo(origin, +1);
@@ -570,16 +596,21 @@ function Node(nodeId, nodeView, data){
     },
     formatFormula: function() {
       return {
-        isEditable: isEditable,
-        decimals: decimals,
-        label: label,
         bounds: bounds,
-        trunk: trunk,
+        children: [],
+        decimals: decimals,
         deleteMin: deleteMin,
-        children: []
+        isEditable: isEditable,
+        label: label,
+        trunk: trunk,
+        weight: weight
       };
     }
   };
+
+  if (data) {
+    node.setData(data);
+  }
 
   function updateNumbers(decs) {
      var numbs = ['max', 'min'];
