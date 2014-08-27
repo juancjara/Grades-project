@@ -89,6 +89,5 @@ var main = {
   }
 }
 $(function() {
-  $('#home').addClass('active');
   main.init(api, strings);
 });
