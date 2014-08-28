@@ -148,9 +148,9 @@ var course = function(apiWS, msg, strings) {
   var format_course = function(course) {
     var template = '<li class="course"><a><span class="name">'+course.name+'</span>'+
         '<span class="menu-icon click-menu">'+
-        '<span class="share glyphicon glyphicon-cloud"></span>'+
-        '<span class="edit glyphicon glyphicon-pencil"></span>'+
-        '<span class="remove glyphicon glyphicon-remove"></span></a>'+
+        '<span class="share glyphicon glyphicon-cloud" title="Compartir"></span>'+
+        '<span class="edit glyphicon glyphicon-pencil" title="Editar"></span>'+
+        '<span class="remove glyphicon glyphicon-remove" title="Eliminar"></span></a>'+
         '</a></li>'     
     return $(template);
   };

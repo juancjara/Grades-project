@@ -150,21 +150,6 @@ line{
   display: none;
 }
 
-.sidebar {
-  background-color: #f5f5f5;
-  border-right: 1px solid #eee;
-  bottom: 0;
-  left: -300px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding: 20px;
-  position: fixed;
-  top: 0px;
-  width: 300px;
-  z-index: 1000;
-}
-
-
 #course-search {
   margin-bottom: 0;
   margin-top: 15px;
@@ -201,6 +186,20 @@ line{
 
 /* social sidebar */
 
+.sidebar {
+  background-color: #f5f5f5;
+  border-right: 1px solid #eee;
+  bottom: 0;
+  left: -300px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 20px;
+  position: fixed;
+  top: 0px;
+  width: 300px;
+  z-index: 1000;
+}
+
 .social-sidebar a {
   background-color: black;
   background: #222;
@@ -216,6 +215,11 @@ line{
   width: 50px;
 }
 
+.social-sidebar .glyphicon {
+  margin-left: 0px;
+  top: 0px;
+}
+
 .social-sidebar ul {
   list-style: none;
   margin: 0;
@@ -229,10 +233,6 @@ line{
   right: 0px;
   top: 50%;
   z-index: 99999;
-}
-
-.social-sidebar .social-icon {
-  float:right;
 }
 
 .social-sidebar .social-text {
@@ -289,6 +289,11 @@ line{
     border-left: 10px solid #dd4b39;
 }
 
+.social-sidebar li:nth-child(4) a:hover,
+.social-sidebar li:nth-child(4) .social-text { background: #444 }
+.social-sidebar li:nth-child(4) .social-text:after {
+    border-left: 10px solid #444;
+}
 
 @media (min-width: 970px) {
   .sidebar {
@@ -302,4 +307,45 @@ line{
     left: 300px;
     z-index: 2;
   }
+}
+
+/* help page*/
+
+/*#faq {
+  counter-reset: my_counter;
+}
+#faq .question:before {
+  content: counter(my_counter);
+  counter-increment: my_counter;
+}*/
+
+#faq .question{
+  font-size: 1.4em;
+}
+
+#faq .answer{
+  font-size: 1.2em;
+  padding-left: 1em;
+}
+
+#faq .question,
+#faq .answer {
+  text-align: justify;
+}
+
+#faq a {
+  text-decoration: none;
+}
+
+#faq {
+  margin-top: 2em;
+}
+
+#faq .glyphicon {
+  padding-left: 3px;
+  padding-right: 3px;
+}
+#faq .red {
+  color: red;
+  font-weight: bold;
 }

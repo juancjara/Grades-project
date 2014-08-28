@@ -38,6 +38,7 @@ var redirect_url = {
 
 app.get('/index', rApp.index);
 app.get('/about', rApp.about);
+app.get('/help', rApp.help);
 app.get('/', rApp.login);
 app.get('/logout', rApp.logout);
 
