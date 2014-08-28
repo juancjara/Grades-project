@@ -1,14 +1,14 @@
-var express = require('express'),
-  session = require("express-session"),
-  bodyParser = require('body-parser'),
-  rCourse = require('./route/rCourse.js'),
-  rUser = require('./route/rUser.js'),
-  rApp = require('./route/rApp.js'),
-  mongoose = require('mongoose'),
-  path = require("path"),
-  app = express(),
-  passport = require('passport'),
-  config = require('./config.js');
+var express = require('express');
+var session = require("express-session");
+var bodyParser = require('body-parser');
+var rCourse = require('./route/rCourse.js');
+var rUser = require('./route/rUser.js');
+var rApp = require('./route/rApp.js');
+var mongoose = require('mongoose');
+var path = require("path");
+var app = express();
+var passport = require('passport');
+var config = require('./config.js');
 
 require('./passport.js')(passport);
 

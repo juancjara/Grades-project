@@ -181,12 +181,12 @@ var NodeMgrGen =
       if (vertex.isLeaf()) {
          return;
       }
-      var left = x - (vertex.getLeafNumber()*50);
+      var left = x - (vertex.getLeafNumber() * 40);
       vertex.forEachChild(function(childId) {
         child = getVertex(childId); 
-        var width = child.getLeafNumber() * 50;   
+        var width = child.getLeafNumber() * 40;   
         left += width;
-        updatePosition(childId, left, y + 150);
+        updatePosition(childId, left, y + 110);
         left += width;
       });
     } 
@@ -565,6 +565,7 @@ function Node(nodeId, nodeView, data){
     moveTo: function(newOrigin) {
       node.setOrigin(newOrigin);
       return function() {
+        d3.select(view).select('#container').classed('leaf', isEditable);
         node.show();
         d3.select(view)
           .transition()
@@ -698,21 +699,25 @@ function Node(nodeId, nodeView, data){
   d3.select(view).select('#add')
     .on('click', function() {
       NodeMgr.addNode(id); 
-    });
+    })
+    .style('pointer-events', 'bounding-box');
   d3.select(view).select("#remove")
     .on('click', function() {
       NodeMgr.removeNode(id); 
-    });
+    })
+    .style('pointer-events', 'bounding-box');
   STrunk.on('click', function() {
     trunk = 1 - trunk;
     STrunk.text(arrTrunk[trunk]);
     NodeMgr.simulate();
-  });
+  })
+  .style('pointer-events', 'bounding-box');
   SDeleteMin.on('click', function() {
     deleteMin = 1 - deleteMin; 
     SDeleteMin.text(arrDelete[deleteMin]);
     NodeMgr.simulate();
-  });
+  })
+  .style('pointer-events', 'bounding-box');
   d3.select(view).select('#inc-decimals')
     .on('click', function() {
       decimals++;
@@ -721,7 +726,8 @@ function Node(nodeId, nodeView, data){
       }
       NodeMgr.simulate();
       updateNumbers(decimals);
-    });
+    })
+  .style('pointer-events', 'bounding-box');
   d3.select(view).select('#dec-decimals')
     .on('click', function() {
       decimals--;
@@ -730,7 +736,8 @@ function Node(nodeId, nodeView, data){
       }
       NodeMgr.simulate();
       updateNumbers(decimals);
-    });
+    })
+  .style('pointer-events', 'bounding-box');
   return node;
 }
 
