@@ -13,7 +13,19 @@ html(lang='eng')
     link(rel='stylesheet', href='dashboard.css')
 
   body
-    include ./includes/navigation.jade
+    .container
+      ul(class='nav nav-pills pull-right')
+        li
+          a(href='/index') Notas
+        li
+          a(href='/help') Ayuda
+        li#about
+          a(href='about') Contacto
+        li
+          a(href='logout', title='Cerrar sesión')
+            span(class='glyphicon glyphicon-log-out') 
+      a(href='/index', id="home")
+        h3.text-muted Notas Pucp
     .container
       .row
         h1 Contáctanos
@@ -26,11 +38,10 @@ html(lang='eng')
           fieldset
             .form-group
               select(id='msg-type', class='form-control')
-                option Seleccionar
-                option Error
-                option Comentario
-                option go doto?
-                option idea para rediseño
+                option Comentario o sugerencia
+                option Error o bug en la página
+                option go doto? Si yo también me engaño en dota 2
+                option Idea para el rediseño de la página
             .form-group
               label Título
               input(id='title', type='text', class='form-control')

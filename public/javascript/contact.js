@@ -12,7 +12,7 @@ var contact = {
         $("#text").text("Enviado");
         $(".alert").show();
         setTimeout(function() {
-        $(".alert").fadeOut('slow')},1000);
+        $(".alert").fadeOut('slow')},5000);
         e.preventDefault();
       });
     });
