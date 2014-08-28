@@ -4,7 +4,10 @@ h3 {
   margin-top: 5px;
   margin-left: 30px;
   text-align: center;
+}
 
+#home {
+  text-decoration: none;
 }
 
 circle, rect { 
