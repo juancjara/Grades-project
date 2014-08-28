@@ -1,0 +1,151 @@
+doctype
+html(lang='eng')
+  head 
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Grades app
+    link(rel='stylesheet', href='css/normalize.min.css')
+    link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Oleo+Script')
+    link(rel='stylesheet', href='css/font-awesome.min.css')
+
+  script(type='text/javascript').
+      !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+
+  if production
+    link(rel='stylesheet', href='css/min/dashboard.min.css')
+  else
+    link(rel='stylesheet', href='dashboard.css')
+  
+
+  body
+    .social-sidebar
+      ul
+        li
+          a(class='fa fa-facebook',
+            href='#',onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=www.joindota.com','facebook-share-dialog','width=626,height=436');return false;")
+            span(class='social-text') Facebook
+        li
+          a(class='fa fa-twitter', data-dnt='true'
+            href='https://twitter.com/intent/tweet?url=http://www.joindota.com&button_hashtag=notasPucp')
+            span(class='social-text') Twitter
+        li
+          a(class='fa fa-google-plus',
+            onclick= "window.open('https://plus.google.com/share?ur\l=www.joindota.com', 'Share to Google+','width=600,height=460,menubar=no,location=no,status=no')")
+            span(class='social-text') Google+
+
+    div.container
+      ul(class='nav nav-pills pull-right')
+        li
+          a(href='/index') Notas
+        li#about
+          a(href='about') Contacto
+        li
+          a(href='logout', title='Cerrar sesión')
+            span(class='glyphicon glyphicon-log-out') 
+      a(href='/index', id="home")
+        h3.text-muted Notas Pucp
+
+      section(id='faq')
+        h2.text-left  Preguntas Frecuentes
+        div(class='question', data-toggle='collapse', data-target='#a1')
+          a(href='#') 1. ¿Cómo busco un curso?
+
+        div(id='a1' ,class='answer collapse in')
+          p En el menú de la izquierda debes ingresar el curso que desees buscar.
+            | En caso el curso exista (fue compartido por alguna buena persona) puedes
+            | seleccionar para visualizar su fórmula y agregarlo a tus 
+            | cursos haciendo click sobre
+            span(class='glyphicon glyphicon-floppy-disk')
+            | .
+
+        div(class='question', data-toggle='collapse', data-target='#a2')
+          a(href='#') 2. ¿Qué hago si el curso que busco no existe?
+
+        div(id='a2' ,class='answer collapse in')
+          p Si la búsqueda de cursos no muestra resultados puedes crear el curso 
+            | haciendo click sobre 
+            span(class='glyphicon glyphicon-plus')
+            | que aparece en el mensaje de la parte inferior, de esta forma el curso 
+            | pasa a formar parte de "Mis Cursos".
+
+        div(class='question', data-toggle='collapse', data-target='#a3')
+          a(href='#') 3. ¿Cómo crear una nueva fórmula?
+
+        div(id='a3' ,class='answer collapse in')
+          p Primero se debe seleccionar un curso y se mostrará la formula en la parte derecha.
+            | Aparece un solo nodo del árbol de fórmulas, cada nodo representa una evaluación
+            | o promedio de evaluaciones.
+            div IMAGEN
+            | Todos los campos a continuación son editables salvo de excepciones (2 y 3).
+            br
+            br
+            | 1. Nombre de la evaluación.
+            br
+            | 2. Valor máximo (valor por defecto 20.00). 
+            | Este campo es editable solo si se encuentra en el último nivel.
+            br
+            | 3. Valor mínimo (valor por defecto 0.00).
+            | Este campo es editable solo si se encuentra en el último nivel.
+            br
+            | 4. El peso del elemento ( en la fórmula: 3PA + 2PB + 3Ex1 + 3Ex2 , el peso del 
+            | Ex1 es de 3.)
+            br
+            | 5. Las flechas permiten incrementar o reducir la cantidad de decimales del rango
+            | de notas (min y max).f
+            br
+            | 6. Permite aumentar subevaluaciones (hijos del nodo).
+            br
+            | 7. Permite eliminar la evaluación y las subevaluaciones.
+            br
+            | 8. Permite definir si los valores del rango de notas (min y max) deben ser 
+            | truncados o redondeados respecto a los decimales definidos.
+            br
+            | 9. Permite establecer si se debe eliminar subevaluación con la nota mínima o no.
+            | Es decir, para obtener el promedio de la evaluación se debe eliminar la menor nota.
+
+            div(class='red') Al editar una fórmula no olvides guardarla haciendo click en el botón
+              | con imagen de disquete en la parte superior derecha.
+
+        div(class='question', data-toggle='collapse', data-target='#a4')
+          a(href='#') 4. Estoy volando, no entendí como crear una formula. ¿Me das un ejemplo?
+
+        div(id='a4', class='answer collapse in')
+          p Solo por esta vez toma un ejemplo:
+            div IMAGEN2
+            | La fórmula de este curso según la intranet sería : 3Pa + 3Pb + 2Ex1 + 2Ex2
+            | Para las prácticas tipo A, se tienen 4 notas y además se debe eliminar 
+            | la práctica con la nota mínima.
+            | Para las prácticas tipo B, se tienen 5 notas y no se debe eliminar la mínima nota.
+            | Las prácticas tipo A tienen peso de 3, las de tipo B peso de 3, el examen 1 tiene peso de 2
+            | y el examen 2 tiene peso de 2.
+            | Asumiendo que te sacaste 13 y 15 en la primera y segunda práctica tipo A respectivamente
+            | pondrías como mínimo y máximo: 13 en la primera práctica tipo A y 15 en la segunda práctica tipo B.
+            br
+            | Para obtener los promedios de las prácticas tipo A y B se debe truncar a un sólo decimal.
+            | Y el promedio general debe ser redondeado a 2 decimales.
+
+        div(class='question', data-toggle='collapse', data-target='#a5')
+          a(href='#') 5. Quiero apoyar pero no quiero darte plata. ¿De qué forma puedo ayudar?
+
+        div(id='a5', class='answer collapse in')
+          p Quería la plata pero si no quieres, la mejor forma de aportar es compartiendo tus cursos y sus
+            | fórmulas para que otras personas puedan utilizarlas. Para compartirlos debes seleccionar tu curso
+            | y dar click sobre 
+            span(class='glyphicon glyphicon-cloud')
+            | . También puedes compartir esta página con tus patas. Y finalmente si tienes alguna sugerencia puedes
+            | hacer click en 
+            a(href="about") Contacto 
+            | y escribirnos.
+
+        div(class='question', data-toggle='collapse', data-target='#a6')
+          a(href='#') 6. Tengo más dudas ¿Qué hago?
+
+        div(id='a6', class='answer collapse in')
+          p Da click en 
+            a(href="about") Contacto 
+            | y escríbenos.
+
+
+  script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")
+  script(src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js")

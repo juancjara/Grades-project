@@ -20,7 +20,11 @@ exports.logout = function(req, res) {
 
 exports.error404 = function(req, res){
   res.render('404');
-}
+};
+
+exports.help = function(req, res){
+  res.render('help');
+};
 
 exports.contact = function(req, res) {
   var contact = new Contact(req.body);
