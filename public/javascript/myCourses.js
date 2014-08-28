@@ -26,7 +26,7 @@ var course = function(apiWS, msg, strings) {
     if (handler.selected_handler) {
       api_ws.consume('getFormulaCourse', {id: course._id}, function(res) {
         handler.selected_handler(res,courseHTML);
-        $("#save-formula").on('click', function(event) {
+        $("#save-formula").on('click', function() {
           save_formula(course._id);
         }).show();
       });
