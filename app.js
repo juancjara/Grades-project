@@ -1,26 +1,27 @@
-var express = require('express');
-var session = require("express-session");
-var bodyParser = require('body-parser');
-var rCourse = require('./route/rCourse.js');
-var rUser = require('./route/rUser.js');
-var rApp = require('./route/rApp.js');
-var mongoose = require('mongoose');
-var path = require("path");
-var app = express();
-var passport = require('passport');
-var config = require('./config.js');
+var express = require('express'),
+  session = require("express-session"),
+  bodyParser = require('body-parser'),
+  rCourse = require('./route/rCourse.js'),
+  rUser = require('./route/rUser.js'),
+  rApp = require('./route/rApp.js'),
+  mongoose = require('mongoose'),
+  path = require("path"),
+  app = express(),
+  passport = require('passport'),
+  config = require('./config.js');
 
 require('./passport.js')(passport);
 
 mongoose.connect(config.db.connectionString);
 
 function isAuthenticated(req, res, next) {
-  /*
-  if( req.user ) return next();
-  res.redirect('/login');
-  */
-  req.user = {_id: '11e42af15f9b16241a4a80f8'}; 
-  next();
+  if(process.env.NODE_ENV == 'dev'){
+    req.user = {_id: '11e42af15f9b16241a4a80f8'}; 
+  }
+  if( req.user ) {
+    return next();
+  }
+  res.redirect('/');
 }
 
 app.set('views', __dirname + '/views');
@@ -36,9 +37,9 @@ var redirect_url = {
   failureRedirect: '/' 
 }
 
-app.get('/index', rApp.index);
-app.get('/about', rApp.about);
-app.get('/help', rApp.help);
+app.get('/index', isAuthenticated, rApp.index);
+app.get('/about', isAuthenticated, rApp.about);
+app.get('/help', isAuthenticated, rApp.help);
 app.get('/', rApp.login);
 app.get('/logout', rApp.logout);
 
@@ -69,7 +70,6 @@ app.post('/Course/getFormula', isAuthenticated, rCourse.getFormula);
 app.post('/Course/add', isAuthenticated, rCourse.add);
 app.post('/Course/share', isAuthenticated, rCourse.share)
 
-app.post('/User/add', rUser.add);
 app.post('/User/getCourses', isAuthenticated, rUser.getCourses);
 
 app.post('/contact', rApp.contact);

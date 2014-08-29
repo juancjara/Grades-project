@@ -4,18 +4,18 @@ html(lang='eng')
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     title Grades app
-    link(rel='stylesheet', href='css/normalize.min.css')
+    link(rel='stylesheet', href='/css/normalize.min.css')
     link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
     link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Oleo+Script')
-    link(rel='stylesheet', href='css/font-awesome.min.css')
+    link(rel='stylesheet', href='/css/font-awesome.min.css')
 
   script(type='text/javascript').
       !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
 
   if production
-    link(rel='stylesheet', href='css/min/dashboard.min.css')
+    link(rel='stylesheet', href='/css/min/dashboard.min.css')
   else
-    link(rel='stylesheet', href='dashboard.css')
+    link(rel='stylesheet', href='/dashboard.css')
   
 
   body
@@ -77,7 +77,8 @@ html(lang='eng')
             | Si es la primera vez que se asigna una fórmula aparece un solo nodo del árbol de fórmulas, 
             | cada nodo representa una evaluación
             | o promedio de evaluaciones.
-            div IMAGEN
+            figure
+              img(src='/images/menuforkids.jpg', alt='menu')
             | Todos los campos a continuación son editables salvo de excepciones (campo 2 y 3).
             br
             br
@@ -90,7 +91,7 @@ html(lang='eng')
             | Este campo es editable solo si se encuentra en el último nivel.
             br
             | 4. El peso del elemento ( en la fórmula: 3PA + 2PB + 3Ex1 + 3Ex2 , el peso del 
-            | Ex1 es de 3.)
+            | Ex1 es de 3). En ese caso el peso se encuentra después del 'X' por lo tanto es 1. 
             br
             | 5. Las flechas permiten incrementar o reducir la cantidad de decimales del rango
             | de notas (min y max).
@@ -100,10 +101,13 @@ html(lang='eng')
             | 7. Permite eliminar la evaluación y las subevaluaciones.
             br
             | 8. Permite definir si los valores del rango de notas (min y max) deben ser 
-            | truncados o redondeados respecto a los decimales definidos.
+            | truncados o redondeados respecto a los decimales definidos. Si muestra una R entonces
+            | los valores serán redondeados , en cambio si se muestra una F los valores serán truncados.
             br
             | 9. Permite establecer si se debe eliminar la subevaluación con la nota mínima o no.
             | Es decir, para obtener el promedio de la evaluación se debe eliminar la menor nota.
+            | Si muestra una N la subevaluación mínima no será eliminada pero si muetra E la menor nota
+            | será eliminada.
 
             div(class='red') Al editar una fórmula no olvides guardarla haciendo click en el botón
               | con imagen de disquete en la parte superior derecha. Sino todas tus modificaciones se
@@ -114,8 +118,10 @@ html(lang='eng')
 
         div(id='a4', class='answer collapse in')
           p Solo por esta vez toma un ejemplo:
-            div IMAGEN2
-            | La fórmula de este curso según la intranet sería : 3Pa + 3Pb + 2Ex1 + 2Ex2
+            div(class='scroll-h')
+              figure
+                img(src='/images/formulaforkids.jpg', alt='menu')
+            | La fórmula de este curso según la intranet sería : 3Pa + 3Pb + 2Ex1 + 2Ex2. 
             | Para las prácticas tipo A, se tienen 4 notas y además se debe eliminar 
             | la práctica con la nota mínima.
             | Para las prácticas tipo B, se tienen 5 notas y no se debe eliminar la mínima nota.

@@ -17,6 +17,11 @@ var main = {
     var $left_panel = $("#left-panel");
     var width_sidebar = parseInt($left_panel.css('width'));
     var $toggle_sidebar = $("#toggle-left-panel");
+    var $help_link = $('#help-link');
+
+    $help_link.on('click', function() {
+      $help_link.toggleClass('red-bg');
+    });
 
     var toggle_sidebar = function(e) {
       

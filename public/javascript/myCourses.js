@@ -3,12 +3,7 @@ var course = function(apiWS, msg, strings) {
   var msg = msg;
   var strings = strings;
   var $course_ul = $('#course-list');
-  var $btn_my_courses = $('#my-courses');
-
-
-  $btn_my_courses.on('click',function(){
-    $course_ul.toggle('slow');
-  });
+  var $btn_my_courses = $('#my-courses'); 
 
   var create_course = function(name_course) {
     var data = {
@@ -186,6 +181,7 @@ var course = function(apiWS, msg, strings) {
   var init = function() {
     api_ws.consume('getCourses',{}, function(user) {
       var courses = user.courses;
+      var length = courses ? courses.length: 0;
       for (var i=0; i<courses.length; i++) {
         add_course(courses[i]);
       };

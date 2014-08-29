@@ -6,6 +6,10 @@ h3 {
   text-align: center;
 }
 
+.red-bg {
+  background-color: red;
+}
+
 .tooltip {
   z-index: 99999;
 }
@@ -314,6 +318,10 @@ line {
   counter-increment: my_counter;
 }*/
 
+.scroll-h {
+  overflow-x: auto;
+}
+
 #faq .question{
   font-size: 1.4em;
 }
@@ -344,4 +352,9 @@ line {
 #faq .red {
   color: red;
   font-weight: bold;
+}
+
+#faq figure {
+  display: block;
+  text-align: center;
 }
