@@ -10,53 +10,48 @@ h3 {
   z-index: 99999;
 }
 
-#home {
-  text-decoration: none;
+.tooltip {
+  z-index: 99999;
 }
 
 circle, rect { 
-  fill:white;
-  stroke:steelblue;  
-  stroke-width:2px;
-}
-
-#grade tspan {
-  cursor: text;
+  fill: white;
+  stroke: steelblue;  
+  stroke-width: 2px;
 }
 
 .leaf {
-  fill: red;
+  stroke: #C0D89F;
 }
 
-line{
-  stroke:grey;
-  stroke-width:3px;
+line {
+  stroke: grey;
+  stroke-width: 3px;
 }
 
-.incRect{
+.incRect {
   stroke:grey;
   shape-rendering:crispEdges;
 }
 
-#treesvg g text:hover, #treesvg g circle:hover{
-  cursor:pointer;
+#nodes:hover {
+  cursor: pointer;
 }
 
-#g_labels text{
-  text-anchor:middle;
+#nodes text:hover {
+  cursor: text;
 }
 
 #grades-container {
-  left: 0px;
-  padding-bottom: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  padding-top: 20px;
+  -moz-user-select: none; 
+  -webkit-user-select: none; 
+  -ms-user-select: none; 
+  user-select: none;
+  width: 100%;
+  bottom: 0px;
+  top: 50px;
+  overflow: auto;
   z-index: 1;
-}
-
-#grades-container h4  {
-  text-align: center;
 }
 
 .nav-sidebar {
