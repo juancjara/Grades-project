@@ -462,8 +462,8 @@ function Node(nodeId, nodeView, data){
 
   var bounds = {upper: 20, lower: 0};
   var children = [];
-  var arrTrunk = ['R', 'F'];
-  var arrDelete = ['P', 'D'];
+  var arrTrunk = ['R', 'T'];
+  var arrDelete = ['N', 'E'];
   var trunk = 0;
   var deleteMin = 0;
   var STrunk = d3.select(view).select('#trunk-behavior');
