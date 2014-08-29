@@ -10,8 +10,8 @@ module.exports = {
     secret: '9a0oBZ0UIMpCeHV22nxop9WY'
   },
   facebook: {
-    id: '664532843631014',
-    secret: 'ea2f2e5fdf62f5336dd57f8ff4688160'
+    id: '862279493791342',//'664532843631014',
+    secret: '93d5d81133d3491de01bdfe4459a2795'//'ea2f2e5fdf62f5336dd57f8ff4688160'
   },
   twitter: {
     id: '6kzy7y9mlQsUaou81YNf4zYZJ',
