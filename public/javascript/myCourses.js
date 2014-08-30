@@ -23,7 +23,7 @@ var course = function(apiWS, msg, strings) {
         handler.selected_handler(res,courseHTML);
         $("#save-formula").on('click', function() {
           save_formula(course._id);
-        }).show();
+        }).css({'display': 'block'});
       });
     }
   };

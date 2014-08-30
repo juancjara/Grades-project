@@ -10,6 +10,7 @@ html(lang='eng')
     link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Oleo+Script')
     link(rel='stylesheet', href='css/bootstrap-social.min.css')
     link(rel='stylesheet', href='css/font-awesome.min.css')
+    link(rel='stylesheet', href='css/bootstrap-tour.min.css')
     script(type='text/javascript').
       !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
 
@@ -24,7 +25,7 @@ html(lang='eng')
       .row
         div(id='left-panel', class='sidebar')
           div#help-link 
-            a(href='#') ¿Necesitas ayuda?
+            button(class='btn btn-info') Primera vez? Click aquí
           form(id='course-search', class='form-group', role='search')
             .input-group
               span.input-group-addon
@@ -45,7 +46,7 @@ html(lang='eng')
             span.icon-bar
             span.icon-bar
         div(id='grades-container')
-          svg(id='tree-container' height='1000' width='1800')
+          svg(id='tree-container' height='800' width='1800')
             g(id="edges")
             g(id="nodes")
 
@@ -54,7 +55,7 @@ html(lang='eng')
 
     .social-sidebar
       ul
-        li
+        li(id='share')
           a(class='fa fa-facebook',
             href='#',onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=www.joindota.com','facebook-share-dialog','width=626,height=436');return false;")
             span(class='social-text') Facebook
@@ -66,7 +67,7 @@ html(lang='eng')
           a(class='fa fa-google-plus',
             onclick= "window.open('https://plus.google.com/share?ur\l=www.joindota.com', 'Share to Google+','width=600,height=460,menubar=no,location=no,status=no')")
             span(class='social-text') Google+
-        li
+        li(id='help')
           a(class='glyphicon glyphicon-question-sign', href='help')
             span(class='social-text') Ayuda
 
@@ -85,3 +86,4 @@ html(lang='eng')
       script(src="javascript/myCourses.js")
       script(src="javascript/string.js")
       script(src="javascript/main.js")
+      script(src="javascript/bootstrap-tour.min.js")

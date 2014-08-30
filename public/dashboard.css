@@ -6,6 +6,10 @@ h3 {
   text-align: center;
 }
 
+.navigation {
+  width: 100%;
+}
+
 .tooltip {
   z-index: 99999;
 }
@@ -149,6 +153,10 @@ line {
 #course-search {
   margin-bottom: 0;
   margin-top: 15px;
+}
+
+#save-formula {
+  display: none;
 }
 
 #spin {
