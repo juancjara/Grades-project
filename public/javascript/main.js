@@ -19,8 +19,58 @@ var main = {
     var $toggle_sidebar = $("#toggle-left-panel");
     var $help_link = $('#help-link');
 
+    var tour = new Tour({      
+      steps: [
+        {
+          element: "#help-link",
+          title: "Tour",
+          content: "Empieza el tour, puedes navegar haciendo click en Ant., Sgt. o utilizando las felchas del teclado."
+        },
+        {
+          element: "#course-search-box",
+          title: "Buscar curso",
+          content: "Buscar el curso y guárdalo en tus cursos"
+        },
+        {
+          element: "#course-list",
+          title: "Mis cursos",
+          content: "Los cursos que te pertenecen, puedes compartirlos dando click en el ícono con forma de nube"
+        },
+        {
+          element: "#about",
+          title: "Contacto",
+          content: "Escríbenos sobre sugerencias o dudas.",
+          placement: 'left'
+        },
+        {
+          element: "#share",
+          title: "Compartir",
+          content: "Comparte esta página web",
+          placement: "left"
+        },
+        {
+          element: "#help",
+          title: "Ayuda",
+          content: "Haz click para obtener más ayuda",
+          placement: "left"
+        },
+      ],
+      template: "<div class='popover tour'>"+
+                "<div class='arrow'></div>"+
+                "<h3 class='popover-title'></h3>"+
+                "<div class='popover-content'></div>"+
+                "<div class='popover-navigation'>"+
+                  "<button class='btn btn-default' data-role='prev'>« Ant.</button>"+
+                  "<span data-role='separator'>&nbsp;</span>"+
+                  "<button class='btn btn-default' data-role='next'>Sgt. »</button>"+
+                  "<button class='btn btn-default' data-role='end'>Cerrar</button>"+
+                "</div>"+
+                "</div>"
+    });
+    tour.init();
     $help_link.on('click', function() {
-      $help_link.toggleClass('red-bg');
+      console.log('click');
+      tour.restart();  
     });
 
     var toggle_sidebar = function(e) {

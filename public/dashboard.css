@@ -6,8 +6,8 @@ h3 {
   text-align: center;
 }
 
-.red-bg {
-  background-color: red;
+.navigation {
+  width: 100%;
 }
 
 .tooltip {
@@ -47,14 +47,15 @@ line {
 }
 
 #grades-container {
+  bottom: 0px;
+  overflow: auto;
+  top: 50px;
+  user-select: none;
   -moz-user-select: none; 
   -webkit-user-select: none; 
   -ms-user-select: none; 
-  user-select: none;
   width: 100%;
-  bottom: 0px;
-  top: 50px;
-  overflow: auto;
+  width: 100%;
   z-index: 1;
 }
 
@@ -152,6 +153,10 @@ line {
 #course-search {
   margin-bottom: 0;
   margin-top: 15px;
+}
+
+#save-formula {
+  display: none;
 }
 
 #spin {

@@ -1,3 +1,4 @@
+- var production = 'pro' == process.env.NODE_ENV 
 doctype
 html(lang='eng')
   head 
@@ -48,10 +49,10 @@ html(lang='eng')
 
       section(id='faq')
         h2.text-left  Preguntas Frecuentes
-        div(class='question', data-toggle='collapse', data-target='#a1')
+        div(class='question', data-target='#a1')
           a(href='#') 1. ¿Cómo busco un curso?
 
-        div(id='a1' ,class='answer collapse in')
+        div(id='a1' ,class='answer')
           p En el menú de la izquierda debes ingresar el curso que desees buscar.
             | En caso el curso exista (fue compartido por alguna buena persona) puedes
             | seleccionar para visualizar su fórmula y agregarlo a tus 
@@ -59,20 +60,20 @@ html(lang='eng')
             span(class='glyphicon glyphicon-floppy-disk')
             | .
 
-        div(class='question', data-toggle='collapse', data-target='#a2')
+        div(class='question', data-target='#a2')
           a(href='#') 2. ¿Qué hago si el curso que busco no existe?
 
-        div(id='a2' ,class='answer collapse in')
+        div(id='a2' ,class='answer')
           p Si la búsqueda de cursos no muestra resultados puedes crear el curso 
             | haciendo click sobre 
             span(class='glyphicon glyphicon-plus')
             | que aparece en el mensaje de la parte inferior, de esta forma el curso 
             | pasa a formar parte de "Mis Cursos".
 
-        div(class='question', data-toggle='collapse', data-target='#a3')
+        div(class='question', data-target='#a3')
           a(href='#') 3. ¿Cómo creo una nueva fórmula?
 
-        div(id='a3' ,class='answer collapse in')
+        div(id='a3' ,class='answer')
           p Primero se debe seleccionar un curso y se mostrará la formula en la parte derecha.
             | Si es la primera vez que se asigna una fórmula aparece un solo nodo del árbol de fórmulas, 
             | cada nodo representa una evaluación
@@ -113,10 +114,10 @@ html(lang='eng')
               | con imagen de disquete en la parte superior derecha. Sino todas tus modificaciones se
               | perderán.
 
-        div(class='question', data-toggle='collapse', data-target='#a4')
+        div(class='question', data-target='#a4')
           a(href='#') 4. Estoy volando, no entendí como crear una formula. ¿Me das un ejemplo?
 
-        div(id='a4', class='answer collapse in')
+        div(id='a4', class='answer')
           p Solo por esta vez toma un ejemplo:
             div(class='scroll-h')
               figure
@@ -133,10 +134,10 @@ html(lang='eng')
             | Para obtener los promedios de las prácticas tipo A y B se debe truncar a un sólo decimal.
             | Y el promedio general debe ser redondeado a 2 decimales.
 
-        div(class='question', data-toggle='collapse', data-target='#a5')
+        div(class='question', data-target='#a5')
           a(href='#') 5. Quiero apoyar pero no quiero darte plata. ¿De qué forma puedo ayudar?
 
-        div(id='a5', class='answer collapse in')
+        div(id='a5', class='answer')
           p Yo quería la plata pero si no quieres, la mejor forma de aportar es compartiendo tus cursos y sus
             | fórmulas para que otras personas puedan utilizarlas. Para compartirlas debes seleccionar tu curso
             | y dar click sobre 
@@ -146,14 +147,17 @@ html(lang='eng')
             a(href="about") Contacto 
             | y escribirnos.
 
-        div(class='question', data-toggle='collapse', data-target='#a6')
-          a 6. Tengo más dudas ¿Qué hago?
+        div(class='question', data-target='#a6')
+          a(href='#') 6. Tengo más dudas ¿Qué hago?
 
-        div(id='a6', class='answer collapse in')
+        div(id='a6', class='answer')
           p Da click en 
             a(href="about") Contacto 
             | y escríbenos.
 
-
   script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")
   script(src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js")
+  if production
+    script(src='javascript/min/help.js')
+  else
+    script(src='javascript/help.js')
