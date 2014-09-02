@@ -197,6 +197,10 @@ line {
   margin-top: 4px;
 }
 
+#apply-base-formula {
+  margin: 0 3px;
+}
+
 /* social sidebar */
 
 .sidebar {
