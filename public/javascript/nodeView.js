@@ -444,11 +444,7 @@ var NodeMgrGen =
         child.weight = weight;
         parent.children.push(child);
       };
-      console.log("ff");
       NodeMgr.import(parent);
-      //console.log(parent);
-      //console.log(JSON.stringify(parent));
-      // decimals 1, isEditable , true, 
     }
     
   }; 

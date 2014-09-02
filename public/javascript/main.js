@@ -18,6 +18,7 @@ var main = {
     var width_sidebar = parseInt($left_panel.css('width'));
     var $toggle_sidebar = $("#toggle-left-panel");
     var $help_link = $('#help-link');
+    var $course_base_formula = $('#course-base-formula');
 
     var tour = new Tour({      
       steps: [
@@ -98,6 +99,7 @@ var main = {
 
     var selected_handler = function(course, elem) {
       $('#left-panel .active').removeClass('active');
+      $course_base_formula.val(course.baseFormula);
       elem.addClass('active');
       $('.click-menu').hide();
       $('.on-sel-hide').show();
@@ -120,8 +122,13 @@ var main = {
     };
 
     var get_formula = function() {
-      NodeMgr.parseFormula($('#course-formula').val());
-      return JSON.stringify(NodeMgr.export());
+      var course_baseFormula = $course_base_formula.val();
+      NodeMgr.parseFormula(course_baseFormula);
+      var formula = JSON.stringify(NodeMgr.export());
+      return {
+        formula: formula,
+        baseFormula: course_baseFormula
+      };
     };
 
     my_list.selected_handler = selected_handler;

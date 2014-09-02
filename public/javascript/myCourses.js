@@ -7,8 +7,7 @@ var course = function(apiWS, msg, strings) {
 
   var create_course = function(name_course) {
     var data = {
-      name: name_course,
-      formula: ''
+      name: name_course
     };
     api_ws.consume('createCourse', data, function(course) {
       if(course.msg) return console.log('error',course.msg);
@@ -63,9 +62,12 @@ var course = function(apiWS, msg, strings) {
 
   var save_formula = function(id) {
 
+    var dataFormula = handler.get_formula();
+
     var data = {
       id: id,
-      formula: handler.get_formula()
+      formula: dataFormula.formula,
+      baseFormula: dataFormula.baseFormula
     }
     
     api_ws.consume('updateCourse', data , 

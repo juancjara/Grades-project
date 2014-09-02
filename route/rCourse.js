@@ -11,7 +11,7 @@ exports.add = function(req, res) {
 
 exports.create = function(req, res) {
   var userId = req.user._id;
-  Course.create({name: req.body.name, formula: req.body.formula, userId: userId},
+  Course.create({name: req.body.name, userId: userId},
     function(err, course) {
       if (err) res.send({msg: console.log(err)});
       res.send(course);
@@ -59,6 +59,10 @@ exports.update = function(req, res){
   if (req.body.formula) {
     newData.formula = req.body.formula;
   }
+  newData.baseFormula = '';
+  if (req.body.baseFormula) {
+    newData.baseFormula = req.body.baseFormula;
+  }
   Course.findByIdAndUpdate(req.body.id, newData,
     function(err) {
       if (err) res.send({msg: console.log(err)});
@@ -68,7 +72,7 @@ exports.update = function(req, res){
 }
 
 exports.getFormula = function(req, res) {
-  getData(req.body.id, {formula: 1, name: 1}, res);
+  getData(req.body.id, {formula: 1, baseFormula: 1, name: 1}, res);
 }
 
 exports.search = function(req, res) {
