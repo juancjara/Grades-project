@@ -86,7 +86,9 @@ var NodeMgrGen =
     var nodeId = id;
     var leafNumber = 0;
     var childLen = 0;
-    var adjList = []
+    var adjList = [];
+    var width = 0;
+    var offset = 0;
     var vertex = {
       isRoot: function() {
         return prev == null; 
@@ -115,12 +117,27 @@ var NodeMgrGen =
       setLeafNumber: function(n) {
         leafNumber = n;
       },
+      setOffset: function(n) {
+        offset = n;
+      },
+      getOffset: function() {
+        return offset; 
+      },
+      getWidth: function() {
+        return width; 
+      },
+      setWidth: function(n) {
+        width = n; 
+      },
       forEachChild: function (op) {
         adjList.forEach(op);
       },
       getLeafNumber: function() {
         return leafNumber;
       },
+      adjSize: function() {
+        return childLen; 
+      }
     }; 
     return vertex; 
   };
@@ -146,19 +163,52 @@ var NodeMgrGen =
   } 
 
   function updateLeafNumber() {
+    function zero() {
+      return {
+        leafs: 0, 
+        width: 0,
+      }; 
+    }
+
+    function unit() {
+      return {
+        leafs: 1,
+        width: 70,
+        offset: 5,
+      }; 
+    }
+
+    function add(a, b) {
+      return {
+        leafs: a.leafs + b.leafs, 
+        width: a.width + b.width + (a.width ? b.offset : 0),
+        offset: b.offset,
+      }; 
+    }
+
+    function save(vertex, data) {
+      vertex.setLeafNumber(data.leafs); 
+      vertex.setWidth(data.width);
+      vertex.setOffset(data.offset);
+    }
+
     function updateLeafs(id) {
       var vertex = getVertex(id);
-      if (!vertex) return 0;
+      if (!vertex) return zero();
       if (vertex.isLeaf()) {
-        vertex.setLeafNumber(1);
-        return 1; 
+        var u = unit();
+        save(vertex, u);
+        return u; 
       }
-      var leafNum = 0;
+      var acum = zero();
       vertex.forEachChild(function(childId){
-        leafNum += updateLeafs(childId); 
+        var childData = updateLeafs(childId);
+        acum = add(acum, childData);
       });
-      vertex.setLeafNumber(leafNum);
-      return leafNum;
+      // padding between nodes
+      acum.width += 20;
+      save(vertex, acum);
+      return acum;
     }
     updateLeafs(rootId);
   }
@@ -181,13 +231,14 @@ var NodeMgrGen =
       if (vertex.isLeaf()) {
          return;
       }
-      var left = x - (vertex.getLeafNumber() * 40);
+      // half padding between nodes
+      var left = x - vertex.getWidth()/2 + 10;
       vertex.forEachChild(function(childId) {
         child = getVertex(childId); 
-        var width = child.getLeafNumber() * 40;   
+        var width = child.getWidth()/2;   
         left += width;
         updatePosition(childId, left, y + 110);
-        left += width;
+        left += width + child.getOffset();
       });
     } 
     var orig = root.getOrigin();
