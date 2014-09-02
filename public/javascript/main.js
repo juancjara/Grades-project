@@ -19,6 +19,7 @@ var main = {
     var $toggle_sidebar = $("#toggle-left-panel");
     var $help_link = $('#help-link');
     var $course_base_formula = $('#course-base-formula');
+    var $apply_base_formula = $('#apply-base-formula');
 
     var tour = new Tour({      
       steps: [
@@ -120,14 +121,16 @@ var main = {
       NodeMgr.cleanSvg();
 
     };
-
-    var get_formula = function() {
+    $apply_base_formula.on('click', function() {
       var course_baseFormula = $course_base_formula.val();
       NodeMgr.parseFormula(course_baseFormula);
+    });
+
+    var get_formula = function() {
       var formula = JSON.stringify(NodeMgr.export());
       return {
         formula: formula,
-        baseFormula: course_baseFormula
+        baseFormula: $course_base_formula.val()
       };
     };
 

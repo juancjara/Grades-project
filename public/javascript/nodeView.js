@@ -363,7 +363,6 @@ var NodeMgrGen =
         return eva;
       }
       var res = getFormula(rootId);
-      console.log(JSON.stringify(res));
       return res;
     },
     simulate: simulate,
@@ -408,6 +407,7 @@ var NodeMgrGen =
       redraw();
     },
     parseFormula: function(formula) {
+      //2*Pa + Pb + 3*Ex1 + 4*Ex2
       formula = formula.replace(/\s/g, '');
       var data = formula.split('+');
       var NodeObj = function(params) {
@@ -437,11 +437,13 @@ var NodeMgrGen =
       for (var i = 0; i < data.length; i++) {
         var weight = data[i].match('^[0-9]*')[0];
         var label = data[i].substring(weight.length);
+        label = label.replace(/\*/g, '');
         var child = new NodeObj();
         
         weight = weight || 1;
         child.label = label;
         child.weight = weight;
+        child.trunk = 1;
         parent.children.push(child);
       };
       NodeMgr.import(parent);

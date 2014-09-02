@@ -28,11 +28,12 @@ var cleanData = function(formula) {
 
 var getSearchValue = function(name) {
   var searchValue = name.toLowerCase();
-  searchValue.replace('a', 'á');
-  searchValue.replace('e', 'é');
-  searchValue.replace('i', 'í');
-  searchValue.replace('o', 'ó');
-  searchValue.replace('u', 'ú');
+  searchValue = searchValue.replace('á', 'a');
+  searchValue = searchValue.replace('é', 'e');
+  searchValue = searchValue.replace('í', 'i');
+  searchValue = searchValue.replace('ó', 'o');
+  searchValue = searchValue.replace('ú', 'u');
+  console.log("search", searchValue);
   return searchValue;
 };
 
@@ -43,11 +44,12 @@ courseSchema.statics.share = function(params, cb) {
       if (err) return cb(err);
       var cleanFormula = cleanData(course.formula);
       var searchValue = getSearchValue(course.name);
-
+      console.log(searchValue);
+      console.log(course);
       var clone = new Course({
         name: course.name,
         shared: true,
-        formula: baseFormula,
+        formula: cleanFormula,
         votes: 0,
         user: params.userId,
         baseFormula: course.baseFormula,
