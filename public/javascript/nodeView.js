@@ -413,7 +413,8 @@ var NodeMgrGen =
         }
         return eva;
       }
-      return getFormula(rootId);
+      var res = getFormula(rootId);
+      return res;
     },
     simulate: simulate,
     moveRoot: function (newOrigin) {
@@ -455,7 +456,50 @@ var NodeMgrGen =
         }
       }
       redraw();
+    },
+    parseFormula: function(formula) {
+      //2*Pa + Pb + 3*Ex1 + 4*Ex2
+      formula = formula.replace(/\s/g, '');
+      var data = formula.split('+');
+      var NodeObj = function(params) {
+        var data =
+        {
+          "bounds": {
+            "lower": 0,
+            "upper": 20
+          },
+          "decimals": 1,
+          "deleteMin": 0,
+          "isEditable": true,
+          "label": null,
+          "trunk": 1,
+          "weight": 1,
+          "children" : []
+        };
+        return data;
+      };
+      var parent = new NodeObj();
+      
+      parent.decimals = 2;
+      parent.label = 'Pro';
+      parent.trunk = 0;
+      parent.isEditable = false;
+
+      for (var i = 0; i < data.length; i++) {
+        var weight = data[i].match('^[0-9]*')[0];
+        var label = data[i].substring(weight.length);
+        label = label.replace(/\*/g, '');
+        var child = new NodeObj();
+        
+        weight = weight || 1;
+        child.label = label;
+        child.weight = weight;
+        child.trunk = 1;
+        parent.children.push(child);
+      };
+      NodeMgr.import(parent);
     }
+    
   }; 
 
   return nodeManager;

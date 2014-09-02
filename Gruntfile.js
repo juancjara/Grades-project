@@ -17,6 +17,9 @@ module.exports = function(grunt) {
             'public/javascript/consumeApi.js',
             'public/javascript/spin.min.js',
             'public/javascript/contact.js'
+          ],
+          'public/javascript/min/help.min.js': [
+            'public/javascript/min/help.js
           ]
         }
       }

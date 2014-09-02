@@ -48,13 +48,14 @@ line {
 
 #grades-container {
   bottom: 0px;
+  left: 0;
   overflow: auto;
+  position: absolute;
   top: 50px;
   user-select: none;
   -moz-user-select: none; 
   -webkit-user-select: none; 
   -ms-user-select: none; 
-  width: 100%;
   width: 100%;
   z-index: 1;
 }
@@ -155,7 +156,15 @@ line {
   margin-top: 15px;
 }
 
+#course-detail {
+  padding-left: 2em;
+}
+
 #save-formula {
+  display: inline-block;
+}
+
+.on-sel-hide {
   display: none;
 }
 
@@ -186,6 +195,10 @@ line {
 }
 .icon-bar+.icon-bar {
   margin-top: 4px;
+}
+
+#apply-base-formula {
+  margin: 0 3px;
 }
 
 /* social sidebar */
@@ -309,7 +322,9 @@ line {
   }
   #grades-container {
     left: 300px;
-    z-index: 2;
+    width: -moz-calc(100% - 300px);
+    width: -webkit-calc(100% - 300px);
+    width: calc(100% - 300px);
   }
 }
 

@@ -36,6 +36,12 @@ var courseSearch = function(apiWS, msg, strings) {
     if (search.selected_handler) {
       api_ws.consume('getFormulaCourse', {id: course._id}, function(res) {
         search.selected_handler(res,courseHTML);
+        $('#save-formula').
+          text('Agregar').
+          on('click', function(e) {
+            on_add(course._id);
+            e.stopPropagation();
+          });
       });
     }
   };
@@ -49,6 +55,7 @@ var courseSearch = function(apiWS, msg, strings) {
     api_ws.consume('addCourse', {id: idParam},
       function(res) {
         if(res.msg && res.msg != 'OK') return console.log('error',res.msg);
+        msg.show_ok_msg(strings.course_adquired);
         search.add_handler(res);
     });
   }
@@ -56,7 +63,7 @@ var courseSearch = function(apiWS, msg, strings) {
   var format_course = function(course) {
     var template = '<li class="course"><a><span class="name">'+course.name+'</span>'+
         '<span class="menu-icon click-menu">'+
-        '<span class="add glyphicon glyphicon-floppy-disk" title="Agregar a mis cursos"></span>'+
+        //'<span class="add glyphicon glyphicon-floppy-disk" title="Agregar a mis cursos"></span>'+
         '<span class="remove glyphicon glyphicon-remove" title="Eliminar de búsqueda"></span></a>'+
         '</a></li>'     
     return $(template);
@@ -95,10 +102,10 @@ var courseSearch = function(apiWS, msg, strings) {
       e.stopPropagation();
     });
 
-    course_view.find('.add').on('click', function(e) {
+    /*course_view.find('.add').on('click', function(e) {
       on_add(course._id);
       e.stopPropagation();
-    });
+    });*/
 
     course_view.find("a").on('click', function() {
       on_selected(course, course_view);

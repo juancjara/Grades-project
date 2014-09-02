@@ -4,17 +4,16 @@ var mongoose = require('mongoose'),
 
 var courseSchema = new Schema({
   name:  String,
-  formula: String,
+  formula: {type: String, default: ''},
   shared: {type: Boolean, default: false},
   votes: Number,
   user : {type: ObjectId, ref: 'User'},
+  baseFormula: {type: String, default: ''},
+  searchValue: String
 });
 
 var cleanData = function(formula) {
-  //TODO
-  //return formula;
   var bounds = {upper: 20, lower: 0};
-  console.log("GG");
   var eva = JSON.parse(formula);
   function clean(eva) {
     eva.bounds = bounds;
@@ -27,18 +26,34 @@ var cleanData = function(formula) {
   return JSON.stringify(eva);
 };
 
+var getSearchValue = function(name) {
+  var searchValue = name.toLowerCase();
+  searchValue = searchValue.replace('á', 'a');
+  searchValue = searchValue.replace('é', 'e');
+  searchValue = searchValue.replace('í', 'i');
+  searchValue = searchValue.replace('ó', 'o');
+  searchValue = searchValue.replace('ú', 'u');
+  console.log("search", searchValue);
+  return searchValue;
+};
+
 courseSchema.statics.share = function(params, cb) {
-  console.log(params.courseId);
+  
   Course.findById(params.courseId).exec( 
     function(err, course) {
       if (err) return cb(err);
-      var baseFormula = cleanData(course.formula);
+      var cleanFormula = cleanData(course.formula);
+      var searchValue = getSearchValue(course.name);
+      console.log(searchValue);
+      console.log(course);
       var clone = new Course({
         name: course.name,
         shared: true,
-        formula: baseFormula,
+        formula: cleanFormula,
         votes: 0,
-        user: params.userId
+        user: params.userId,
+        baseFormula: course.baseFormula,
+        searchValue: searchValue
       });
       clone.save(cb);
     });
@@ -53,7 +68,11 @@ courseSchema.statics.add = function(params, cb) {
       Course.findByIdAndUpdate(params.id, {votes: votes},
         function(err) {
           if (err) return cb(err);
-          var clone = new Course({name: course.name, formula: course.formula});
+          var clone = new Course({
+            name: course.name,
+            formula: course.formula,
+            baseFormula: course.baseFormula
+          });
           clone.save(function(err) {
             if (err) return cb(err);
             mongoose.model('User').addCourse({userId: params.userId, id: clone._id},
@@ -119,7 +138,7 @@ courseSchema.statics.addCourse = function(params,cb) {
 */
 courseSchema.statics.search = function(nameParam, cb) {
   Course.find({
-    name: new RegExp('^'+nameParam+'.*$', 'i'),
+    searchValue: new RegExp('^'+nameParam+'.*$', 'i'),
     shared: true
     }, {name: 1}, {sort: {votes: -1}}, cb);
 };

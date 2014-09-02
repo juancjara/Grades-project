@@ -18,6 +18,8 @@ var main = {
     var width_sidebar = parseInt($left_panel.css('width'));
     var $toggle_sidebar = $("#toggle-left-panel");
     var $help_link = $('#help-link');
+    var $course_base_formula = $('#course-base-formula');
+    var $apply_base_formula = $('#apply-base-formula');
 
     var tour = new Tour({      
       steps: [
@@ -60,9 +62,9 @@ var main = {
                 "<h3 class='popover-title'></h3>"+
                 "<div class='popover-content'></div>"+
                 "<div class='popover-navigation'>"+
-                  "<button class='btn btn-default' data-role='prev'>« Ant.</button>"+
+                  "<button class='btn btn-default' data-role='prev'>«</button>"+
                   "<span data-role='separator'>&nbsp;</span>"+
-                  "<button class='btn btn-default' data-role='next'>Sgt. »</button>"+
+                  "<button class='btn btn-default' data-role='next'>»</button>"+
                   "<button class='btn btn-default' data-role='end'>Cerrar</button>"+
                 "</div>"+
                 "</div>"
@@ -81,8 +83,16 @@ var main = {
       $left_panel.animate({'left': sidebar_left + 'px'}, 'slow');
       $toggle_sidebar.animate({'left': next_left + 'px'}, 'slow');
       var $grades_container = $('#grades-container');
-      if ( $grades_container.css('z-index') == '2' ) {
-        $grades_container.animate({'left': next_left + 'px'}, 'slow');
+      var body_width = $("body").width();
+      if ( body_width > 970 ) {
+        var offset_width = -300;
+        if (next_left == 0) {
+          offset_width = 300;
+        }
+        $grades_container.animate(
+          {'width': '+='+offset_width+'px', 'left': next_left+'px'},
+          'slow'
+        );
       }
       e.stopPropagation();
     };
@@ -90,10 +100,12 @@ var main = {
 
     var selected_handler = function(course, elem) {
       $('#left-panel .active').removeClass('active');
+      $course_base_formula.val(course.baseFormula);
       elem.addClass('active');
       $('.click-menu').hide();
-      $('#save-formula').hide().off('click');
-      $('#course-name').text(course.name);
+      $('.on-sel-hide').show();
+      $('#save-formula').off('click');
+      $('#course-name').text(course.name);      
       elem.find('.click-menu').show();
       if (course.formula) {
         NodeMgr.import(JSON.parse(course.formula));
@@ -104,13 +116,22 @@ var main = {
 
     var remove_tree = function() {
       $('#save-formula').hide().off('click');
+      $('.on-sel-hide').hide();
       $('#course-name').text("");      
       NodeMgr.cleanSvg();
 
     };
+    $apply_base_formula.on('click', function() {
+      var course_baseFormula = $course_base_formula.val();
+      NodeMgr.parseFormula(course_baseFormula);
+    });
 
     var get_formula = function() {
-      return JSON.stringify(NodeMgr.export());
+      var formula = JSON.stringify(NodeMgr.export());
+      return {
+        formula: formula,
+        baseFormula: $course_base_formula.val()
+      };
     };
 
     my_list.selected_handler = selected_handler;
@@ -120,7 +141,7 @@ var main = {
     courseList.add_handler = my_list.add;
     courseList.selected_handler = selected_handler;
     courseList.new_course_handler = my_list.create;
-    courseList.remove = remove_tree();
+    courseList.remove = remove_tree;
   },
   config: {
     msg_template: {
@@ -156,4 +177,5 @@ var main = {
 }
 $(function() {
   main.load(api, strings);
+  //main.test();
 });
