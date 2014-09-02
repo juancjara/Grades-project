@@ -55,7 +55,8 @@ var courseSearch = function(apiWS, msg, strings) {
     api_ws.consume('addCourse', {id: idParam},
       function(res) {
         if(res.msg && res.msg != 'OK') return console.log('error',res.msg);
-        msg.show_ok_msg(strings.course_adquired);
+        msg.show_info_msg(strings.course_adquired);
+        search.remove();
         search.add_handler(res);
     });
   }
