@@ -123,7 +123,12 @@ var main = {
     };
     $apply_base_formula.on('click', function() {
       var course_baseFormula = $course_base_formula.val();
-      NodeMgr.parseFormula(course_baseFormula);
+      if (!course_baseFormula || !course_baseFormula.length) {
+        main.show_err_submit($course_base_formula, 'Debe ingresar una fórmula','bottom');
+      } else {
+        NodeMgr.parseFormula(course_baseFormula);
+        main.show_info_msg(strings.base_formula_to_tree);
+      }
     });
 
     var get_formula = function() {
@@ -158,21 +163,29 @@ var main = {
   show_err_msg: function(msg) {
     main.show_msg(msg, 'alert-danger');
   },
-  show_err_submit: function(elem, content) {
-    console.log("elem",elem);
-    elem.tooltip({title: content});
+  show_info_msg: function(msg){
+    main.show_msg(msg, 'alert-info', 1);
+  },
+  show_err_submit: function(elem, content, position) {
+    position = position || 'top';
+    elem.tooltip({
+      title: content,
+      placement: position
+    });
     elem.tooltip('show');
   },
-  show_msg: function(msg, classParam) { 
+  show_msg: function(msg, classParam, flag) { 
     var init_template = main.config.msg_template;
     var $template = $(init_template.part1 + classParam + init_template.part2 +
         msg + init_template.part3);
     $('#messages').append($template);
-    setTimeout(function() {
-      $template.fadeOut('slow', function() {
-        $template.remove();
-      });
-    },1000);
+    if(!flag){
+      setTimeout(function() {
+        $template.fadeOut('slow', function() {
+          $template.remove();
+        });
+      },1000);
+    }
   }
 }
 $(function() {
