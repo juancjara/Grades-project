@@ -362,7 +362,9 @@ var NodeMgrGen =
         }
         return eva;
       }
-      return getFormula(rootId);
+      var res = getFormula(rootId);
+      console.log(JSON.stringify(res));
+      return res;
     },
     simulate: simulate,
     moveRoot: function (newOrigin) {
@@ -404,7 +406,51 @@ var NodeMgrGen =
         }
       }
       redraw();
+    },
+    parseFormula: function(formula) {
+      formula = formula.replace(/\s/g, '');
+      var data = formula.split('+');
+      var NodeObj = function(params) {
+        var data =
+        {
+          "bounds": {
+            "lower": 0,
+            "upper": 20
+          },
+          "decimals": 1,
+          "deleteMin": 0,
+          "isEditable": true,
+          "label": null,
+          "trunk": 1,
+          "weight": 1,
+          "children" : []
+        };
+        return data;
+      };
+      var parent = new NodeObj();
+      
+      parent.decimals = 2;
+      parent.label = 'Pro';
+      parent.trunk = 0;
+      parent.isEditable = false;
+
+      for (var i = 0; i < data.length; i++) {
+        var weight = data[i].match('^[0-9]*')[0];
+        var label = data[i].substring(weight.length);
+        var child = new NodeObj();
+        
+        weight = weight || 1;
+        child.label = label;
+        child.weight = weight;
+        parent.children.push(child);
+      };
+      console.log("ff");
+      NodeMgr.import(parent);
+      //console.log(parent);
+      //console.log(JSON.stringify(parent));
+      // decimals 1, isEditable , true, 
     }
+    
   }; 
 
   return nodeManager;

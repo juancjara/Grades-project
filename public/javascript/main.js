@@ -60,9 +60,9 @@ var main = {
                 "<h3 class='popover-title'></h3>"+
                 "<div class='popover-content'></div>"+
                 "<div class='popover-navigation'>"+
-                  "<button class='btn btn-default' data-role='prev'>« Ant.</button>"+
+                  "<button class='btn btn-default' data-role='prev'>«</button>"+
                   "<span data-role='separator'>&nbsp;</span>"+
-                  "<button class='btn btn-default' data-role='next'>Sgt. »</button>"+
+                  "<button class='btn btn-default' data-role='next'>»</button>"+
                   "<button class='btn btn-default' data-role='end'>Cerrar</button>"+
                 "</div>"+
                 "</div>"
@@ -81,8 +81,16 @@ var main = {
       $left_panel.animate({'left': sidebar_left + 'px'}, 'slow');
       $toggle_sidebar.animate({'left': next_left + 'px'}, 'slow');
       var $grades_container = $('#grades-container');
-      if ( $grades_container.css('z-index') == '2' ) {
-        $grades_container.animate({'left': next_left + 'px'}, 'slow');
+      var body_width = $("body").width();
+      if ( body_width > 970 ) {
+        var offset_width = -300;
+        if (next_left == 0) {
+          offset_width = 300;
+        }
+        $grades_container.animate(
+          {'width': '+='+offset_width+'px', 'left': next_left+'px'},
+          'slow'
+        );
       }
       e.stopPropagation();
     };
@@ -92,8 +100,9 @@ var main = {
       $('#left-panel .active').removeClass('active');
       elem.addClass('active');
       $('.click-menu').hide();
-      $('#save-formula').hide().off('click');
-      $('#course-name').text(course.name);
+      $('.on-sel-hide').show();
+      $('#save-formula').off('click');
+      $('#course-name').text(course.name);      
       elem.find('.click-menu').show();
       if (course.formula) {
         NodeMgr.import(JSON.parse(course.formula));
@@ -104,12 +113,14 @@ var main = {
 
     var remove_tree = function() {
       $('#save-formula').hide().off('click');
+      $('.on-sel-hide').hide();
       $('#course-name').text("");      
       NodeMgr.cleanSvg();
 
     };
 
     var get_formula = function() {
+      NodeMgr.parseFormula($('#course-formula').val());
       return JSON.stringify(NodeMgr.export());
     };
 
@@ -120,7 +131,7 @@ var main = {
     courseList.add_handler = my_list.add;
     courseList.selected_handler = selected_handler;
     courseList.new_course_handler = my_list.create;
-    courseList.remove = remove_tree();
+    courseList.remove = remove_tree;
   },
   config: {
     msg_template: {
@@ -156,4 +167,5 @@ var main = {
 }
 $(function() {
   main.load(api, strings);
+  //main.test();
 });

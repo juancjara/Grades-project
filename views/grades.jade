@@ -21,34 +21,37 @@ html(lang='eng')
   body
     include ./includes/navigation.jade
     
-    .container-fluid
-      .row
-        div(id='left-panel', class='sidebar')
-          div#help-link 
-            button(class='btn btn-info') Primera vez? Click aquí
-          form(id='course-search', class='form-group', role='search')
-            .input-group
-              span.input-group-addon
-                span(id='btn-search', class='glyphicon glyphicon-search')
-              input(id='course-search-box', class='form-control', type='text', placeholder='Buscar', required)
-              span(id='remove-search', class='icon-input glyphicon glyphicon-remove form-control-feedback')
-          div(id='no-results') No hay resultados. Click en 
-            span(id='new-course', class='glyphicon glyphicon-plus') 
-            |   para crearlo.
-            
-          ul(id='search-results', class='nav nav-sidebar')
-          button(id='my-courses', class='btn btn-primary') Mis cursos
-          ul(id='course-list', class='nav nav-sidebar')
+    div
+      div(id='left-panel', class='sidebar')
+        div#help-link 
+          button(class='btn btn-info') Primera vez? Click aquí
+        form(id='course-search', class='form-group', role='search')
+          .input-group
+            span.input-group-addon
+              span(id='btn-search', class='glyphicon glyphicon-search')
+            input(id='course-search-box', class='form-control', type='text', placeholder='Buscar', required)
+            span(id='remove-search', class='icon-input glyphicon glyphicon-remove form-control-feedback')
+        div(id='no-results') No hay resultados. Click en 
+          span(id='new-course', class='glyphicon glyphicon-plus') 
+          |   para crearlo.
+          
+        ul(id='search-results', class='nav nav-sidebar')
+        button(id='my-courses', class='btn btn-primary') Mis cursos
+        ul(id='course-list', class='nav nav-sidebar')
 
-        button#toggle-left-panel  
-            span.sr-only
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-        div(id='grades-container')
-          svg(id='tree-container' height='800' width='1800')
-            g(id="edges")
-            g(id="nodes")
+      button#toggle-left-panel  
+          span.sr-only
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+      div(id='grades-container')
+        div(id='course-detail', class='on-sel-hide')
+          label(for='course-formula') Fórmula base: 
+          input(type='text', id='course-formula')
+          span(class='glyphicon glyphicon-floppy-disk',id='save-formula')
+        svg(id='tree-container' height='800' width='1300')
+          g(id="edges")
+          g(id="nodes")
 
     div(id='messages', class='center-block')
     div(id='spin')
