@@ -84,16 +84,11 @@ var main = {
       $toggle_sidebar.animate({'left': next_left + 'px'}, 'slow');
       var $grades_container = $('#grades-container');
       var body_width = $("body").width();
-      if ( body_width > 970 ) {
-        var offset_width = -300;
-        if (next_left == 0) {
-          offset_width = 300;
-        }
-        $grades_container.animate(
-          {'width': '+='+offset_width+'px', 'left': next_left+'px'},
-          'slow'
-        );
-      }
+      $grades_container.animate({
+        'left': next_left+'px'
+      },
+      'slow'
+      );
       e.stopPropagation();
     };
     $toggle_sidebar.on('click', toggle_sidebar);
