@@ -392,6 +392,28 @@ var NodeMgrGen =
       nodeManager.animateChanges(); 
       redraw();
     },
+    getBBox: function() {
+      if (!root) {
+        return; 
+      } 
+      var minX = rootOrigin.x;
+      var maxX = rootOrigin.x;
+      var minY = rootOrigin.y;
+      var maxY = rootOrigin.y;
+
+      forEachDecendant(rootId, function(id) {
+        var point = getNode(id).getOrigin(); 
+        if (minX > point.x) minX = point.x;
+        if (minY > point.y) minY = point.y;
+        if (maxX < point.x) maxX = point.x;
+        if (maxY < point.y) maxY = point.y;
+      });
+
+      return {
+        width: maxX - minX + 80,
+        height: maxY - minY + 80
+      };
+    },
     appendChange: function(change) {
       changes.push(change);
     },
@@ -418,8 +440,11 @@ var NodeMgrGen =
     },
     simulate: simulate,
     moveRoot: function (newOrigin) {
-      root.moveTo(newOrigin); 
-      redraw();
+      rootOrigin = newOrigin; 
+      if (root) {
+        root.moveTo(newOrigin); 
+        redraw();
+      }
     },
     cleanSvg: function() {
       if (root) {
