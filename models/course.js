@@ -33,6 +33,7 @@ var getSearchValue = function(name) {
   searchValue = searchValue.replace('í', 'i');
   searchValue = searchValue.replace('ó', 'o');
   searchValue = searchValue.replace('ú', 'u');
+  searchValue = searchValue.replace(/\s/g, '');
   console.log("search", searchValue);
   return searchValue;
 };
@@ -137,6 +138,7 @@ courseSchema.statics.addCourse = function(params,cb) {
 };
 */
 courseSchema.statics.search = function(nameParam, cb) {
+  nameParam =getSearchValue(nameParam);
   Course.find({
     searchValue: new RegExp('^'+nameParam+'.*$', 'i'),
     shared: true
