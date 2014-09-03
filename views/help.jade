@@ -50,7 +50,7 @@ html(lang='eng')
           p Si la búsqueda de cursos no muestra resultados puedes crear el curso 
             | haciendo click sobre 
             span(class='glyphicon glyphicon-plus')
-            | que aparece en el mensaje de la parte inferior del campo de búsqued, 
+            | que aparece en el mensaje de la parte inferior del campo de búsqueda, 
             | de esta forma el curso  pasa a formar parte de "Mis Cursos".
             figure
               img(src='/images/createcourse.gif')
@@ -85,19 +85,19 @@ html(lang='eng')
                 figure 
                   img(src='/images/paso3formulabase.jpg', alt='cuadrados iniciales')
                 | Como se hace manualmente para calcular el promedio final se multiplican promedio de prácticas y exámenes
-                | por su peso y se divide entre la suma de todos los pesos ( en este caso se divide entre 10).
+                | por su peso y se divide entre la suma de todos los pesos ( en este caso se divide entre 10 ).
                 | Además, aunque no lo sepas, el promedio de tus prácticas debe ser truncado a un solo decimal. Es decir,
                 | si el promedio de prácticas es 12.38 el valor que se debe utilizar como promedio es 12.3 "el promedio de
                 | prácticas NO se redondea." creéme conozco gente que no sabía esto y sacaba mal los cálculos de sus notas.
                 br
-                | Como te puedes dar cuenta por defecto al ingresar la fórmula el primer elemento (Pro) se redondea a 2 decimales
+                | Como te puedes dar cuenta por defecto al ingresar la fórmula el primer elemento ( Pro ) se redondea a 2 decimales
                 | y los elementos debajo de este se truncan a un sólo decimal.
               li Ahora se debe agregar los elementos necesarios para completar la fórmula. Para este caso nos faltan las notas
                 | de las 5 prácticas, entonces seleccionamos el elemento "Pa" y haciendo click en el "+" se agrega cada práctica.
                 figure 
                   img(src='/images/paso4formulabase.jpg', alt='agregar prácticas')
               li Por último para este caso falta indicar que para sacar el promedio de prácticas se debe eliminar la mínima 
-                | nota. Esto se hace seleccionando el elemento promedio de prácticas (Pa) y dando click sobre la "N" para que
+                | nota. Esto se hace seleccionando el elemento promedio de prácticas ( Pa ) y dando click sobre la "N" para que
                 | se cambie por una "E" que significa que se eliminará la mínima nota para obtener el promedio, justo lo que 
                 | queríamos. 
                 br
@@ -118,17 +118,17 @@ html(lang='eng')
 
             figure
               img(src='/images/menuforkids.jpg', alt='menu')
-            | Todos los campos a continuación son editables salvo de excepciones (campo 2 y 3).
+            | Todos los campos a continuación son editables salvo de excepciones ( campo 2 y 3 ).
             ul.decimal
               li Nombre del elemento.
-              li Valor máximo (valor por defecto 20.00). Este campo representa el valor mínimo que se podría
+              li Valor máximo ( valor por defecto 20.00 ). Este campo representa el valor mínimo que se podría
                 | alcanzar.
-                | Este campo es editable solo si el elemento es una Nota (no tiene elementos hijos) además es de color ver.
-              li Valor mínimo (valor por defecto 0.00). Este campo representa el valor máximo que se podría alcanzar
-                | Este campo es editable solo si el elemento es una Nota (no tiene elementos hijos) además es de color ver.
+                | Este campo es editable solo si el elemento es una Nota ( no tiene elementos hijos ) además es de color ver.
+              li Valor mínimo ( valor por defecto 0.00 ). Este campo representa el valor máximo que se podría alcanzar
+                | Este campo es editable solo si el elemento es una Nota ( no tiene elementos hijos ) además es de color ver.
               li El peso del elemento ( en la fórmula: 3PA + 2PB + 3Ex1 + 3Ex2 , el peso del 
-                | Ex1 es de 3). En ese caso el peso se encuentra después del 'x' por lo tanto es 1. 
-              li Las flechas permiten incrementar o reducir la cantidad de decimales del elemento ( valores min y max).
+                | Ex1 es de 3 ). En ese caso el peso se encuentra después del 'x' por lo tanto es 1. 
+              li Las flechas permiten incrementar o reducir la cantidad de decimales del elemento ( valores min y max ).
               li Permite aumentar los elementos hijos.
               li Permite eliminar un elemento y sus hijos.
               li Permite definir para realizar el cálculo del valor de este elemento se debe truncar o redondear. 
@@ -143,7 +143,7 @@ html(lang='eng')
           a(href='#') 5. ¿Me das un ejemplo como aplicaría esta página para mis notas?
 
         div(id='a5', class='answer')
-          p Claro a continuación crearemos de forma mas rápida la estructura de un curso.
+          p Claro, a continuación crearemos de forma mas rápida la estructura de un curso.
             ul.decimal
               li Empecemos eligiendo el curso para crear la estructura.
                 
@@ -156,7 +156,7 @@ html(lang='eng')
               li Nos falta agregarle las notas de las prácticas 11, 15, 16 y el examen 13.
                 figure
                   img(src='/images/editvalue.gif')
-                | Para agregar cada nota cambiaremos los valores (20.00 y 00.00) por el valor de nuestra nota.
+                | Para agregar cada nota cambiaremos los valores ( 20.00 y 00.00 ) por el valor de nuestra nota.
                 | Para este ejemplo los valores serían: Pa1 de 11, Pa2 de 15, Pa3 de 16 y Ex1 de 13.
                 | Los 2 valores representan las notas mínimas y máximas que podrías alcanzar es por esto que
                 | el valor por defecto es 20.00 y 0.00 respectivamente. Mientras actualizas las notas te puedes
@@ -165,14 +165,16 @@ html(lang='eng')
                 figure
                   img(src='/images/paso3ejemplo.jpg', alt='menu')
               li Estos valores mínimos y máximos que se pueden actualizar en los elementos de color verde, nos pueden
-                | permitir simular valores en las notas. Por ejemplo, el la nota de la Pc4 digo voy a sacar entre 10 y 12,
+                | permitir simular valores en las notas. Cuando simulas puedes decir voy a sacar 13 en una práctica pero
+                | utilizando este rango de valores máximos y mínimos sino estás seguro de sacar 13 puedes decir sacaré entre
+                | 10 y 15 por ejemplo. De esta manera, para la nota de Pc4 digo voy a sacar entre 10 y 12,
                 | y en el examen 2 sacaré 14. La nota de la Pc5 sigue asumiendo un 20 y 0 ,y bajo estas notas actualizadas se
                 | obtiene un promedio nuevo. De esta manera se puede jugar con los valores mínimos y máximos para saber cuanto
                 | deberías sacar para obtener un promedio deseado.
                 figure
                   img(src='/images/paso4ejemplo.jpg', alt='menu')
-                | Asumiendo estas notas se podría obtener un promedio máximo de 17.24 tomando en cuenta los valores máximos y
-                | de 7.05 tomando en cuenta los valores mínimos.
+                | Asumiendo estas notas se podría obtener un promedio máximo de 14.24 tomando en cuenta los valores máximos y
+                | de 13.40 tomando en cuenta los valores mínimos.
               
               div(class='red') Al editar una fórmula no te olvides de guardarla
 
@@ -182,7 +184,7 @@ html(lang='eng')
         div(id='a6', class='answer')
           p Por el momento no contamos con botón de donaciones, pero cuando lo agregemos espero que me dejes
             | mi propina porque renuncié a mi trabajo para hacer esto 
-            span(id='smiling-face') ☺ 
+            span(id='smiling-face') ☺ ¡Apóyame pe chorri!
             |. Pero la mejor forma de aportar es compartiendo tus cursos y sus
             | fórmulas para que otras personas puedan utilizarlas. Para compartirlas debes seleccionar tu curso
             | y dar click sobre 
@@ -194,7 +196,7 @@ html(lang='eng')
           a(href='#') 7. Tengo más dudas ¿Qué hago?
 
         div(id='a7', class='answer')
-          p Mediante la opción de contacto, ubicada en la parte superior dereca de cada página, puedes realizar
+          p Mediante la opción de contacto, ubicada en la parte superior derecha de cada página, puedes realizar
             | consultas o brindar sugerencias para mejorar esta página.
 
   script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")

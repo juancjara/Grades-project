@@ -19,7 +19,7 @@ module.exports = function(grunt) {
             'public/javascript/contact.js'
           ],
           'public/javascript/min/help.min.js': [
-            'public/javascript/min/help.js
+            'public/javascript/help.js'
           ]
         }
       }
