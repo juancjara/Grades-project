@@ -8,8 +8,21 @@ var main = {
                            d3.select('#edges'),
                            nodeTemplate, 
                            {x: 900, y: 60});
+      window.onresize = main.updateTreeView;  
       main.init(api, strings);
     });
+  },
+  updateTreeView: function () {
+    var style = getComputedStyle($('#grades-container')[0]);
+    var width = parseInt(style['width']) - parseInt(style['left']);
+    var height = parseInt(style['height']) - 34;
+    var bbox = NodeMgr.getBBox();
+    width = Math.max(width, bbox.width + 100);
+    height = Math.max(height, bbox.height + 100);
+    d3.select('#tree-container')
+      .attr('height', height)
+      .attr('width', width + parseInt(style['left']));
+    NodeMgr.moveRoot({x: width/2, y: 60});
   },
   init: function(api, strings) {
     var courseList = courseSearch(api, main, strings);
@@ -71,29 +84,22 @@ var main = {
     });
     tour.init();
     $help_link.on('click', function() {
-      console.log('click');
       tour.restart();  
     });
 
     var toggle_sidebar = function(e) {
-      
       var next_left = width_sidebar - parseInt($toggle_sidebar.css('left'));
       var sidebar_left = -1 * width_sidebar - parseInt($left_panel.css('left')) ;
-      console.log("left", sidebar_left);
       $left_panel.animate({'left': sidebar_left + 'px'}, 'slow');
       $toggle_sidebar.animate({'left': next_left + 'px'}, 'slow');
       var $grades_container = $('#grades-container');
       var body_width = $("body").width();
-      if ( body_width > 970 ) {
-        var offset_width = -300;
-        if (next_left == 0) {
-          offset_width = 300;
-        }
-        $grades_container.animate(
-          {'width': '+='+offset_width+'px', 'left': next_left+'px'},
-          'slow'
-        );
-      }
+      $grades_container.animate({
+          'left': next_left+'px'
+        },
+        'slow',
+        main.updateTreeView
+      );
       e.stopPropagation();
     };
     $toggle_sidebar.on('click', toggle_sidebar);
@@ -112,6 +118,7 @@ var main = {
       } else {
         NodeMgr.newTree();
       }
+      main.updateTreeView();
     };
 
     var remove_tree = function() {
@@ -119,7 +126,6 @@ var main = {
       $('.on-sel-hide').hide();
       $('#course-name').text("");      
       NodeMgr.cleanSvg();
-
     };
     $apply_base_formula.on('click', function() {
       var course_baseFormula = $course_base_formula.val();
@@ -188,6 +194,7 @@ var main = {
     }
   }
 }
+
 $(function() {
   main.load(api, strings);
   //main.test();
