@@ -11,7 +11,8 @@ module.exports = function(grunt) {
             'public/javascript/myCourses.js',
             'public/javascript/string.js',
             'public/javascript/nodeView.js',
-            'public/javascript/main.js'
+            'public/javascript/main.js',
+            'public/javascript/bootstrap-tour.min.js'
           ],
           'public/javascript/min/about.min.js': [
             'public/javascript/consumeApi.js',
