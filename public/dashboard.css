@@ -50,8 +50,8 @@ line {
   bottom: 0px;
   left: 0;
   overflow: auto;
-  position: relative;
-  top: 50 px;
+  position: fixed;
+  top: 50px;
   user-select: none;
   -moz-user-select: none; 
   -webkit-user-select: none; 
@@ -322,9 +322,6 @@ line {
   }
   #grades-container {
     left: 300px;
-    width: -moz-calc(100% - 300px);
-    width: -webkit-calc(100% - 300px);
-    width: calc(100% - 300px);
   }
 }
 
@@ -391,3 +388,4 @@ line {
 .decimal {
   list-style-type: decimal;
 }
+
