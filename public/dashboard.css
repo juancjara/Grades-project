@@ -360,6 +360,7 @@ line {
 #faq {
   margin-top: 2em;
   margin-bottom: 4em;
+  margin-right: 15px;
 }
 
 #faq .glyphicon {
@@ -374,8 +375,8 @@ line {
 #faq figure {
   display: block;
   text-align: center;
+  overflow-x: auto;
 }
-<<<<<<< HEAD
 
 #faq iframe {
   display: block;
@@ -386,6 +387,11 @@ line {
   font-size: 1.3em;
 }
 
-.decimal {
+#faq .zoom-06 {
+  zoom: 0.6;
+}
+
+#faq .decimal {
   list-style-type: decimal;
 }
+
