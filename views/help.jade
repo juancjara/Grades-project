@@ -4,7 +4,7 @@ html(lang='eng')
   head 
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    title Grades app
+    title mevoyx20
     link(rel='stylesheet', href='/css/normalize.min.css')
     link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
     link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Oleo+Script')
@@ -21,7 +21,7 @@ html(lang='eng')
 
   body
     .social-sidebar
-      ul
+      url
         li
           a(class='fa fa-facebook',
             href='#',onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=www.joindota.com','facebook-share-dialog','width=626,height=436');return false;")
@@ -54,70 +54,114 @@ html(lang='eng')
 
         div(id='a1' ,class='answer')
           p En el menú de la izquierda debes ingresar el curso que desees buscar.
-            | En caso el curso exista (fue compartido por alguna buena persona) puedes
-            | seleccionar para visualizar su fórmula y agregarlo a tus 
-            | cursos haciendo click sobre
-            span(class='glyphicon glyphicon-floppy-disk')
-            | .
+            | En caso el curso exista, esto significa que alguna buena persona lo compartió, puedes
+            | seleccionarlo y dar click en Agregar, sino existe mira la siguiente pregunta.
+            figure
+              img(src='/images/findcourse.gif')
+              
 
         div(class='question', data-target='#a2')
-          a(href='#') 2. ¿Qué hago si el curso que busco no existe?
+          a(href='#') 2. El curso que busco no existe, ¿cómo lo agrego?
 
         div(id='a2' ,class='answer')
           p Si la búsqueda de cursos no muestra resultados puedes crear el curso 
             | haciendo click sobre 
             span(class='glyphicon glyphicon-plus')
-            | que aparece en el mensaje de la parte inferior, de esta forma el curso 
-            | pasa a formar parte de "Mis Cursos".
+            | que aparece en el mensaje de la parte inferior del campo de búsqued, 
+            | de esta forma el curso  pasa a formar parte de "Mis Cursos".
+            figure
+              img(src='/images/createcourse.gif')
 
         div(class='question', data-target='#a3')
           a(href='#') 3. ¿Cómo creo una nueva fórmula?
 
         div(id='a3' ,class='answer')
-          p Primero se debe seleccionar un curso y se mostrará la formula en la parte derecha.
-            | Si es la primera vez que se asigna una fórmula aparece un solo nodo del árbol de fórmulas, 
-            | cada nodo representa una evaluación
-            | o promedio de evaluaciones.
+          p Para iniciar debes seleccionar un curso.
+            | Existen 2 formas de crear fórmula, te explicaremos la forma más sencilla en este video.
+            figure
+              iframe(width="560", height="315", src="//www.youtube.com/embed/a4isMEsxxLA",
+              frameborder="0",  allowfullscreen)
+            | Te recomendamos leer los pasos a continuación además de ver el video.
+            br
+            br
+            ul.decimal
+              li Debes a tu intranet y copiar la fórmula del curso (no copiar paréntesis
+                | ni la división al final ya que esto se calcula automáticamente a partir de los pesos)
+                div(class='scroll-h')
+                  figure 
+                    img(src='/images/paso1formulabase.jpg', alt='fórmula de intranet')
+              | Para este caso copiaremos como fórmula : "3Pa + 3Ex1 + 4Ex2"
+              li Debes copiar la fórmula en el campo donde que tiene de nombre fórmula y seleccionar "Aplicar Fórmula"
+                div(class='scroll-h')
+                  figure 
+                    img(src='/images/paso2formulabase.jpg', alt='aplicar fórmula')
+              li Esto crea 4 elementos que para este caso representan: Pro (promedio final) con peso 1, 
+                | Pa (promedio de prácticas) con peso 3 , Ex1 (Nota de examen 1) con peso 3,
+                | Ex2 (Nota de examen 2) con peso 4.
+                div(class='scroll-h')
+                  figure 
+                    img(src='/images/paso3formulabase.jpg', alt='cuadrados iniciales')
+                | Como se hace manualmente para calcular el promedio final se multiplican promedio de prácticas y exámenes
+                | por su peso y se divide entre la suma de todos los pesos ( en este caso se divide entre 10).
+                | Además, aunque no lo sepas, el promedio de tus prácticas debe ser truncado a un solo decimal. Es decir,
+                | si el promedio de prácticas es 12.38 el valor que se debe utilizar como promedio es 12.3 "el promedio de
+                | prácticas NO se redondea." creéme conozco gente que no sabía esto y sacaba mal los cálculos de sus notas.
+                br
+                | Como te puedes dar cuenta por defecto al ingresar la fórmula el primer elemento (Pro) se redondea a 2 decimales
+                | y los elementos debajo de este se truncan a un sólo decimal.
+              li Ahora se debe agregar los elementos necesarios para completar la fórmula. Para este caso nos faltan las notas
+                | de las 5 prácticas, entonces seleccionamos el elemento "Pa" y haciendo click en el "+" se agrega cada práctica.
+                div(class='scroll-h')
+                  figure 
+                    img(src='/images/paso4formulabase.jpg', alt='agregar prácticas')
+              li Por último para este caso falta indicar que para sacar el promedio de prácticas se debe eliminar la mínima 
+                | nota. Esto se hace seleccionando el elemento promedio de prácticas (Pa) y dando click sobre la "N" para que
+                | se cambie por una "E" que significa que se eliminará la mínima nota para obtener el promedio, justo lo que 
+                | queríamos. 
+                br
+                | Más detalle sobre el menú en la siguiente pregunta 
+                a(href='#p4') Pregunta 4
+                |.
+                div(class='scroll-h')
+                  figure 
+                    img(src='/images/paso5formulabase.jpg', alt='agregar prácticas')
+            div(class='red') Al editar una fórmula no te olvides de guardarla
+         
+
+        div(class='question', data-target='#a4', id='p4')
+          a(href='#') 4. Cuando le doy click al cuadrado le sale un menú, ¿para qué sirve?
+
+        div(id='a4' ,class='answer')
+           p Cada vez que das click sobre estos cuadrados le sale un menú, y este cuadrado tiene valores que
+            | se pueden editar
+
             figure
               img(src='/images/menuforkids.jpg', alt='menu')
             | Todos los campos a continuación son editables salvo de excepciones (campo 2 y 3).
-            br
-            br
-            | 1. Nombre de la evaluación.
-            br
-            | 2. Valor máximo (valor por defecto 20.00). 
-            | Este campo es editable solo si se encuentra en el último nivel.
-            br
-            | 3. Valor mínimo (valor por defecto 0.00).
-            | Este campo es editable solo si se encuentra en el último nivel.
-            br
-            | 4. El peso del elemento ( en la fórmula: 3PA + 2PB + 3Ex1 + 3Ex2 , el peso del 
-            | Ex1 es de 3). En ese caso el peso se encuentra después del 'X' por lo tanto es 1. 
-            br
-            | 5. Las flechas permiten incrementar o reducir la cantidad de decimales del rango
-            | de notas (min y max).
-            br
-            | 6. Permite aumentar subevaluaciones (hijos del nodo).
-            br
-            | 7. Permite eliminar la evaluación y las subevaluaciones.
-            br
-            | 8. Permite definir si los valores del rango de notas (min y max) deben ser 
-            | truncados o redondeados respecto a los decimales definidos. Si muestra una R entonces
-            | los valores serán redondeados , en cambio si se muestra una F los valores serán truncados.
-            br
-            | 9. Permite establecer si se debe eliminar la subevaluación con la nota mínima o no.
-            | Es decir, para obtener el promedio de la evaluación se debe eliminar la menor nota.
-            | Si muestra una N la subevaluación mínima no será eliminada pero si muetra E la menor nota
-            | será eliminada.
+            ul.decimal
+              li Nombre del elemento.
+              li Valor máximo (valor por defecto 20.00). Este campo representa el valor mínimo que se podría
+                | alcanzar.
+                | Este campo es editable solo si el elemento es una Nota (no tiene elementos hijos).
+              li Valor mínimo (valor por defecto 0.00). Este campo representa el valor máximo que se podría alcanzar
+                | Este campo es editable solo si el elemento es una Nota (no tiene elementos hijos).
+              li El peso del elemento ( en la fórmula: 3PA + 2PB + 3Ex1 + 3Ex2 , el peso del 
+                | Ex1 es de 3). En ese caso el peso se encuentra después del 'x' por lo tanto es 1. 
+              li Las flechas permiten incrementar o reducir la cantidad de decimales del elemento ( valores min y max).
+              li Permite aumentar los elementos hijos.
+              li Permite eliminar un elemento y sus hijos.
+              li Permite definir para realizar el cálculo del valor de este elemento se debe truncar o redondear. 
+                | Si muestra una R entonces
+                | los valores serán redondeados , en cambio si se muestra una T los valores serán truncados.
+              li Permite establecer si para realizar el cálculo del valor de este elemento se debe eliminar
+                | la nota mínima o no.
+                | Si se muestra una 'E' significa que se eliminará el hijo con la menor nota, en cambio si se
+                | muestra una 'N' no se eliminará ningún hijo para realizar el cálculo.
 
-            div(class='red') Al editar una fórmula no olvides guardarla haciendo click en el botón
-              | con imagen de disquete en la parte superior derecha. Sino todas tus modificaciones se
-              | perderán.
+        div(class='question', data-target='#a5')
+          a(href='#') 5. Estoy volando, no entendí como crear una formula. ¿Me das un ejemplo?
 
-        div(class='question', data-target='#a4')
-          a(href='#') 4. Estoy volando, no entendí como crear una formula. ¿Me das un ejemplo?
-
-        div(id='a4', class='answer')
+        div(id='a5', class='answer')
           p Solo por esta vez toma un ejemplo:
             div(class='scroll-h')
               figure
@@ -134,26 +178,26 @@ html(lang='eng')
             | Para obtener los promedios de las prácticas tipo A y B se debe truncar a un sólo decimal.
             | Y el promedio general debe ser redondeado a 2 decimales.
 
-        div(class='question', data-target='#a5')
-          a(href='#') 5. Quiero apoyar pero no quiero darte plata. ¿De qué forma puedo ayudar?
+        div(class='question', data-target='#a6')
+          a(href='#') 6. Quiero apoyar pero no quiero darte plata. ¿De qué forma puedo ayudar?
 
-        div(id='a5', class='answer')
-          p Yo quería la plata pero si no quieres, la mejor forma de aportar es compartiendo tus cursos y sus
+        div(id='a6', class='answer')
+          p Por el momento no contamos con botón de donaciones, pero cuando lo agregemos espero que me dejes
+            | mi propina porque renuncié a mi trabajo para hacer esto 
+            span(id='smiling-face') ☺ 
+            |. Pero la mejor forma de aportar es compartiendo tus cursos y sus
             | fórmulas para que otras personas puedan utilizarlas. Para compartirlas debes seleccionar tu curso
             | y dar click sobre 
             span(class='glyphicon glyphicon-cloud')
-            | . También puedes compartir esta página con tus patas. Y finalmente si tienes alguna sugerencia puedes
-            | hacer click en 
-            a(href="about") Contacto 
-            | y escribirnos.
+            | . También comparte esta página en tus redes sociales. Y finalmente si tienes alguna sugerencia puedes
+            | hacerlo mediante la opción de contacto que se encuentra en la parte superior derecha de cada página.
 
-        div(class='question', data-target='#a6')
-          a(href='#') 6. Tengo más dudas ¿Qué hago?
+        div(class='question', data-target='#a7')
+          a(href='#') 7. Tengo más dudas ¿Qué hago?
 
-        div(id='a6', class='answer')
-          p Da click en 
-            a(href="about") Contacto 
-            | y escríbenos.
+        div(id='a7', class='answer')
+          p Mediante la opción de contacto, ubicada en la parte superior dereca de cada página, puedes realizar
+            | consultas o brindar sugerencias para mejorar esta página.
 
   script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")
   script(src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js")
