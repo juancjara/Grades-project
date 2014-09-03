@@ -66,7 +66,7 @@ var main = {
         {
           element: "#help",
           title: "Ayuda",
-          content: "Haz click para obtener más ayuda",
+          content: "Obtén ayuda. Si es tu primera vez te recomendamos entrar aquí.",
           placement: "left"
         },
       ],

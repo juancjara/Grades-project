@@ -410,8 +410,8 @@ var NodeMgrGen =
       });
 
       return {
-        width: maxX - minX + 80,
-        height: maxY - minY + 80
+        width: maxX - minX  -200,
+        height: maxY - minY -200
       };
     },
     appendChange: function(change) {
