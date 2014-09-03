@@ -115,7 +115,7 @@ var main = {
     };
 
     var remove_tree = function() {
-      $('#save-formula').hide().off('click');
+      $('#save-formula').off('click');
       $('.on-sel-hide').hide();
       $('#course-name').text("");      
       NodeMgr.cleanSvg();

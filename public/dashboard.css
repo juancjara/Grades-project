@@ -378,3 +378,16 @@ line {
   display: block;
   text-align: center;
 }
+
+#faq iframe {
+  display: block;
+  margin: 0 auto;
+}
+
+#faq #smiling-face {
+  font-size: 1.3em;
+}
+
+.decimal {
+  list-style-type: decimal;
+}
