@@ -325,6 +325,10 @@ line {
   }
 }
 
+#home {
+  text-decoration: none;
+}
+
 /* help page*/
 
 /*#faq {
