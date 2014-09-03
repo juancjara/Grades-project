@@ -6,6 +6,15 @@ h3 {
   text-align: center;
 }
 
+.control {
+  pointer-events: bounding-box;
+  cursor: pointer;
+}
+
+.control:hover {
+  fill: steelblue;
+}
+
 .navigation {
   width: 100%;
 }
@@ -30,7 +39,8 @@ circle, rect {
 
 line {
   stroke: grey;
-  stroke-width: 3px;
+  stroke-width: 2px;
+  stroke-dasharray: 5, 5;
 }
 
 .incRect {

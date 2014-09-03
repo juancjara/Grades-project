@@ -15,7 +15,7 @@ var main = {
   updateTreeView: function () {
     var style = getComputedStyle($('#grades-container')[0]);
     var width = parseInt(style['width']) - parseInt(style['left']);
-    var height = parseInt(style['height']) - 34;
+    var height = parseInt(style['height']) - 50;
     var bbox = NodeMgr.getBBox();
     width = Math.max(width, bbox.width + 100);
     height = Math.max(height, bbox.height + 100);
