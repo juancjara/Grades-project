@@ -1,4 +1,5 @@
 NodeMgr = null;
+simpleView = null;
 
 var main = {
   load: function(api, strings) {
@@ -25,6 +26,22 @@ var main = {
     NodeMgr.moveRoot({x: width/2, y: 60});
   },
   init: function(api, strings) {
+    simpleView= new SimpleView();
+    /*var data = [
+      {
+        weight: 3, label: 'Pa', average: '20',
+        evals: [{value: '15'},{value: '17'}]
+      },
+      {
+        weight: 3, label: 'Ex1', average: '20',
+        evals: [{value: '45'},{value: '18'}]
+      },
+      {
+        weight: 4, label: 'Ex2', average: '20',
+        evals: [{value: '35'},{value: '19'}]
+      }
+    ];*/
+    
     var courseList = courseSearch(api, main, strings);
     var my_list = course(api, main, strings);
     var $left_panel = $("#left-panel");
@@ -114,6 +131,7 @@ var main = {
       $('#course-name').text(course.name);      
       elem.find('.click-menu').show();
       if (course.formula) {
+        simpleView.import(JSON.parse(course.formula));
         NodeMgr.import(JSON.parse(course.formula));
       } else {
         NodeMgr.newTree();
@@ -133,12 +151,14 @@ var main = {
         main.show_err_submit($course_base_formula, 'Debe ingresar una fórmula','bottom');
       } else {
         NodeMgr.parseFormula(course_baseFormula);
+        simpleView.parseFormula(course_baseFormula);
         main.show_info_msg(strings.base_formula_to_tree);
       }
     });
 
     var get_formula = function() {
       var formula = JSON.stringify(NodeMgr.export());
+      simpleView.export();
       return {
         formula: formula,
         baseFormula: $course_base_formula.val()

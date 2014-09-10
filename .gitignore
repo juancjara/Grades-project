@@ -14,6 +14,7 @@ logs
 *.log
 # files
 config.js
+.module-cache
 
 # Runtime data
 pids
