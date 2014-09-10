@@ -13,7 +13,7 @@ html(lang='eng')
     link(rel='stylesheet', href='css/bootstrap-tour.min.css')
     script(type='text/javascript').
       !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-
+    
   if production
     link(rel='stylesheet', href='css/min/dashboard.min.css')
   else
@@ -51,6 +51,7 @@ html(lang='eng')
           button(id='apply-base-formula', class='btn btn-primary') Aplicar Fórmula
           button(id='save-formula', class='btn btn-primary') Guardar
             //span(class='glyphicon glyphicon-floppy-disk') Guardar
+        div(id='view-container')
         svg(id='tree-container' height='800' width='1300')
           g(id="edges")
           g(id="nodes")
@@ -84,6 +85,9 @@ html(lang='eng')
     if production
       script(src="javascript/min/grades.min.js")
     else
+      script(src='http://fb.me/react-0.11.1.js')
+      script(src='javascript/build/simpleViewReact.js')
+      script(src='javascript/simpleView.js')
       script(src="javascript/nodeView.js")
       script(src="javascript/spin.min.js")
       script(src="javascript/consumeApi.js")

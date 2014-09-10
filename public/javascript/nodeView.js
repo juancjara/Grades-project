@@ -482,7 +482,7 @@ var NodeMgrGen =
       }
       redraw();
     },
-    parseFormula: function(formula) {
+    formulaToJson: function(formula) {
       //2*Pa + Pb + 3*Ex1 + 4*Ex2
       formula = formula.replace(/\s/g, '');
       var data = formula.split('+');
@@ -522,7 +522,11 @@ var NodeMgrGen =
         child.trunk = 1;
         parent.children.push(child);
       };
-      NodeMgr.import(parent);
+      return parent;
+    },
+    parseFormula: function(formula) {
+      var json = nodeManager.formulaToJson(formula);
+      NodeMgr.import(json);
     }
     
   }; 
