@@ -483,7 +483,6 @@ var NodeMgrGen =
       redraw();
     },
     formulaToJson: function(formula) {
-      //2*Pa + Pb + 3*Ex1 + 4*Ex2
       formula = formula.replace(/\s/g, '');
       var data = formula.split('+');
       var NodeObj = function(params) {
@@ -520,6 +519,11 @@ var NodeMgrGen =
         child.label = label;
         child.weight = weight;
         child.trunk = 1;
+
+        var newChild = new NodeObj();
+        newChild.label = 'label';
+        child.children.push(newChild);
+
         parent.children.push(child);
       };
       return parent;
