@@ -1,4 +1,4 @@
-  function getOffsetRect(elem) {
+function getOffsetRect(elem) {
   // (1)
   var box = elem.getBoundingClientRect();
 
@@ -828,24 +828,28 @@ function Node(nodeId, nodeView, data){
     .on('click', function() {
       NodeMgr.addNode(id); 
     })
-    .style('pointer-events', 'bounding-box');
+    .classed('control', true);
+
   d3.select(view).select("#remove")
     .on('click', function() {
       NodeMgr.removeNode(id); 
     })
-    .style('pointer-events', 'bounding-box');
+    .classed('control', true);
+
   STrunk.on('click', function() {
     trunk = 1 - trunk;
     STrunk.text(arrTrunk[trunk]);
     NodeMgr.simulate();
   })
-  .style('pointer-events', 'bounding-box');
+  .classed('control', true);
+
   SDeleteMin.on('click', function() {
     deleteMin = 1 - deleteMin; 
     SDeleteMin.text(arrDelete[deleteMin]);
     NodeMgr.simulate();
   })
-  .style('pointer-events', 'bounding-box');
+  .classed('control', true);
+
   d3.select(view).select('#inc-decimals')
     .on('click', function() {
       decimals++;
@@ -856,6 +860,7 @@ function Node(nodeId, nodeView, data){
       updateNumbers(decimals);
     })
   .style('pointer-events', 'bounding-box');
+
   d3.select(view).select('#dec-decimals')
     .on('click', function() {
       decimals--;
@@ -866,6 +871,7 @@ function Node(nodeId, nodeView, data){
       updateNumbers(decimals);
     })
   .style('pointer-events', 'bounding-box');
+
   return node;
 }
 

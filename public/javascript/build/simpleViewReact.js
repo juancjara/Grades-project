@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+
 var AverageData = React.createClass({displayName: 'AverageData',
   render: function() {
     var val ='ElimMin';
@@ -6,14 +7,30 @@ var AverageData = React.createClass({displayName: 'AverageData',
       val = 'NoElimMin';
     }
     return (
-      React.DOM.div({className: "eva-info"}, 
-        React.DOM.span(null, this.props.weight), 
-        React.DOM.span(null, "x"), 
-        React.DOM.span(null, this.props.label), 
-        React.DOM.span(null, " = "), 
-        React.DOM.span(null, this.props.average), 
-        React.DOM.span({onClick: this.props.toggleDeleteMin}, 
-          val
+      React.DOM.ul({className: "list-hori"}, 
+        React.DOM.li(null, 
+          React.DOM.div({className: "eva-info"}, 
+            React.DOM.span({className: "big"}, this.props.label), 
+            React.DOM.span(null, 'x' + this.props.weight)
+          )
+        ), 
+        React.DOM.li(null, 
+          React.DOM.div({className: "eva-info"}, 
+            React.DOM.span({className: "big"}, " = ")
+          )
+        ), 
+        React.DOM.li(null, 
+          React.DOM.div({className: "eva-info"}, 
+            React.DOM.span({className: "big"}, this.props.average), 
+            React.DOM.span({onClick: this.props.toggleDeleteMin}, 
+              val
+            )
+          )
+        ), 
+        React.DOM.li(null, 
+          React.DOM.div({className: "eva-info"}, 
+            React.DOM.span({className: "glyphicon glyphicon-chevron-right"})
+          )
         )
       )
     );
@@ -49,11 +66,11 @@ var EvaluationList = React.createClass({displayName: 'EvaluationList',
     return (
       React.DOM.ul({className: "eva-list list-hori"}, 
         this.props.evals.map(function(item, i) {
-          var classElem = 'evaluation '+ visibles[i];
+          var classElem = 'evaluation note '+ visibles[i];
           return (
             React.DOM.li({key: i, id: i}, 
               React.DOM.div({onClick: this.startEdit.bind(null,i), className: classElem}, 
-                React.DOM.span(null, item.bounds.upper), 
+                React.DOM.span({className: "big"}, item.bounds.upper), 
                 React.DOM.span({onClick: this.props.onRemove.bind(null, i)}, " elim")
               )
             )
@@ -136,7 +153,11 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
           startEdit: this.startEdit, 
           evals: this.state.evals, 
           visibles: this.state.visibles}), 
-        React.DOM.span({onClick: this.addEvaluation}, "mas"), 
+        React.DOM.div({
+          className: "evaluation note phanthom", 
+          onClick: this.addEvaluation}, 
+          React.DOM.span({className: "big"}, "?")
+        ), 
         EvaluationEdit({ref: "edit", stopEdit: this.stopEdit})
       )
     );
@@ -151,8 +172,8 @@ var GradeBox = React.createClass({displayName: 'GradeBox',
     return (
       React.DOM.div({className: "grades-box"}, 
         React.DOM.div({className: "eva-info"}, 
-          React.DOM.span(null, this.state.data.label), 
-          React.DOM.span(null, this.state.data.bounds.upper)
+          React.DOM.span({className: "big"}, this.state.data.label), 
+          React.DOM.span({className: "big"}, this.state.data.bounds.upper)
         ), 
         React.DOM.div({className: "eva-list"}, 
           this.state.data.children.map(function(item, i) {
