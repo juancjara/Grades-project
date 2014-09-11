@@ -27,20 +27,6 @@ var main = {
   },
   init: function(api, strings) {
     simpleView= new SimpleView();
-    /*var data = [
-      {
-        weight: 3, label: 'Pa', average: '20',
-        evals: [{value: '15'},{value: '17'}]
-      },
-      {
-        weight: 3, label: 'Ex1', average: '20',
-        evals: [{value: '45'},{value: '18'}]
-      },
-      {
-        weight: 4, label: 'Ex2', average: '20',
-        evals: [{value: '35'},{value: '19'}]
-      }
-    ];*/
     
     var courseList = courseSearch(api, main, strings);
     var my_list = course(api, main, strings);
