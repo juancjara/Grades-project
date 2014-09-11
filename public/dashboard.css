@@ -412,43 +412,100 @@ line {
 
 /*** simple view ***/
 
-.view-container {
-  line-height: 24px;
+.note {
+    position: relative;
+    padding: 1em 1.5em;
+    margin: 2em auto;
+    color: #fff;
+    background: #97C02F;
+    overflow: hidden;
 }
 
-
+.note:before {
+    content:"";
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-width: 0 16px 16px 0;
+    border-style: solid;
+    border-color: #fff #fff #658E15 #658E15;
+    background: #658E15;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3), -1px 1px 1px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3), -1px 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3), -1px 1px 1px rgba(0, 0, 0, 0.2);
+    /* Firefox 3.0 damage limitation */
+    display: block;
+    width: 0;
+}
+.note.rounded {
+    -moz-border-radius: 5px 0 5px 5px;
+    border-radius: 5px 0 5px 5px;
+}
+.note.rounded:before {
+    border-width: 8px;
+    border-color: #fff #fff transparent transparent;
+    -moz-border-radius: 0 0 0 5px;
+    border-radius: 0 0 0 5px;
+}
+.view-container {
+    display:inline-block;
+    line-height: 24px;
+}
 .eva-info {
-  display:inline-block;
-  vertical-align: middle;
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+    display:inline-block;
+    vertical-align: middle;
+    margin: 10px;
+}
+.eva-info span, .evaluation span {
+    text-align: center;
+    display: block;
+    position: relative;
+}
+.eva-info .big {
+    font-size: 30px;
+}
+.evaluation .big {
+    font-size: 25px;
 }
 .eva-list {
-  display:inline-block;
-  list-style-type: none;
-  margin-bottom: 0;
-  margin-top: 0;
-  vertical-align:middle;
+    display: inline-block;
+    vertical-align: middle;
 }
-
-.list-hori {  
-  display: inline-block;
-  list-style-type: none;
+.list-hori {
+    list-style-type: none;
+    vertical-align: middle;
+    padding: 0px;
 }
-
 .list-hori li {
-  display: inline;
-  margin-right: 3px;
+    display: inline;
+    margin-right: 3px;
 }
-
 .visible {
-  display: inline-block !important;
+    display: inline-block !important;
 }
-
 .not-visible {
-  display: none !important;
+    display: none !important;
 }
 .eva-edit {
-  display: none;
+    display: none;
 }
+
+
 .evaluation {
-  display: inline-block;
+    display:inline-block;
+    vertical-align: middle;
+    margin: 10px;
+    border: 1px solid;
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-right: 15px;
+}
+.phanthom {
+    opacity: .35;
+}
+
+.average-block ul{
+    display: inline-block;
 }
