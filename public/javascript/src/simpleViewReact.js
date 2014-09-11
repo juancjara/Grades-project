@@ -96,7 +96,7 @@ var AverageBox = React.createClass({
     var visibles = this.state.visibles;
     var evaluations = this.state.evals;
     var index = this.state.indexEdit;
-    evaluations[index].bounds.upper =  newValue;
+    evaluations[index].bounds.upper = parseInt(newValue);
     visibles[index] = 'visible';
     this.setState({
       editElem: {},
@@ -105,6 +105,7 @@ var AverageBox = React.createClass({
     });
     var evalEdit = this.refs.edit.getDOMNode();
     $(evalEdit).hide();
+    this.props.simulate();
   },
   addEvaluation: function() {
     var evaluations = this.state.evals;
@@ -147,6 +148,65 @@ var GradeBox = React.createClass({
   getInitialState: function() {
     return {data: this.props.data};
   },
+  simulate: function() {
+    function simulation(node) {
+      var weights = 0;
+      var bounds = {lower: 0, upper: 0};
+      var minVal = {lower: 21, upper: 21};
+      var minWeight =  {lower: 0, upper: 0};
+      var weightBound = {lower: 0, upper: 0};
+      var childrenLength= node.children.length;
+
+      if (childrenLength == 0) {
+        return node.bounds;
+      }
+      for (var i = 0; i < node.children.length; i++) {
+        var actualNode = node.children[i];
+        var temp = simulation(actualNode);
+        
+        var weight = actualNode.weight;
+        bounds.lower += temp.lower * weight;
+        bounds.upper += temp.upper * weight;
+        weights += weight;
+
+        if (temp.lower < minVal.lower){
+          minVal.lower = temp.lower;
+          minWeight.lower = weight;
+        }
+
+        if (temp.upper < minVal.upper){
+          minVal.upper = temp.upper;
+          minWeight.upper = weight;
+        }
+      }
+
+      weightBound.lower = weights;
+      weightBound.upper = weights;
+
+      if (node.deleteMin) {
+        bounds.lower -= minVal.lower * minWeight.lower;
+        bounds.upper -= minVal.upper * minWeight.upper;
+        weightBound.lower -= minWeight.lower;
+        weightBound.upper -= minWeight.upper;
+      }
+
+      bounds.lower /= weightBound.lower;
+      bounds.upper /= weightBound.upper;
+
+      var precision = +Math.pow(10, node.decimals);
+      var round = node.trunk == 0 ? 0.5:0.0;
+      bounds.lower = Math.floor(bounds.lower * precision + round) / precision;
+      bounds.upper = Math.floor(bounds.upper * precision + round) / precision;
+      node.bounds = bounds;
+
+      return bounds;
+    }
+    var nodes = this.state.data;
+    simulation(nodes);
+    this.setState({
+      data: nodes
+    });
+  },
   render: function() {
     return (
       <div className='grades-box'>
@@ -157,9 +217,11 @@ var GradeBox = React.createClass({
         <div className='eva-list'>
           {this.state.data.children.map(function(item, i) {
             return (
-              <AverageBox key={i}
+              <AverageBox 
+                key={i}
                 elem={item}
-                evals={item.children} />
+                evals={item.children}
+                simulate={this.simulate} />
             );
           }, this)}
         </div>

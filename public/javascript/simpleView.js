@@ -3,12 +3,12 @@ var SimpleView = function() {
   var rootNode = document.getElementById('view-container');
   var data;
   var exports =  {
-    clean: function() {
+    cleanSVG: function() {
       React.unmountComponentAtNode(rootNode);
     },
     import: function(dataParam) {
       data = dataParam;
-      exports.clean();
+      exports.cleanSVG();
       React.renderComponent(
         GradeBox({data : dataParam}),
         rootNode
@@ -22,7 +22,6 @@ var SimpleView = function() {
       exports.import(json);
     },
     export: function() {
-      console.log(data);
       return data;
     },
     createNode: function() {
