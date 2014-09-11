@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+
 var AverageData = React.createClass({
   render: function() {
     var val ='ElimMin';
@@ -6,16 +7,32 @@ var AverageData = React.createClass({
       val = 'NoElimMin';
     }
     return (
-      <div className='eva-info'>
-        <span>{this.props.weight}</span>
-        <span>x</span>
-        <span>{this.props.label}</span>
-        <span> = </span>
-        <span>{this.props.average}</span>
-        <span onClick={this.props.toggleDeleteMin}>
-          {val}
-        </span>
-      </div>
+      <ul className='list-hori'>
+        <li>
+          <div className='eva-info'>
+            <span className='big'>{this.props.label}</span>
+            <span>{'x' + this.props.weight}</span>
+          </div>
+        </li>
+        <li>
+          <div className='eva-info'>
+            <span className='big'> = </span>
+          </div>
+        </li>
+        <li>
+          <div className='eva-info'>
+            <span className='big'>{this.props.average}</span>
+            <span onClick={this.props.toggleDeleteMin}>
+              {val}
+            </span>
+          </div>
+        </li>
+        <li>
+          <div className="eva-info"> 
+            <span className="glyphicon glyphicon-chevron-right"></span>
+          </div>
+        </li> 
+      </ul>
     );
   }
 });
@@ -49,11 +66,11 @@ var EvaluationList = React.createClass({
     return (
       <ul className='eva-list list-hori'>
         {this.props.evals.map(function(item, i) {
-          var classElem = 'evaluation '+ visibles[i];
+          var classElem = 'evaluation note '+ visibles[i];
           return (
             <li key={i} id={i}>
               <div onClick={this.startEdit.bind(null,i)} className={classElem}>
-                <span>{item.bounds.upper}</span>
+                <span className='big'>{item.bounds.upper}</span>
                 <span onClick={this.props.onRemove.bind(null, i)}> elim</span>
               </div>
             </li>
@@ -137,7 +154,11 @@ var AverageBox = React.createClass({
           startEdit={this.startEdit}
           evals={this.state.evals}
           visibles = {this.state.visibles}/>
-        <span onClick={this.addEvaluation}>mas</span>
+        <div
+          className='evaluation note phanthom'
+          onClick={this.addEvaluation}>
+          <span className='big'>?</span>
+        </div>
         <EvaluationEdit ref='edit' stopEdit={this.stopEdit} />
       </div>
     );
@@ -211,8 +232,8 @@ var GradeBox = React.createClass({
     return (
       <div className='grades-box'>
         <div className='eva-info'>
-          <span>{this.state.data.label}</span>
-          <span>{this.state.data.bounds.upper}</span>
+          <span className='big'>{this.state.data.label}</span>
+          <span className='big'>{this.state.data.bounds.upper}</span>
         </div>
         <div className='eva-list'>
           {this.state.data.children.map(function(item, i) {
