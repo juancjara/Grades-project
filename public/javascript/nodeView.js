@@ -483,6 +483,8 @@ var NodeMgrGen =
       redraw();
     },
     formulaToJson: function(formula) {
+      formula = formula.replace(/\/.*/g, '');
+      formula = formula.replace(/[\(\)]/g, '');
       formula = formula.replace(/\s/g, '');
       var data = formula.split('+');
       var NodeObj = function(params) {

@@ -26,7 +26,7 @@ var course = function(apiWS, msg, strings) {
         handler.selected_handler(res,courseHTML);
         $("#save-formula").on('click', function() {
           save_formula(course._id);
-        }).text('Guardar');
+        }).text(strings.saveFormulaCourse);
       });
     }
   };
@@ -103,7 +103,6 @@ var course = function(apiWS, msg, strings) {
     });
 
     $editTemplate.find('.ok').on('click', function(e) {
-      
       var data = {
         id: course._id,
         name: $editTemplate.find(".name").val()
@@ -118,6 +117,7 @@ var course = function(apiWS, msg, strings) {
         e.stopPropagation();
         return;
       }
+      $('#course-name').text(data.name);
       api_ws.consume('updateCourse', data, 
         function(res) {
           if(res.msg != 'OK') return console.log('error'.res.msg);
