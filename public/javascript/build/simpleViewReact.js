@@ -38,32 +38,32 @@ var AverageData = React.createClass({displayName: 'AverageData',
 });
 
 var EvaluationEdit = React.createClass({displayName: 'EvaluationEdit',
-  getInitialState: function() {
-    return {focus: this.props.editClass == 'visible'};
-  },
   handleBlur: function() {
     var newValue = this.refs.newValue.getDOMNode().value;
     this.props.stopEdit(newValue);
   },
   handleChange: function(e) {
   },
+  componentDidUpdate  : function(data) {
+    $(this.getDOMNode()).find('input').focus();
+  },
   render: function() {
     var className = 'eva-edit '+ this.props.editClass;
     return (
       React.DOM.div({className: className}, 
-        React.DOM.input({type: "text", 
+        React.DOM.input({
+          type: "text", 
           ref: "newValue", 
           onBlur: this.handleBlur, 
-          onChange: this.handleChange})
+          onChange: this.handleChange, 
+          defaultValue: this.props.val}
+          )
       )
     );
   }
 });
 
 var EvaluationList = React.createClass({displayName: 'EvaluationList',
-  startEdit: function(i) {
-    this.props.startEdit(i);
-  },
   render: function() {
     var visibles = this.props.visibles;
     return (
@@ -72,12 +72,16 @@ var EvaluationList = React.createClass({displayName: 'EvaluationList',
           var classElem = 'evaluation note '+ visibles[i];
           var editClass = visibles[i] == 'visible' ? 'not-visible': 'visible';
           return (
-            React.DOM.li({key: i}, 
-              React.DOM.div({ref: "eval", onClick: this.startEdit.bind(null,i), className: classElem}, 
+            React.DOM.li({key: i, id: i}, 
+              React.DOM.div({ref: "eval", onClick: this.props.startEdit.bind(null,i), className: classElem}, 
                 React.DOM.span({className: "big"}, item.bounds.upper), 
                 React.DOM.span({onClick: this.props.onRemove.bind(null, i)}, " elim")
               ), 
-              EvaluationEdit({editClass: editClass, ref: "edit", stopEdit: this.props.stopEdit.bind(null, i)})
+              EvaluationEdit({
+                val: item.bounds.upper, 
+                editClass: editClass, 
+                ref: "edit", 
+                stopEdit: this.props.stopEdit.bind(null, i)})
             )
           );
         }, this)
@@ -99,7 +103,7 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
       editIndex: 0
     };
   },
-  startEdit: function(index, el) {
+  startEdit: function(index) {
     var visibles = this.state.visibles;
     visibles[this.state.editIndex] = 'visible';
     visibles[index] = 'not-visible';
@@ -108,7 +112,6 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
       visibles : visibles,
       editIndex: index
     });
-   $('.eva-edit').find('input').val(value);
   },
   toggleDeleteMin: function() {
     this.state.elem.deleteMin = 1 - this.state.elem.deleteMin;
@@ -118,6 +121,7 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
     this.props.simulate();
   },
   stopEdit: function(index, newValue){
+    simpleView.stopEdit();
     var visibles = this.state.visibles;
     var evaluations = this.state.evals;
     evaluations[index].bounds.upper = parseInt(newValue);
