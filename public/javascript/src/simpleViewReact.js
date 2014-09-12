@@ -38,32 +38,32 @@ var AverageData = React.createClass({
 });
 
 var EvaluationEdit = React.createClass({
-  getInitialState: function() {
-    return {focus: this.props.editClass == 'visible'};
-  },
   handleBlur: function() {
     var newValue = this.refs.newValue.getDOMNode().value;
     this.props.stopEdit(newValue);
   },
   handleChange: function(e) {
   },
+  componentDidUpdate  : function(data) {
+    $(this.getDOMNode()).find('input').focus();
+  },
   render: function() {
     var className = 'eva-edit '+ this.props.editClass;
     return (
       <div className={className}>
-        <input type='text' 
+        <input 
+          type='text' 
           ref='newValue'
           onBlur = {this.handleBlur} 
-          onChange = {this.handleChange} />
+          onChange = {this.handleChange} 
+          defaultValue={this.props.val} 
+          />
       </div>
     );
   }
 });
 
 var EvaluationList = React.createClass({
-  startEdit: function(i) {
-    this.props.startEdit(i);
-  },
   render: function() {
     var visibles = this.props.visibles;
     return (
@@ -72,12 +72,16 @@ var EvaluationList = React.createClass({
           var classElem = 'evaluation note '+ visibles[i];
           var editClass = visibles[i] == 'visible' ? 'not-visible': 'visible';
           return (
-            <li key={i} >
-              <div ref='eval' onClick={this.startEdit.bind(null,i)} className={classElem}>
+            <li key={i} id={i}>
+              <div ref='eval' onClick={this.props.startEdit.bind(null,i)} className={classElem}>
                 <span className='big'>{item.bounds.upper}</span>
                 <span onClick={this.props.onRemove.bind(null, i)}> elim</span>
               </div>
-              <EvaluationEdit editClass={editClass} ref='edit' stopEdit={this.props.stopEdit.bind(null, i)} />
+              <EvaluationEdit 
+                val={item.bounds.upper} 
+                editClass={editClass} 
+                ref='edit' 
+                stopEdit={this.props.stopEdit.bind(null, i)} />
             </li>
           );
         }, this)}
@@ -99,7 +103,7 @@ var AverageBox = React.createClass({
       editIndex: 0
     };
   },
-  startEdit: function(index, el) {
+  startEdit: function(index) {
     var visibles = this.state.visibles;
     visibles[this.state.editIndex] = 'visible';
     visibles[index] = 'not-visible';
@@ -108,16 +112,16 @@ var AverageBox = React.createClass({
       visibles : visibles,
       editIndex: index
     });
-   $('.eva-edit').find('input').val(value);
   },
   toggleDeleteMin: function() {
     this.state.elem.deleteMin = 1 - this.state.elem.deleteMin;
-    this.props.simulate();
     this.setState({
       elem : this.state.elem
     });
+    this.props.simulate();
   },
   stopEdit: function(index, newValue){
+    simpleView.stopEdit();
     var visibles = this.state.visibles;
     var evaluations = this.state.evals;
     evaluations[index].bounds.upper = parseInt(newValue);
@@ -126,8 +130,6 @@ var AverageBox = React.createClass({
       visibles: visibles,
       eval: evaluations
     });
-    //var evalEdit = this.refs.edit.getDOMNode();
-    //$(evalEdit).hide();
     this.props.simulate();
   },
   addEvaluation: function() {
@@ -140,11 +142,15 @@ var AverageBox = React.createClass({
       evals: evaluations,
       visibles: visibles
     });
+    this.props.simulate();
   },
   onRemove: function(index, e) {
     var evaluations = this.state.evals;
     evaluations.splice(index, 1);
-    this.setState({evals: evaluations});
+    this.setState({
+      evals: evaluations
+    });
+    this.props.simulate();
     e.stopPropagation();
   },
   render: function() {
@@ -155,8 +161,9 @@ var AverageBox = React.createClass({
           label={this.state.elem.label}
           deleteMin={this.state.elem.deleteMin}
           average={this.state.elem.bounds.upper} 
-          toggleDeleteMin={this.toggleDeleteMin}/>
-        <EvaluationList onRemove={this.onRemove} 
+          toggleDeleteMin={this.toggleDeleteMin} />
+        <EvaluationList 
+          onRemove={this.onRemove} 
           startEdit={this.startEdit}
           evals={this.state.evals}
           visibles = {this.state.visibles}
