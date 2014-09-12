@@ -1,3 +1,41 @@
+/** icomoon **/
+
+@font-face {
+  font-family: 'icomoon';
+  src:url('fonts/icomoon.eot?-lqgcyv');
+  src:url('fonts/icomoon.eot?#iefix-lqgcyv') format('embedded-opentype'),
+    url('fonts/icomoon.woff?-lqgcyv') format('woff'),
+    url('fonts/icomoon.ttf?-lqgcyv') format('truetype'),
+    url('fonts/icomoon.svg?-lqgcyv#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-list:before {
+  content: "\e602";
+}
+.icon-tree:before {
+  content: "\e603";
+}
+
+/** **/
+.tooltip-arrow {
+  top: 0% !important;
+}
+
 h3 {
   font-family: 'Oleo Script', cursive;
   font-size: 2.8em;
@@ -68,6 +106,10 @@ line {
   -ms-user-select: none; 
   width: 100%;
   z-index: 1;
+}
+
+#course-base-formula {
+  width: 250px;
 }
 
 .nav-sidebar {
@@ -212,7 +254,7 @@ line {
 }
 
 .toggle-view {
-  margin-right: 10px;
+  margin-left: 10px;
 }
 
 /* social sidebar */

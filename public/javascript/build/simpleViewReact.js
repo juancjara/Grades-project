@@ -3,6 +3,10 @@
 var AverageData = React.createClass({displayName: 'AverageData',
   render: function() {
     var val ='ElimMin';
+    var className = 'visible';
+    if (this.props.count < 2) {
+      className = 'not-visible';
+    }
     if (this.props.deleteMin == 0) {
       val = 'NoElimMin';
     }
@@ -22,9 +26,9 @@ var AverageData = React.createClass({displayName: 'AverageData',
         React.DOM.li(null, 
           React.DOM.div({className: "eva-info"}, 
             React.DOM.span({className: "big"}, this.props.average), 
-            React.DOM.span({onClick: this.props.toggleDeleteMin}, 
-              val
-            )
+              React.DOM.span({onClick: this.props.toggleDeleteMin, className: className}, 
+                val
+              )
           )
         ), 
         React.DOM.li(null, 
@@ -146,17 +150,21 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
   },
   onRemove: function(index, e) {
     var evaluations = this.state.evals;
-    evaluations.splice(index, 1);
-    this.setState({
-      evals: evaluations
-    });
-    this.props.simulate();
+    if(evaluations.length > 1)
+    {
+      evaluations.splice(index, 1);
+      this.setState({
+        evals: evaluations
+      });
+      this.props.simulate();
+    }
     e.stopPropagation();
   },
   render: function() {
     return (
       React.DOM.div({className: "average-block"}, 
         AverageData({
+          count: this.state.evals.length, 
           weight: this.state.elem.weight, 
           label: this.state.elem.label, 
           deleteMin: this.state.elem.deleteMin, 
@@ -171,7 +179,7 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
         React.DOM.div({
           className: "evaluation note phanthom", 
           onClick: this.addEvaluation}, 
-          React.DOM.span({className: "big"}, "?")
+          React.DOM.span({className: "big"}, "+")
         )
       )
     );

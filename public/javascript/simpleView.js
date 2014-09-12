@@ -3,19 +3,19 @@ var SimpleView = function() {
   var rootNode = document.getElementById('simple-container');
   var data;
   var exports =  {
-    cleanSVG: function() {
+    cleanSvg: function() {
       React.unmountComponentAtNode(rootNode);
     },
     import: function(dataParam) {
       data = dataParam;
-      exports.cleanSVG();
+      exports.cleanSvg();
       React.renderComponent(
         GradeBox({data : dataParam}),
         rootNode
       );
     },
     newTree: function() {
-      exports.clean();
+      exports.cleanSvg();
     },
     parseFormula: function(formula) {
       var json = NodeMgr.formulaToJson(formula);

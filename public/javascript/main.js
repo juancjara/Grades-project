@@ -31,7 +31,7 @@ var main = {
   },
   init: function(api, strings) {
     simpleView= new SimpleView(); 
-    
+    $("[data-toggle=tooltip").tooltip();
     var courseList = courseSearch(api, main, strings);
     var my_list = course(api, main, strings);
     var $left_panel = $("#left-panel");
@@ -69,18 +69,17 @@ var main = {
     };
 
     var setSimpleview = function() {
+      if (viewSelected == simpleView) {
+        return;
+      }
+      toggleViews();
       viewSelected = simpleView;
     };
 
-    var temp = setSimpleview;
-
-    setSimpleview = function() {
-      toggleViews();
-      temp.apply(this.arguments);
-    }
-        
-
     function setAdvancedView() {
+      if (viewSelected == NodeMgr) {
+        return;
+      }
       toggleViews();
       viewSelected = NodeMgr;
     };
@@ -169,11 +168,8 @@ var main = {
       elem.find('.click-menu').show();
       if (course.formula) {
         viewSelected.import(JSON.parse(course.formula));
-        //simpleView.import(JSON.parse(course.formula));
-        //NodeMgr.import(JSON.parse(course.formula));
       } else {
         viewSelected.newTree();
-        //NodeMgr.newTree();
       }
       main.updateTreeView();
     };
@@ -181,8 +177,7 @@ var main = {
     var remove_tree = function() {
       $('#save-formula').off('click');
       $('.on-sel-hide').hide();
-      $('#course-name').text("");      
-      //NodeMgr.cleanSvg();
+      $('#course-name').text("");
       viewSelected.cleanSvg();
     };
     $apply_base_formula.on('click', function() {
@@ -190,8 +185,6 @@ var main = {
       if (!course_baseFormula || !course_baseFormula.length) {
         main.show_err_submit($course_base_formula, 'Debe ingresar una fórmula','bottom');
       } else {
-        //NodeMgr.parseFormula(course_baseFormula);
-        //simpleView.parseFormula(course_baseFormula);
         viewSelected.parseFormula(course_baseFormula);
         main.show_info_msg(strings.base_formula_to_tree);
       }
@@ -199,8 +192,6 @@ var main = {
 
     var get_formula = function() {
       var formula = JSON.stringify(viewSelected.export());
-      //JSON.stringify(NodeMgr.export());
-      //simpleView.export();
       return {
         formula: formula,
         baseFormula: $course_base_formula.val()
@@ -259,5 +250,4 @@ var main = {
 
 $(function() {
   main.load(api, strings);
-  //main.test();
 });
