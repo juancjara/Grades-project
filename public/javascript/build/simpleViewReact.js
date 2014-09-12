@@ -112,10 +112,10 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
   },
   toggleDeleteMin: function() {
     this.state.elem.deleteMin = 1 - this.state.elem.deleteMin;
-    this.props.simulate();
     this.setState({
       elem : this.state.elem
     });
+    this.props.simulate();
   },
   stopEdit: function(index, newValue){
     var visibles = this.state.visibles;
@@ -126,8 +126,6 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
       visibles: visibles,
       eval: evaluations
     });
-    //var evalEdit = this.refs.edit.getDOMNode();
-    //$(evalEdit).hide();
     this.props.simulate();
   },
   addEvaluation: function() {
@@ -140,11 +138,15 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
       evals: evaluations,
       visibles: visibles
     });
+    this.props.simulate();
   },
   onRemove: function(index, e) {
     var evaluations = this.state.evals;
     evaluations.splice(index, 1);
-    this.setState({evals: evaluations});
+    this.setState({
+      evals: evaluations
+    });
+    this.props.simulate();
     e.stopPropagation();
   },
   render: function() {
@@ -156,7 +158,8 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
           deleteMin: this.state.elem.deleteMin, 
           average: this.state.elem.bounds.upper, 
           toggleDeleteMin: this.toggleDeleteMin}), 
-        EvaluationList({onRemove: this.onRemove, 
+        EvaluationList({
+          onRemove: this.onRemove, 
           startEdit: this.startEdit, 
           evals: this.state.evals, 
           visibles: this.state.visibles, 

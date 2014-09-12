@@ -1,6 +1,6 @@
 
 var SimpleView = function() {
-  var rootNode = document.getElementById('view-container');
+  var rootNode = document.getElementById('simple-container');
   var data;
   var exports =  {
     cleanSVG: function() {

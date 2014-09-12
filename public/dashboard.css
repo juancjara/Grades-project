@@ -211,6 +211,10 @@ line {
   margin: 0 3px;
 }
 
+.toggle-view {
+  margin-right: 10px;
+}
+
 /* social sidebar */
 
 .sidebar {
@@ -447,10 +451,7 @@ line {
     -moz-border-radius: 0 0 0 5px;
     border-radius: 0 0 0 5px;
 }
-.view-container {
-    display:inline-block;
-    line-height: 24px;
-}
+
 .eva-info {
     font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
     display:inline-block;

@@ -1,5 +1,6 @@
 NodeMgr = null;
 simpleView = null;
+viewSelected = null;
 
 var main = {
   load: function(api, strings) {
@@ -14,6 +15,9 @@ var main = {
     });
   },
   updateTreeView: function () {
+    if (viewSelected == simpleView) {
+      return;
+    }
     var style = getComputedStyle($('#grades-container')[0]);
     var width = parseInt(style['width']) - parseInt(style['left']);
     var height = parseInt(style['height']) - 50;
@@ -26,7 +30,7 @@ var main = {
     NodeMgr.moveRoot({x: width/2, y: 60});
   },
   init: function(api, strings) {
-    simpleView= new SimpleView();
+    simpleView= new SimpleView(); 
     
     var courseList = courseSearch(api, main, strings);
     var my_list = course(api, main, strings);
@@ -36,6 +40,53 @@ var main = {
     var $help_link = $('#help-link');
     var $course_base_formula = $('#course-base-formula');
     var $apply_base_formula = $('#apply-base-formula');
+    var $tree_container = $('#tree-container');
+    var $simple_container = $('#simple-container');
+    var $simple_view = $('#simple-view');
+    var $advanced_view = $('#advanced-view');
+
+    $tree_container.hide();
+    viewSelected = simpleView;
+
+    function updateView(viewObj, data) {
+      if (!data) {
+        viewObj.newTree();
+      } else {
+        viewObj.import(data);
+      }
+    }
+
+
+    var toggleViews = function () {
+      $tree_container.toggle();
+      $simple_container.toggle();
+      var data = viewSelected.export();
+      if(viewSelected == simpleView) {
+        updateView(NodeMgr, data);
+      } else {
+        updateView(simpleView, data);
+      }
+    };
+
+    var setSimpleview = function() {
+      viewSelected = simpleView;
+    };
+
+    var temp = setSimpleview;
+
+    setSimpleview = function() {
+      toggleViews();
+      temp.apply(this.arguments);
+    }
+        
+
+    function setAdvancedView() {
+      toggleViews();
+      viewSelected = NodeMgr;
+    };
+
+    $simple_view.on('click', setSimpleview);
+    $advanced_view.on('click', setAdvancedView);
 
     var tour = new Tour({      
       steps: [
@@ -117,10 +168,12 @@ var main = {
       $('#course-name').text(course.name);      
       elem.find('.click-menu').show();
       if (course.formula) {
-        simpleView.import(JSON.parse(course.formula));
-        NodeMgr.import(JSON.parse(course.formula));
+        viewSelected.import(JSON.parse(course.formula));
+        //simpleView.import(JSON.parse(course.formula));
+        //NodeMgr.import(JSON.parse(course.formula));
       } else {
-        NodeMgr.newTree();
+        viewSelected.newTree();
+        //NodeMgr.newTree();
       }
       main.updateTreeView();
     };
@@ -129,22 +182,25 @@ var main = {
       $('#save-formula').off('click');
       $('.on-sel-hide').hide();
       $('#course-name').text("");      
-      NodeMgr.cleanSvg();
+      //NodeMgr.cleanSvg();
+      viewSelected.cleanSvg();
     };
     $apply_base_formula.on('click', function() {
       var course_baseFormula = $course_base_formula.val();
       if (!course_baseFormula || !course_baseFormula.length) {
         main.show_err_submit($course_base_formula, 'Debe ingresar una fórmula','bottom');
       } else {
-        NodeMgr.parseFormula(course_baseFormula);
-        simpleView.parseFormula(course_baseFormula);
+        //NodeMgr.parseFormula(course_baseFormula);
+        //simpleView.parseFormula(course_baseFormula);
+        viewSelected.parseFormula(course_baseFormula);
         main.show_info_msg(strings.base_formula_to_tree);
       }
     });
 
     var get_formula = function() {
-      var formula = JSON.stringify(NodeMgr.export());
-      simpleView.export();
+      var formula = JSON.stringify(viewSelected.export());
+      //JSON.stringify(NodeMgr.export());
+      //simpleView.export();
       return {
         formula: formula,
         baseFormula: $course_base_formula.val()
