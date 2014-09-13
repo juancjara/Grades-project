@@ -483,6 +483,12 @@ line {
     display: block;
     width: 0;
 }
+
+.notes-box {
+  border-left: black solid;
+  border-radius: 3%;
+}
+
 .note.rounded {
     -moz-border-radius: 5px 0 5px 5px;
     border-radius: 5px 0 5px 5px;
@@ -499,12 +505,27 @@ line {
     display:inline-block;
     vertical-align: middle;
     margin: 10px;
+    width: 50px;
 }
+
+.eva-info.small {
+    width: 20px;
+}
+
+.eva-info.big {
+    width: 70px;
+}
+
 .eva-info span, .evaluation span {
     text-align: center;
     display: block;
     position: relative;
 }
+
+.eva-info .elimina-minimo {
+    width: 60px;
+}
+
 .eva-info .big {
     font-size: 30px;
 }
@@ -534,8 +555,12 @@ line {
     display: none;
 }
 
+#simple-container {
+  margin-top: 20px;
+}
 
 .evaluation {
+    overflow: visible;
     display:inline-block;
     vertical-align: middle;
     margin: 10px;
@@ -545,6 +570,7 @@ line {
     padding-right: 20px;
     margin-right: 15px;
 }
+
 .phanthom {
     opacity: .35;
 }
@@ -552,3 +578,16 @@ line {
 .average-block ul{
     display: inline-block;
 }
+
+.evaluation .eliminar {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    color: white;
+    border: #FE4365 solid;
+    border-radius: 50%;
+    background-color: #FE4365;
+    padding: 2px;
+    transform: scale(.7, .7)
+}
+
