@@ -80,6 +80,7 @@ var main = {
       if (viewSelected == NodeMgr) {
         return;
       }
+      main.show_info_msg(strings.advanced_view);
       toggleViews();
       viewSelected = NodeMgr;
     };
