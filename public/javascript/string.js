@@ -11,5 +11,7 @@ var strings = {
   saveFormulaCourse: 'Guardar cambios',
   base_formula_to_tree: 'La estructura base fue creada. Debes agregar la'+
     ' cantidad de evaluaciones bajo la estructura actual. Además debes establecer'+
-    ' si se debe elmiminar la mínima nota en algún promedio.'
+    ' si se debe elmiminar la mínima nota en algún promedio.',
+  advanced_view: 'Esta vista te permite simular notas con un rango (min y max) '+
+    ' recomendamos leer la sección de Ayuda para comprender mejor esta vista'
 };
