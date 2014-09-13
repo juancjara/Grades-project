@@ -3,6 +3,14 @@ body {
   font-family: 'Oleo Script', cursive;
 }
 
+.floro {
+  font-size: 2em;
+}
+
+.carita-gg {
+  font-family: sans-serif;
+}
+
 .block-login {
   max-width: 400px;
   min-width: 200px;
