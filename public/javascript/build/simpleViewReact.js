@@ -3,6 +3,14 @@
 var AverageData = React.createClass({displayName: 'AverageData',
   render: function() {
     var val ='ElimMin';
+    var yesActive = [
+      'active btn-primary btn-default',
+      'btn-info',
+    ];
+    var noActive = [
+      'btn-info btn-default',
+      'active btn-primary',
+    ];
     var className = 'visible';
     if (this.props.count < 2) {
       className = 'not-visible';
@@ -19,20 +27,34 @@ var AverageData = React.createClass({displayName: 'AverageData',
           )
         ), 
         React.DOM.li(null, 
-          React.DOM.div({className: "eva-info"}, 
+          React.DOM.div({className: "eva-info small"}, 
             React.DOM.span({className: "big"}, " = ")
           )
         ), 
         React.DOM.li(null, 
           React.DOM.div({className: "eva-info"}, 
             React.DOM.span({className: "big"}, this.props.average), 
-              React.DOM.span({onClick: this.props.toggleDeleteMin, className: className}, 
+              React.DOM.span({
+                onClick: this.props.toggleDeleteMin, 
+                className: className}, 
                 val
+              ), 
+              React.DOM.div({
+                className: className+" elimina-minimo btn-group btn-toggle", 
+                onClick: this.props.toggleDeleteMin}, 
+                React.DOM.button({
+                  className: "btn btn-xs "+yesActive[this.props.deleteMin]}, 
+                  "Yes"
+                ), 
+                React.DOM.button({
+                  className: "btn btn-xs "+noActive[this.props.deleteMin]}, 
+                    "No"
+                )
               )
           )
         ), 
         React.DOM.li(null, 
-          React.DOM.div({className: "eva-info"}, 
+          React.DOM.div({className: "eva-info small"}, 
             React.DOM.span({className: "glyphicon glyphicon-chevron-right"})
           )
         )
@@ -77,9 +99,15 @@ var EvaluationList = React.createClass({displayName: 'EvaluationList',
           var editClass = visibles[i] == 'visible' ? 'not-visible': 'visible';
           return (
             React.DOM.li({key: i, id: i}, 
-              React.DOM.div({ref: "eval", onClick: this.props.startEdit.bind(null,i), className: classElem}, 
+              React.DOM.div({
+                ref: "eval", 
+                onClick: this.props.startEdit.bind(null,i), 
+                className: classElem}, 
                 React.DOM.span({className: "big"}, item.bounds.upper), 
-                React.DOM.span({onClick: this.props.onRemove.bind(null, i)}, " elim")
+                React.DOM.span({
+                  className: "eliminar glyphicon glyphicon-remove", 
+                  onClick: this.props.onRemove.bind(null, i)}
+                )
               ), 
               EvaluationEdit({
                 val: item.bounds.upper, 
@@ -251,11 +279,11 @@ var GradeBox = React.createClass({displayName: 'GradeBox',
   render: function() {
     return (
       React.DOM.div({className: "grades-box"}, 
-        React.DOM.div({className: "eva-info"}, 
+        React.DOM.div({className: "eva-info big"}, 
           React.DOM.span({className: "big"}, this.state.data.label), 
           React.DOM.span({className: "big"}, this.state.data.bounds.upper)
         ), 
-        React.DOM.div({className: "eva-list"}, 
+        React.DOM.div({className: "notes-box eva-list"}, 
           this.state.data.children.map(function(item, i) {
             return (
               AverageBox({

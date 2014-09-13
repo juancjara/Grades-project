@@ -3,6 +3,14 @@
 var AverageData = React.createClass({
   render: function() {
     var val ='ElimMin';
+    var yesActive = [
+      'active btn-primary btn-default',
+      'btn-info',
+    ];
+    var noActive = [
+      'btn-info btn-default',
+      'active btn-primary',
+    ];
     var className = 'visible';
     if (this.props.count < 2) {
       className = 'not-visible';
@@ -19,20 +27,34 @@ var AverageData = React.createClass({
           </div>
         </li>
         <li>
-          <div className='eva-info'>
+          <div className='eva-info small'>
             <span className='big'> = </span>
           </div>
         </li>
         <li>
           <div className='eva-info'>
             <span className='big'>{this.props.average}</span>
-              <span onClick={this.props.toggleDeleteMin} className={className}>
+              <span 
+                onClick={this.props.toggleDeleteMin} 
+                className={className}>
                 {val}
               </span>
+              <div 
+                className={className+" elimina-minimo btn-group btn-toggle"}
+                onClick={this.props.toggleDeleteMin}> 
+                <button 
+                  className={"btn btn-xs "+yesActive[this.props.deleteMin]}>
+                  Yes
+                </button>
+                <button 
+                  className={"btn btn-xs "+noActive[this.props.deleteMin]}>
+                    No
+                </button>
+              </div>
           </div>
         </li>
         <li>
-          <div className="eva-info"> 
+          <div className="eva-info small"> 
             <span className="glyphicon glyphicon-chevron-right"></span>
           </div>
         </li> 
@@ -77,9 +99,15 @@ var EvaluationList = React.createClass({
           var editClass = visibles[i] == 'visible' ? 'not-visible': 'visible';
           return (
             <li key={i} id={i}>
-              <div ref='eval' onClick={this.props.startEdit.bind(null,i)} className={classElem}>
+              <div 
+                ref='eval' 
+                onClick={this.props.startEdit.bind(null,i)} 
+                className={classElem}>
                 <span className='big'>{item.bounds.upper}</span>
-                <span onClick={this.props.onRemove.bind(null, i)}> elim</span>
+                <span 
+                  className="eliminar glyphicon glyphicon-remove"
+                  onClick={this.props.onRemove.bind(null, i)}> 
+                </span>
               </div>
               <EvaluationEdit 
                 val={item.bounds.upper} 
@@ -251,11 +279,11 @@ var GradeBox = React.createClass({
   render: function() {
     return (
       <div className='grades-box'>
-        <div className='eva-info'>
+        <div className='eva-info big'>
           <span className='big'>{this.state.data.label}</span>
           <span className='big'>{this.state.data.bounds.upper}</span>
         </div>
-        <div className='eva-list'>
+        <div className='notes-box eva-list'>
           {this.state.data.children.map(function(item, i) {
             return (
               <AverageBox 
