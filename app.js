@@ -76,7 +76,7 @@ app.post('/contact', rApp.contact);
 
 app.get('*', rApp.error404);
 
-//process.env.NODE_ENV = 'pro';
+process.env.NODE_ENV = 'dev';
 
 var port = process.env.PORT || 8765;
 
