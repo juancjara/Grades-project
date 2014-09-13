@@ -4,10 +4,10 @@ html(lang='eng')
   head 
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(property='og:description', content='Notas Pucp permite calcular y simular las notas de tus cursos')
-    meta(property='og:title', content='Notas pucp')
-    meta(property='og:site_name', content='notaspucp.com')
-    meta(property='og:image', content='https://scontent-b-dfw.xx.fbcdn.net/hphotos-xap1/v/t1.0-9/10513530_761556433886986_4199591947484540994_n.jpg?oh=c58c65e52eea724fc66069835618e7b&oe=546CAE9D')
+    meta(property='og:description', content='Mevoyx10 permite calcular y simular las notas de tus cursos')
+    meta(property='og:title', content='mevoyx20')
+    meta(property='og:site_name', content='www.mevoyx20.com')
+    meta(property='og:image', content='images/logoV1.png')
     title mevoyx20
     link(rel='stylesheet', href='css/normalize.min.css')
     link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
@@ -23,12 +23,18 @@ html(lang='eng')
       .row
         div(class='center-block block-login text-center')
           div(class='main-title') Me voy x 20 
-          //Notas PUCP
-          a(href='/auth/google', class='btn-lg btn-block btn-social btn-google-plus') Login Google
-            i(class='fa fa-google-plus')
-          a(href='/auth/facebook', class='btn-lg btn-block btn-social btn-facebook') Login Facebook
-            i(class='fa fa-facebook')
-          a(href='/auth/twitter', class='btn-lg btn-block btn-social btn-twitter') Login Twitter
-            i(class='fa fa-twitter')
+          img(src='images/logoV1.png')
+          div(class='floro')
+            | Mevoyx20 te permite crear, buscar y compartir las fórmulas para 
+            | tus cursos. También te permite averiguar si te vas por 20 
+            | en tus cursos 
+            span(class='carita-gg') ( ͡° ͜ʖ ͡°)
+          div.social-icon-login
+            a(href='/auth/google', class='btn-lg btn-social btn-google-plus')
+              i(class='fa fa-google-plus')
+            a(href='/auth/facebook', class='btn-lg btn-social btn-facebook')
+              i(class='fa fa-facebook')
+            a(href='/auth/twitter', class='btn-lg btn-social btn-twitter') 
+              i(class='fa fa-twitter')
 
     //include ./includes/footer.jade

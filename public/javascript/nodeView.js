@@ -518,6 +518,7 @@ var NodeMgrGen =
         var child = new NodeObj();
         
         weight = weight || 1;
+        weight = parseInt(weight);
         child.label = label;
         child.weight = weight;
         child.trunk = 1;

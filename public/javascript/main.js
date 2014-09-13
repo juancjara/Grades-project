@@ -92,7 +92,7 @@ var main = {
         {
           element: "#help-link",
           title: "Tour",
-          content: "Empieza el tour, puedes navegar haciendo click en Ant., Sgt. o utilizando las felchas del teclado."
+          content: "Empieza el tour, puedes navegar haciendo click en Ant., Sgt. o utilizando las flechas del teclado."
         },
         {
           element: "#course-search-box",

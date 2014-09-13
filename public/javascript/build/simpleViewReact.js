@@ -135,11 +135,12 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
       editIndex: 0
     };
   },
-  startEdit: function(index) {
+  startEdit: function(index, e) {
     var visibles = this.state.visibles;
     visibles[this.state.editIndex] = 'visible';
     visibles[index] = 'not-visible';
     var value = this.state.evals[index].bounds.upper;
+    $(e.target.parentNode.parentNode).find('input').val(value);
     this.setState({
       visibles : visibles,
       editIndex: index
@@ -156,7 +157,7 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
     simpleView.stopEdit();
     var visibles = this.state.visibles;
     var evaluations = this.state.evals;
-    evaluations[index].bounds.upper = parseInt(newValue);
+    evaluations[index].bounds.upper = +Math.round(parseFloat(newValue));
     visibles[index] = 'visible';
     this.setState({
       visibles: visibles,
@@ -249,7 +250,6 @@ var GradeBox = React.createClass({displayName: 'GradeBox',
           minWeight.upper = weight;
         }
       }
-
       weightBound.lower = weights;
       weightBound.upper = weights;
 
@@ -268,7 +268,6 @@ var GradeBox = React.createClass({displayName: 'GradeBox',
       bounds.lower = Math.floor(bounds.lower * precision + round) / precision;
       bounds.upper = Math.floor(bounds.upper * precision + round) / precision;
       node.bounds = bounds;
-
       return bounds;
     }
     var nodes = this.state.data;
