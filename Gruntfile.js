@@ -6,6 +6,7 @@ module.exports = function(grunt) {
         files: {
           'public/javascript/min/grades.min.js': [
             'public/javascript/build/simpleViewReact.js',
+            'public/javascript/simpleView.js',
             'public/javascript/spin.min.js',
             'public/javascript/consumeApi.js',
             'public/javascript/courseSearch.js',
