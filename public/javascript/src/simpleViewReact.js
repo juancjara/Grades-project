@@ -96,7 +96,8 @@ var EvaluationList = React.createClass({
       <ul className='eva-list list-hori'>
         {this.props.evals.map(function(item, i) {
           var classElem = 'evaluation note '+ visibles[i];
-          var editClass = visibles[i] == 'visible' ? 'not-visible': 'visible';
+          var editClass = 'evaluation note '+ 
+                          (visibles[i] == 'visible' ? 'not-visible': 'visible');
           return (
             <li key={i} id={i}>
               <div 
