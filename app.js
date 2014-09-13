@@ -76,8 +76,10 @@ app.post('/contact', rApp.contact);
 
 app.get('*', rApp.error404);
 
-process.env.NODE_ENV = 'dev';
+//process.env.NODE_ENV = 'dev';
 
-app.listen(process.env.PORT || 8765);
+var port = process.env.PORT || 8765;
+
+app.listen(port);
 console.log("Environment " + process.env.NODE_ENV);
-console.log("Express server listening on port 8765");
+console.log("Express server listening on port " + port);

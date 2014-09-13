@@ -44,7 +44,7 @@ var AverageData = React.createClass({
                 onClick={this.props.toggleDeleteMin}> 
                 <button 
                   className={"btn btn-xs "+yesActive[this.props.deleteMin]}>
-                  Yes
+                    Si
                 </button>
                 <button 
                   className={"btn btn-xs "+noActive[this.props.deleteMin]}>
