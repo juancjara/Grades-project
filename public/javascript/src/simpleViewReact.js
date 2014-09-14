@@ -2,21 +2,18 @@
 
 var AverageData = React.createClass({
   render: function() {
-    var val ='ElimMin';
+    var val ='elimina minimo';
     var yesActive = [
-      'active btn-primary btn-default',
-      'btn-info',
+      'btn-info active',
+      'btn-primary btn-default',
     ];
     var noActive = [
-      'btn-info btn-default',
-      'active btn-primary',
+      'btn-primary',
+      'btn-info btn-default active',
     ];
     var className = 'visible';
     if (this.props.count < 2) {
       className = 'not-visible';
-    }
-    if (this.props.deleteMin == 0) {
-      val = 'NoElimMin';
     }
     return (
       <ul className='list-hori'>
@@ -34,11 +31,6 @@ var AverageData = React.createClass({
         <li>
           <div className='eva-info'>
             <span className='big'>{this.props.average}</span>
-              <span 
-                onClick={this.props.toggleDeleteMin} 
-                className={className}>
-                {val}
-              </span>
               <div 
                 className={className+" elimina-minimo btn-group btn-toggle"}
                 onClick={this.props.toggleDeleteMin}> 
@@ -51,6 +43,11 @@ var AverageData = React.createClass({
                     No
                 </button>
               </div>
+              <span 
+                onClick={this.props.toggleDeleteMin} 
+                className={className}>
+                {val}
+              </span>
           </div>
         </li>
         <li>
@@ -96,7 +93,8 @@ var EvaluationList = React.createClass({
       <ul className='eva-list list-hori'>
         {this.props.evals.map(function(item, i) {
           var classElem = 'evaluation note '+ visibles[i];
-          var editClass = visibles[i] == 'visible' ? 'not-visible': 'visible';
+          var editClass = 'evaluation note '+ 
+                          (visibles[i] == 'visible' ? 'not-visible': 'visible');
           return (
             <li key={i} id={i}>
               <div 
