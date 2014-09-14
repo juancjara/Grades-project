@@ -83,6 +83,7 @@ var main = {
       main.show_info_msg(strings.advanced_view);
       toggleViews();
       viewSelected = NodeMgr;
+      main.updateTreeView();
     };
 
     $simple_view.on('click', setSimpleview);

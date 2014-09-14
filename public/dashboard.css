@@ -575,6 +575,16 @@ line {
     margin-right: 15px;
 }
 
+.evaluation input {
+    outline: none;
+    border: 0 none #FFF;
+    font-size: 25px;
+    background: none;
+    width: 55px;
+    margin: 0px;
+    padding: 0px;
+}
+
 .phanthom {
     opacity: .35;
 }
@@ -599,3 +609,4 @@ line {
 .popover-title {
   background-color: #CBCACA;
 }
+
