@@ -2,21 +2,18 @@
 
 var AverageData = React.createClass({displayName: 'AverageData',
   render: function() {
-    var val ='ElimMin';
+    var val ='elimina min';
     var yesActive = [
-      'active btn-primary btn-default',
-      'btn-info',
+      'btn-info active',
+      'btn-primary btn-default',
     ];
     var noActive = [
-      'btn-info btn-default',
-      'active btn-primary',
+      'btn-primary',
+      'btn-info btn-default active',
     ];
     var className = 'visible';
     if (this.props.count < 2) {
       className = 'not-visible';
-    }
-    if (this.props.deleteMin == 0) {
-      val = 'NoElimMin';
     }
     return (
       React.DOM.ul({className: "list-hori"}, 
@@ -34,11 +31,6 @@ var AverageData = React.createClass({displayName: 'AverageData',
         React.DOM.li(null, 
           React.DOM.div({className: "eva-info"}, 
             React.DOM.span({className: "big"}, this.props.average), 
-              React.DOM.span({
-                onClick: this.props.toggleDeleteMin, 
-                className: className}, 
-                val
-              ), 
               React.DOM.div({
                 className: className+" elimina-minimo btn-group btn-toggle", 
                 onClick: this.props.toggleDeleteMin}, 
@@ -50,6 +42,11 @@ var AverageData = React.createClass({displayName: 'AverageData',
                   className: "btn btn-xs "+noActive[this.props.deleteMin]}, 
                     "No"
                 )
+              ), 
+              React.DOM.span({
+                onClick: this.props.toggleDeleteMin, 
+                className: className}, 
+                val
               )
           )
         ), 
