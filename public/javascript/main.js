@@ -80,7 +80,7 @@ var main = {
       if (viewSelected == NodeMgr) {
         return;
       }
-      main.show_info_msg(strings.advanced_view);
+      main.show_info_msg_forever(strings.advanced_view);
       toggleViews();
       viewSelected = NodeMgr;
       main.updateTreeView();
@@ -224,8 +224,11 @@ var main = {
   show_err_msg: function(msg) {
     main.show_msg(msg, 'alert-danger');
   },
+  show_info_msg_forever: function(msg){
+    main.show_msg(msg, 'alert-info', {flag : 1});
+  },
   show_info_msg: function(msg){
-    main.show_msg(msg, 'alert-info', 1);
+    main.show_msg(msg, 'alert-info', {time : 2000});
   },
   show_err_submit: function(elem, content, position) {
     position = position || 'top';
@@ -235,7 +238,13 @@ var main = {
     });
     elem.tooltip('show');
   },
-  show_msg: function(msg, classParam, flag) { 
+  show_msg: function(msg, classParam, extraData) { 
+    var time = 1000;
+    var flag = 0;
+    if (extraData) {
+      time = extraData.time || 1000;
+      flag = extraData.flag || 0;
+    }
     var init_template = main.config.msg_template;
     var $template = $(init_template.part1 + classParam + init_template.part2 +
         msg + init_template.part3);
@@ -245,7 +254,7 @@ var main = {
         $template.fadeOut('slow', function() {
           $template.remove();
         });
-      },1000);
+      },time);
     }
   }
 }

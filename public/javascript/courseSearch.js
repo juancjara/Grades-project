@@ -37,7 +37,7 @@ var courseSearch = function(apiWS, msg, strings) {
       api_ws.consume('getFormulaCourse', {id: course._id}, function(res) {
         search.selected_handler(res,courseHTML);
         $('#save-formula').
-          text('Agregar').
+          text(strings.addFormulaCourse).
           on('click', function(e) {
             on_add(course._id);
             e.stopPropagation();
@@ -55,7 +55,7 @@ var courseSearch = function(apiWS, msg, strings) {
     api_ws.consume('addCourse', {id: idParam},
       function(res) {
         if(res.msg && res.msg != 'OK') return console.log('error',res.msg);
-        msg.show_info_msg(strings.course_adquired);
+        msg.show_info_msg_forever(strings.course_adquired);
         search.remove();
         search.add_handler(res);
     });

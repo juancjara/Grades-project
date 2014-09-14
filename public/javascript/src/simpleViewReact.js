@@ -5,11 +5,11 @@ var AverageData = React.createClass({
     var val ='elimina minimo';
     var yesActive = [
       'btn-info active',
-      'btn-primary btn-default',
+      'btn-default',
     ];
     var noActive = [
-      'btn-primary',
-      'btn-info btn-default active',
+      'btn-default',
+      'btn-info active',
     ];
     var className = 'visible';
     if (this.props.count < 2) {
