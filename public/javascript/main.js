@@ -112,10 +112,10 @@ var main = {
           placement: 'left'
         },
         {
-          element: "#share",
+          element: "#expand-navigation",
           title: "Compartir",
           content: "Comparte esta página web",
-          placement: "left"
+          placement: "top"
         },
         {
           element: "#help",

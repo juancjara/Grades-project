@@ -7,6 +7,7 @@ module.exports = function(grunt) {
           'public/javascript/min/grades.min.js': [
             'public/javascript/build/simpleViewReact.js',
             'public/javascript/simpleView.js',
+            'public/javascript/social-share.js',
             'public/javascript/spin.min.js',
             'public/javascript/consumeApi.js',
             'public/javascript/courseSearch.js',
@@ -22,6 +23,7 @@ module.exports = function(grunt) {
             'public/javascript/contact.js'
           ],
           'public/javascript/min/help.min.js': [
+            'public/javascript/social-share.js',
             'public/javascript/help.js'
           ]
         }
@@ -30,8 +32,13 @@ module.exports = function(grunt) {
     cssmin: {
       combine: {
         files: {
-          'public/dashboard.min.css': ['public/dashboard.css'],
-          'public/css/min/login.min.css': ['public/css/login.css']
+          'public/dashboard.min.css': [
+            'public/dashboard.css',
+            'public/css/social-share.css'
+            ],
+          'public/css/min/login.min.css': [
+            'public/css/login.css',
+            ]
         }
       }
     }
