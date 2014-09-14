@@ -1,19 +1,30 @@
 body {
   background: #567;
   font-family: 'Oleo Script', cursive;
+
+}
+
+.main-title {
+  font-size: 3em;
+  color: whitesmoke;
 }
 
 .floro {
-  font-size: 2em;
+  font-size: 1.2em;
+  text-align: justify;
 }
 
 .unv-name {
   color: whitesmoke;
-  font-size: 2.3em;
+  font-size: 1.3em; 
 }
-
+/* 2.3em */
 .carita-gg {
   font-family: sans-serif;
+}
+
+.logo {
+  zoom: 0.3;
 }
 
 .block-login {
@@ -43,7 +54,32 @@ body {
   border-right: 0 !important;
 }
 
-.main-title {
-  font-size: 4em;
-  color: whitesmoke;
+@media (min-width: 481px) {
+  .main-title {
+    font-size: 3.5em;
+  }
+  .floro {
+    font-size: 1.4em;
+  }
+  .unv-name {
+    font-size: 2.5em;
+  }
+  .logo {
+    zoom: 0.6;
+  }
+}
+
+@media (min-width: 700px) {
+  .main-title {
+    font-size: 4em;
+  }
+  .floro {
+    font-size: 1.8em;
+  }
+  .unv-name {
+    font-size: 3em;
+  }
+  .logo {
+    zoom: 1;
+  }
 }
