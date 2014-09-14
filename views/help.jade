@@ -8,13 +8,16 @@ html(lang='eng')
     link(rel='stylesheet', href='/css/normalize.min.css')
     link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
     link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Oleo+Script')
-    link(rel='stylesheet', href='/css/font-awesome.min.css')
+    link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css')
+    script(type='text/javascript').
+      !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
 
   if production
     link(rel='stylesheet', href='/css/min/dashboard.min.css')
   else
     link(rel='stylesheet', href='/dashboard.css')
-  
+    link(rel='stylesheet', href='css/social-share.css')
+
 
   body
 
@@ -199,9 +202,12 @@ html(lang='eng')
           p Mediante la opción de contacto, ubicada en la parte superior derecha de cada página, puedes realizar
             | consultas o brindar sugerencias para mejorar esta página.
 
+    include ./includes/socialShare.jade
+
   script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")
   script(src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js")
   if production
     script(src='javascript/min/help.min.js')
   else
     script(src='javascript/help.js')
+    script(src="javascript/social-share.js")
