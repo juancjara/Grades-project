@@ -2,7 +2,7 @@
 
 var AverageData = React.createClass({displayName: 'AverageData',
   render: function() {
-    var val ='elimina minimo';
+    var val ='elimina mínimo';
     var yesActive = [
       'btn-info active',
       'btn-default',
