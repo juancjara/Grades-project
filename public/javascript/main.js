@@ -31,7 +31,7 @@ var main = {
   },
   init: function(api, strings) {
     simpleView= new SimpleView(); 
-    $("[data-toggle=tooltip").tooltip();
+    $("[data-toggle=tooltip]").tooltip();
     var courseList = courseSearch(api, main, strings);
     var my_list = course(api, main, strings);
     var $left_panel = $("#left-panel");
