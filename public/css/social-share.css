@@ -17,9 +17,7 @@
 }
 .social-share .expand-social {
   background-color: #015367;
-  background: none;
   border-radius: 50%;
-  border: none;
   bottom: -1.75em;
   color: #fff;
   cursor: pointer;
@@ -131,9 +129,9 @@
   background: #00acee;
 }
 .social-share .wrapper li:nth-child(3) {
-  transform: rotate(60deg) skew(30deg);
-  -webkit-transform: rotate(60deg) skew(30deg);
-  -moz-transform: rotate(60deg) skew(30deg);
+  transform: rotate(120deg) skew(30deg);
+  -webkit-transform: rotate(120deg) skew(30deg);
+  -moz-transform: rotate(120deg) skew(30deg);
 }
 .social-share .wrapper li:nth-child(3):hover a{
   background: #dd4b39;
