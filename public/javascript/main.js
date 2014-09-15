@@ -249,13 +249,13 @@ var main = {
     var $template = $(init_template.part1 + classParam + init_template.part2 +
         msg + init_template.part3);
     $('#messages').append($template);
-    /*if(!flag){
+    if(!flag){
       setTimeout(function() {
         $template.fadeOut('slow', function() {
           $template.remove();
         });
       },time);
-    }*/
+    }
   }
 }
 
