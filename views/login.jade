@@ -26,12 +26,6 @@ html(lang='eng')
         div(class='center-block block-login text-center')
           div(class='main-title') Me voy x 20 
           div(class='unv-name') versión PUCP
-          img(class='logo', src='images/logoV1.png')
-          div(class='floro')
-            | Mevoyx20 te permite crear, buscar y compartir las fórmulas para 
-            | tus cursos. También te permite averiguar si te vas por 20 o
-            | a la bica
-            // span(class='carita-gg') ( ͡° ͜ʖ ͡°)
           div.social-icon-login
             a(href='/auth/google', class='btn-lg btn-social btn-google-plus')
               i(class='fa fa-google-plus')
@@ -39,9 +33,57 @@ html(lang='eng')
               i(class='fa fa-facebook')
             a(href='/auth/twitter', class='btn-lg btn-social btn-twitter') 
               i(class='fa fa-twitter')
-          div.block-login-preview
-            div(id="preview-1", class='preview')
-            div(id="preview-2", class='preview')
-            div(id="preview-3", class='preview')
+          //img(class='logo', src='images/logoV1.png')
+          div(id='carousel', class='carousel slide carousel-fade', data-ride='carousel')
+            ol(class='carousel-indicators')
+              li(data-target='#carousel', data-slide-to='0', class='active')
+              li(data-target='#carousel', data-slide-to='1')
+              li(data-target='#carousel', data-slide-to='2')
+              li(data-target='#carousel', data-slide-to='3')
+              li(data-target='#carousel', data-slide-to='4')
+              li(data-target='#carousel', data-slide-to='5')
+            div(class='carousel-inner')
+              div(class='active item')
+                img(class='logo', src='images/logoV1.png', align="middle")
+                div(class='carousel-caption') Mevoyx20
+              div(class='item')
+                img(src='images/carousel/searchCourse.jpg')
+                div(class='carousel-caption') Busca cursos compartidos
+              div(class='item')
+                img(src='images/carousel/applyFormula.jpg')
+                div(class='carousel-caption') Convierte tus fórmulas a cursos
+              div(class='item')
+                img(src='images/carousel/shareCourse.jpg')
+                div(class='carousel-caption') Comparte tus fórmulas
+              div(class='item')
+                img(src='images/carousel/average.jpg')
+                div(class='carousel-caption') Averigua por cuánto te vas
+              div(class='item')
+                div(class='login-now') 
+                  div(class='glyphicon glyphicon-arrow-up')
+                  div(class='text') ¿Qué esperas? 
+                  br
+                  div(class='text') Ingresa ya!
+            a(class='left carousel-control',href='#carousel', data-slide='prev',
+              role='button')
+              span(class='glyphicon glyphicon-chevron-left')
+            a(class='right carousel-control',href='#carousel', data-slide='next',
+              role='button')
+              span(class='glyphicon glyphicon-chevron-right')
+
+          div(class='floro')
+            | Mevoyx20 te permite crear, buscar y compartir las fórmulas para 
+            | tus cursos. También te permite averiguar si te vas por 20 o
+            | a la bica
+            // span(class='carita-gg') ( ͡° ͜ʖ ͡°)
+          
+          //div.block-login-preview
+            //div(id="preview-1", class='preview')
+            //div(id="preview-2", class='preview')
+            //div(id="preview-3", class='preview')
 
     //include ./includes/footer.jade
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")
+    script(src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js")
+    script(type='text/javascript').
+      $('.carousel').carousel();

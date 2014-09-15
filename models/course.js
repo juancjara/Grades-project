@@ -13,6 +13,9 @@ var courseSchema = new Schema({
 });
 
 var cleanData = function(formula) {
+  if(!formula || formula.length == 0){
+    return formula;
+  }
   var bounds = {upper: 20, lower: 0};
   var eva = JSON.parse(formula);
   function clean(eva) {
@@ -34,19 +37,15 @@ var getSearchValue = function(name) {
   searchValue = searchValue.replace('ó', 'o');
   searchValue = searchValue.replace('ú', 'u');
   searchValue = searchValue.replace(/\s/g, '');
-  console.log("search", searchValue);
   return searchValue;
 };
 
 courseSchema.statics.share = function(params, cb) {
-  
   Course.findById(params.courseId).exec( 
     function(err, course) {
       if (err) return cb(err);
       var cleanFormula = cleanData(course.formula);
       var searchValue = getSearchValue(course.name);
-      console.log(searchValue);
-      console.log(course);
       var clone = new Course({
         name: course.name,
         shared: true,
