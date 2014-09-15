@@ -57,13 +57,13 @@ body {
 }
 
 .logo {
-  zoom: 0.3;
+  /*zoom: 0.3;*/
 }
 
 .block-login {
-  max-width: 400px;
+  max-width: 600px;
   min-width: 200px;
-  padding: 15px 8px;
+  padding: 5px 0px;
 }
 
 .btn-social {
@@ -79,6 +79,7 @@ body {
 
 .social-icon-login {
   margin-top: 25px;
+  margin-bottom: 15px;
 }
 
 .fa {
@@ -87,6 +88,67 @@ body {
   border-right: 0 !important;
 }
 
+/*carousel*/
+.carousel-fade .carousel-control {
+  z-index: 2;
+}
+
+.carousel img {
+  height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  width: 100%;
+}
+
+.carousel,
+.carousel-inner,
+.carousel-inner .item {
+  font-family: Arial;
+  height: 308px;
+}
+.item {
+  background: white;
+}
+
+.carousel-control.left,
+.carousel-control.right {
+  background-image: none;
+  color: black;
+}
+.carousel-caption {
+  color: black;
+  font-size: 1.5em;
+  font-weight: bold;
+  text-shadow: 0 0 1px yellow;
+}
+.carousel-indicators .active{
+  background-color: black;
+}
+
+.carousel-indicators li{
+  border: 1px solid black;
+}
+
+.carousel .logo {
+  display: block;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: auto;
+  max-width: auto;
+  width: auto;
+}
+
+.login-now .glyphicon-arrow-up {
+  zoom: 4;
+}
+
+.login-now .text {
+  font-size: 3em;
+  font-family: 'Oleo Script', cursive;
+}
+
+/**/
 @media (min-width: 481px) {
   .main-title {
     font-size: 3.5em;
@@ -98,7 +160,7 @@ body {
     font-size: 1.8em;
   }
   .logo {
-    zoom: 0.6;
+    /*zoom: 0.6;*/
   }
 
 }
