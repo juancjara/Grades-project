@@ -4,9 +4,42 @@ body {
 
 }
 
+#preview-1 {
+  background: url(../images/mobile-3.png) no-repeat center center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+#preview-2 {
+  background: url(../images/mobile-4.png) no-repeat center center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+#preview-3 {
+  background: url(../images/mobile-1.png) no-repeat center center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.preview {
+  height: 215px;
+  width: 350px; 
+  margin-top: 30px;
+  text-align: center;
+  transform: translate(-50%, 0)
+}
+
 .main-title {
   font-size: 3em;
   color: whitesmoke;
+}
+
+.block-login-preview {
+  position: absolute;
+  left: 50%;
+  width: 0px;
+  overflow: visible;
 }
 
 .floro {
@@ -67,6 +100,7 @@ body {
   .logo {
     zoom: 0.6;
   }
+
 }
 
 @media (min-width: 700px) {
@@ -81,5 +115,10 @@ body {
   }
   .logo {
     zoom: 1;
+  }
+
+  .preview {
+    height: 345px;
+    width: 600px; 
   }
 }
