@@ -26,13 +26,16 @@ html(lang='eng')
         div(class='center-block block-login text-center')
           div(class='main-title') Me voy x 20 
           div(class='unv-name') versión PUCP
-          div.social-icon-login
-            a(href='/auth/google', class='btn-lg btn-social btn-google-plus')
-              i(class='fa fa-google-plus')
-            a(href='/auth/facebook', class='btn-lg btn-social btn-facebook')
-              i(class='fa fa-facebook')
-            a(href='/auth/twitter', class='btn-lg btn-social btn-twitter') 
-              i(class='fa fa-twitter')
+          div(class='social-login')
+            span(class='text') Ingresa 
+            span(class='glyphicon glyphicon-arrow-right')
+            span(class='social-icon-login')
+              a(href='/auth/google', class='btn-lg btn-social btn-google-plus')
+                i(class='fa fa-google-plus')
+              a(href='/auth/facebook', class='btn-lg btn-social btn-facebook')
+                i(class='fa fa-facebook')
+              a(href='/auth/twitter', class='btn-lg btn-social btn-twitter') 
+                i(class='fa fa-twitter')
           //img(class='logo', src='images/logoV1.png')
           div(id='carousel', class='carousel slide carousel-fade', data-ride='carousel')
             ol(class='carousel-indicators')
@@ -51,7 +54,7 @@ html(lang='eng')
                 div(class='carousel-caption') Busca cursos compartidos
               div(class='item')
                 img(src='images/carousel/applyFormula.jpg')
-                div(class='carousel-caption') Convierte tus fórmulas a cursos
+                div(class='carousel-caption') Crea cursos a partir de fórmulas
               div(class='item')
                 img(src='images/carousel/shareCourse.jpg')
                 div(class='carousel-caption') Comparte tus fórmulas

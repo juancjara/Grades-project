@@ -43,6 +43,7 @@ body {
 }
 
 .floro {
+  color: whitesmoke;
   font-size: 1.2em;
   text-align: justify;
 }
@@ -54,10 +55,6 @@ body {
 /* 2.3em */
 .carita-gg {
   font-family: sans-serif;
-}
-
-.logo {
-  /*zoom: 0.3;*/
 }
 
 .block-login {
@@ -76,10 +73,20 @@ body {
 .btn-social.btn-lg{
   padding-left: 35px;
 }
-
-.social-icon-login {
+.social-login {
+  color: whitesmoke;
   margin-top: 25px;
   margin-bottom: 15px;
+}
+.social-login .text{
+  color: whitesmoke;
+  font-size: 3em;
+}
+
+.social-login .glyphicon {
+  padding-top: 10px;
+  vertical-align: top;
+  font-size: 3em;
 }
 
 .fa {
@@ -159,10 +166,6 @@ body {
   .unv-name {
     font-size: 1.8em;
   }
-  .logo {
-    /*zoom: 0.6;*/
-  }
-
 }
 
 @media (min-width: 700px) {
@@ -175,10 +178,6 @@ body {
   .unv-name {
     font-size: 2em;
   }
-  .logo {
-    zoom: 1;
-  }
-
   .preview {
     height: 345px;
     width: 600px; 
