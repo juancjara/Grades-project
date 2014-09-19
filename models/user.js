@@ -7,6 +7,7 @@ var userSchema = new Schema({
   provider: String,
   name: String,
   courses: [{type: Schema.Types.ObjectId, ref: 'Course'}],
+  createDate: { type: Date, default: Date.now }
 });
 
 userSchema.statics.getCourses = function(userId, cb) {
