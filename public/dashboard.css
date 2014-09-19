@@ -389,6 +389,13 @@ line {
   text-decoration: none;
 }
 
+.popover.bottom>.arrow:after {
+  border-bottom-color: #A8E4FF;
+}
+.popover-content {
+  background: #A8E4FF;
+  color: #0F5D80;
+}
 /* help page*/
 
 /*#faq {
