@@ -1,6 +1,7 @@
 NodeMgr = null;
 simpleView = null;
 viewSelected = null;
+myCourseView = false;
 
 var main = {
   load: function(api, strings) {
@@ -165,8 +166,8 @@ var main = {
       elem.addClass('active');
       $('.click-menu').hide();
       $('.on-sel-hide').show();
-      $('#save-formula').off('click');
-      $('#course-name').text(course.name);      
+      $('#save-formula').off('click').popover('hide');
+      $('#course-name').text(course.name);
       elem.find('.click-menu').show();
       if (course.formula) {
         viewSelected.import(JSON.parse(course.formula));
@@ -177,7 +178,7 @@ var main = {
     };
 
     var remove_tree = function() {
-      $('#save-formula').off('click');
+      $('#save-formula').off('click').popover('hide');
       $('.on-sel-hide').hide();
       $('#course-name').text("");
       viewSelected.cleanSvg();
@@ -187,8 +188,9 @@ var main = {
       if (!course_baseFormula || !course_baseFormula.length) {
         main.show_err_submit($course_base_formula, 'Debe ingresar una fórmula','bottom');
       } else {
+        $('#save-formula').trigger('click');
         viewSelected.parseFormula(course_baseFormula);
-        main.show_info_msg(strings.base_formula_to_tree);
+        main.show_info_msg_forever(strings.base_formula_to_tree);
       }
     });
 

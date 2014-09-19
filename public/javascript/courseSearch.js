@@ -33,6 +33,7 @@ var courseSearch = function(apiWS, msg, strings) {
   };
 
   var on_selected = function(course, courseHTML) {
+    myCourseView = false;
     if (search.selected_handler) {
       api_ws.consume('getFormulaCourse', {id: course._id}, function(res) {
         search.selected_handler(res,courseHTML);
