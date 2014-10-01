@@ -79,14 +79,17 @@ var EvaluationEdit = React.createClass({
           ref='newValue'
           onBlur = {this.handleBlur} 
           onChange = {this.handleChange} 
-          defaultValue={this.props.val} 
-          />
+          defaultValue={this.props.val} />
       </div>
     );
   }
 });
 
 var EvaluationList = React.createClass({
+  toggleLock: function(index, e) {
+    console.log(index);
+    e.stopPropagation();
+  },
   render: function() {
     var visibles = this.props.visibles;
     return (
@@ -105,6 +108,11 @@ var EvaluationList = React.createClass({
                 <span 
                   className="eliminar glyphicon glyphicon-remove"
                   onClick={this.props.onRemove.bind(null, i)}> 
+                </span>
+                <span>
+                  <input 
+                    type= 'checkbox'
+                    onClick= {this.toggleLock.bind(null,i)} />
                 </span>
               </div>
               <EvaluationEdit 
@@ -152,16 +160,19 @@ var AverageBox = React.createClass({
     this.props.simulate();
   },
   stopEdit: function(index, newValue){
-    simpleView.stopEdit();
+
     var visibles = this.state.visibles;
     var evaluations = this.state.evals;
+    var lastValue = evaluations[index].bounds.upper ;
     evaluations[index].bounds.upper = +Math.round(parseFloat(newValue));
     visibles[index] = 'visible';
     this.setState({
       visibles: visibles,
       eval: evaluations
     });
-    this.props.simulate();
+    if (newValue != '' + newValue) {
+      this.props.simulate();
+    }
   },
   addEvaluation: function() {
     var evaluations = this.state.evals;
@@ -215,7 +226,10 @@ var AverageBox = React.createClass({
 
 var GradeBox = React.createClass({
   getInitialState: function() {
-    return {data: this.props.data};
+    return {
+      data: this.props.data,
+      visible: 'not-visible'
+    };
   },
   simulate: function() {
     function simulation(node) {
@@ -277,12 +291,42 @@ var GradeBox = React.createClass({
       $("#save-formula").popover('show');
     }
   },
+  startUpdateAverage: function(e) {
+    this.setState({visible: 'visible'});
+    var value = this.state.data.bounds.upper;
+    $(e.target.parentNode.parentNode).find('input').val(value);
+  },
+  stopUpdateAverage: function(newValue) {
+    var newData = this.state.data;
+    var lastValue = this.state.data.bounds.upper;
+    newData.bounds.upper = parseFloat(newValue);
+    this.setState({
+      data: newData,
+      visible: 'not-visible'
+    });
+    if (newValue != ''+ lastValue) {
+      this.fillGradesToAverage();
+    }
+  },
+  fillGradesToAverage: function() {
+    console.log('fillGradesToAverage');
+  },
   render: function() {
+    var className = this.state.visible == 'visible' ? 'not-visible': 'visible';
     return (
       <div className='grades-box'>
-        <div className='eva-info big'>
-          <span className='big'>{this.state.data.label}</span>
-          <span className='big'>{this.state.data.bounds.upper}</span>
+        <div 
+          className='eva-info big'
+          onClick= {this.startUpdateAverage}>
+          <div className= {className} >
+            <span className='big'>{this.state.data.label}</span>
+            <span className='big'>{this.state.data.bounds.upper}</span>
+          </div>
+          <AverageEdit
+            val= {this.state.data.bounds.upper} 
+            stopEdit= {this.stopUpdateAverage}
+            editClass= {this.state.visible}
+            label= {this.state.data.label} />
         </div>
         <div className='notes-box eva-list'>
           {this.state.data.children.map(function(item, i) {
@@ -295,6 +339,34 @@ var GradeBox = React.createClass({
             );
           }, this)}
         </div>
+      </div>
+    );
+  }
+});
+
+var AverageEdit = React.createClass({
+  handleBlur: function() {
+    var newValue = this.refs.newValue.getDOMNode().value;
+    this.props.stopEdit(newValue);
+  },
+  handleChange: function(e) {
+  },
+  componentDidUpdate  : function(data) {
+    $(this.getDOMNode()).find('input').focus();
+  },
+  render: function() {
+    var className = 'ave-edit '+ this.props.editClass;
+    return (
+      <div className={className}>
+        <span>
+          {this.props.label}          
+        </span>
+        <input
+          type='text' 
+          ref='newValue'
+          onBlur = {this.handleBlur} 
+          onChange = {this.handleChange} 
+          defaultValue={this.props.val} />
       </div>
     );
   }
