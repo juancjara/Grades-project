@@ -190,7 +190,7 @@ var course = function(apiWS, msg, strings) {
     api_ws.consume('getCourses',{}, function(user) {
       var courses = user.courses;
       var length = courses ? courses.length: 0;
-      for (var i=0; i<courses.length; i++) {
+      for (var i=0; i<length; i++) {
         add_course(courses[i]);
       };
     });
