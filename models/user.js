@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
-  ObjectId = Schema.ObjectId;
+  ObjectId = Schema.ObjectId,
+  Course = require('./course');
 
 var userSchema = new Schema({
   provider_id: String,
@@ -33,7 +34,18 @@ userSchema.statics.findOrCreate = function(params, cb){
     if (err) return cb(err);
     if (user) return cb(null, user);
     var newUser = new User(params);
-    newUser.save(cb);
+    newUser.save(function(err) {
+      if (err) return cb(err);
+      Course.add(
+        {
+          userId: newUser._id,
+          id: '11e42af15f9b16oo1a4a80f8'
+        }, function(err, model) {
+          if (err) return cb(err);
+          return cb(null, newUser);
+        }
+      )
+    });
   });
 };
 
