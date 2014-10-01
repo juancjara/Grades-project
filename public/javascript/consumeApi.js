@@ -33,6 +33,8 @@ var api = (function() {
         cb(res);
       },
       error: function(jqXHR, textStatus, errorThrown ){
+        spinner.stop();
+        $('#spin').remove();
         cb({msg: errorThrown});
       }
     });
