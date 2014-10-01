@@ -79,6 +79,7 @@ var course = function(apiWS, msg, strings) {
       function(res) {
         if(res.msg != 'OK') return console.log('error'.res.msg);
         msg.show_ok_msg(strings.course_edit_ok);
+        $("#save-formula").popover('hide');
     });
   };
 
