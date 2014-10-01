@@ -274,7 +274,7 @@ var GradeBox = React.createClass({
       data: nodes
     });
     if (myCourseView) {
-      x$("#save-formula").popover('show');
+      $("#save-formula").popover('show');
     }
   },
   render: function() {
