@@ -36,9 +36,12 @@ var SimpleView = function() {
         deleteMin: 0,
         isEditable: true,
         trunk: 0,
-        weight: 1
+        weight: 1,
+        lock: false
       }
     }
   };
   return exports;
 };
+
+//TODO add lock to tree view

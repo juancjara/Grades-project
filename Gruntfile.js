@@ -5,6 +5,7 @@ module.exports = function(grunt) {
       my_target: {
         files: {
           'public/javascript/min/grades.min.js': [
+            'public/javascript/algorithm.js',
             'public/javascript/build/simpleViewReact.js',
             'public/javascript/simpleView.js',
             'public/javascript/social-share.js',

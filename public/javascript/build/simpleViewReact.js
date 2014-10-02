@@ -86,10 +86,6 @@ var EvaluationEdit = React.createClass({displayName: 'EvaluationEdit',
 });
 
 var EvaluationList = React.createClass({displayName: 'EvaluationList',
-  toggleLock: function(index, e) {
-    console.log(index);
-    e.stopPropagation();
-  },
   render: function() {
     var visibles = this.props.visibles;
     return (
@@ -112,7 +108,8 @@ var EvaluationList = React.createClass({displayName: 'EvaluationList',
                 React.DOM.span(null, 
                   React.DOM.input({
                     type: "checkbox", 
-                    onClick: this.toggleLock.bind(null,i)})
+                    defaultChecked: item.lock, 
+                    onClick: this.props.toggleLock.bind(null,i)})
                 )
               ), 
               EvaluationEdit({
@@ -160,7 +157,6 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
     this.props.simulate();
   },
   stopEdit: function(index, newValue){
-
     var visibles = this.state.visibles;
     var evaluations = this.state.evals;
     var lastValue = evaluations[index].bounds.upper ;
@@ -169,10 +165,8 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
     this.setState({
       visibles: visibles,
       eval: evaluations
-    });
-    if (newValue != '' + newValue) {
-      this.props.simulate();
-    }
+    });  
+    this.props.simulate();
   },
   addEvaluation: function() {
     var evaluations = this.state.evals;
@@ -198,6 +192,15 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
     }
     e.stopPropagation();
   },
+  toggleLock: function(index, e) {
+    var evaluations = this.state.evals;
+    evaluations[index].lock = !evaluations[index].lock;
+    this.setState({evals : evaluations});
+    e.stopPropagation();
+    if (myCourseView) {
+      $("#save-formula").popover('show');
+    }
+  },
   render: function() {
     return (
       React.DOM.div({className: "average-block"}, 
@@ -213,6 +216,7 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
           startEdit: this.startEdit, 
           evals: this.state.evals, 
           visibles: this.state.visibles, 
+          toggleLock: this.toggleLock, 
           stopEdit: this.stopEdit}), 
         React.DOM.div({
           className: "evaluation note phanthom", 
@@ -232,58 +236,8 @@ var GradeBox = React.createClass({displayName: 'GradeBox',
     };
   },
   simulate: function() {
-    function simulation(node) {
-      var weights = 0;
-      var bounds = {lower: 0, upper: 0};
-      var minVal = {lower: 21, upper: 21};
-      var minWeight =  {lower: 0, upper: 0};
-      var weightBound = {lower: 0, upper: 0};
-      var childrenLength= node.children.length;
-
-      if (childrenLength == 0) {
-        return node.bounds;
-      }
-      for (var i = 0; i < node.children.length; i++) {
-        var actualNode = node.children[i];
-        var temp = simulation(actualNode);
-        
-        var weight = actualNode.weight;
-        bounds.lower += temp.lower * weight;
-        bounds.upper += temp.upper * weight;
-        weights += weight;
-
-        if (temp.lower < minVal.lower){
-          minVal.lower = temp.lower;
-          minWeight.lower = weight;
-        }
-
-        if (temp.upper < minVal.upper){
-          minVal.upper = temp.upper;
-          minWeight.upper = weight;
-        }
-      }
-      weightBound.lower = weights;
-      weightBound.upper = weights;
-
-      if (node.deleteMin) {
-        bounds.lower -= minVal.lower * minWeight.lower;
-        bounds.upper -= minVal.upper * minWeight.upper;
-        weightBound.lower -= minWeight.lower;
-        weightBound.upper -= minWeight.upper;
-      }
-
-      bounds.lower /= weightBound.lower;
-      bounds.upper /= weightBound.upper;
-
-      var precision = +Math.pow(10, node.decimals);
-      var round = node.trunk == 0 ? 0.5:0.0;
-      bounds.lower = Math.floor(bounds.lower * precision + round) / precision;
-      bounds.upper = Math.floor(bounds.upper * precision + round) / precision;
-      node.bounds = bounds;
-      return bounds;
-    }
     var nodes = this.state.data;
-    simulation(nodes);
+    Algorithm.simulation(nodes);
     this.setState({
       data: nodes
     });
@@ -309,7 +263,15 @@ var GradeBox = React.createClass({displayName: 'GradeBox',
     }
   },
   fillGradesToAverage: function() {
-    console.log('fillGradesToAverage');
+    var lastState = this.state.data;
+    var wishValue = this.state.data.bounds;
+
+    var nodes = this.state.data;
+    
+    Algorithm.fillGradesToAverage(nodes, wishValue);
+    this.setState({
+      data: nodes
+    });
   },
   render: function() {
     var className = this.state.visible == 'visible' ? 'not-visible': 'visible';

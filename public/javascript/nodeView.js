@@ -500,7 +500,8 @@ var NodeMgrGen =
           "label": null,
           "trunk": 1,
           "weight": 1,
-          "children" : []
+          "children" : [],
+          "lock": false
         };
         return data;
       };
