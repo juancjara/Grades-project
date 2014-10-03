@@ -18,8 +18,10 @@ update = function(connectionString, cb) {
         }
       );
     };
-});
+  });
 }
+
+
 
 function addLockField(formula) {	
   if(!formula || formula.length==0) {
@@ -28,7 +30,7 @@ function addLockField(formula) {
   
   var eva = JSON.parse(formula);
   function addField(eva) {
-    eva['lock'] = false;
+    eva['lock'] = true;
     var children = eva.children;
     for (var i = 0; i < children.length; i++) {
       addField(children[i]);

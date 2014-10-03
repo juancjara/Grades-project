@@ -8,7 +8,8 @@ var userSchema = new Schema({
   provider: String,
   name: String,
   courses: [{type: Schema.Types.ObjectId, ref: 'Course'}],
-  createDate: { type: Date, default: Date.now }
+  createDate: { type: Date, default: Date.now },
+  lastAccess: { type: Date, default: Date.now }
 });
 
 userSchema.statics.getCourses = function(userId, cb) {
@@ -32,20 +33,29 @@ userSchema.statics.delCourse = function(params, cb){
 userSchema.statics.findOrCreate = function(params, cb){
   User.findOne(params, function(err, user){
     if (err) return cb(err);
-    if (user) return cb(null, user);
-    var newUser = new User(params);
-    newUser.save(function(err) {
-      if (err) return cb(err);
-      Course.add(
-        {
-          userId: newUser._id,
-          id: '11e42af15f9b16oo1a4a80f8'
-        }, function(err, model) {
+    if (user) {
+      User.findByIdAndUpdate(user._id, 
+        {lastAccess: Date.now()},
+        function(err) {
           if (err) return cb(err);
-          return cb(null, newUser);
-        }
-      )
-    });
+          return cb(null, user);
+      });
+
+    } else {
+      var newUser = new User(params);
+      newUser.save(function(err) {
+        if (err) return cb(err);
+        Course.add(
+          {
+            userId: newUser._id,
+            id: '11e42af15f9b16oo1a4a80f8'
+          }, function(err, model) {
+            if (err) return cb(err);
+            return cb(null, newUser);
+          }
+        )
+      });
+    }
   });
 };
 

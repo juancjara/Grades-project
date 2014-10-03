@@ -94,6 +94,7 @@ var EvaluationList = React.createClass({displayName: 'EvaluationList',
           var classElem = 'evaluation note '+ visibles[i];
           var editClass = 'evaluation note '+ 
                           (visibles[i] == 'visible' ? 'not-visible': 'visible');
+          var classLock= item.lock ? 'fa fa-lock': 'fa fa-unlock';
           return (
             React.DOM.li({key: i, id: i}, 
               React.DOM.div({
@@ -105,11 +106,11 @@ var EvaluationList = React.createClass({displayName: 'EvaluationList',
                   className: "eliminar glyphicon glyphicon-remove", 
                   onClick: this.props.onRemove.bind(null, i)}
                 ), 
-                React.DOM.span(null, 
-                  React.DOM.input({
-                    type: "checkbox", 
-                    defaultChecked: item.lock, 
-                    onClick: this.props.toggleLock.bind(null,i)})
+                React.DOM.span({className: "lock-value"}, 
+                  React.DOM.i({
+                    className: classLock, 
+                    onClick: this.props.toggleLock.bind(null,i)}
+                  )
                 )
               ), 
               EvaluationEdit({
