@@ -79,8 +79,7 @@ var EvaluationEdit = React.createClass({displayName: 'EvaluationEdit',
           ref: "newValue", 
           onBlur: this.handleBlur, 
           onChange: this.handleChange, 
-          defaultValue: this.props.val}
-          )
+          defaultValue: this.props.val})
       )
     );
   }
@@ -95,6 +94,7 @@ var EvaluationList = React.createClass({displayName: 'EvaluationList',
           var classElem = 'evaluation note '+ visibles[i];
           var editClass = 'evaluation note '+ 
                           (visibles[i] == 'visible' ? 'not-visible': 'visible');
+          var classLock= item.lock ? 'fa fa-lock': 'fa fa-unlock';
           return (
             React.DOM.li({key: i, id: i}, 
               React.DOM.div({
@@ -105,6 +105,12 @@ var EvaluationList = React.createClass({displayName: 'EvaluationList',
                 React.DOM.span({
                   className: "eliminar glyphicon glyphicon-remove", 
                   onClick: this.props.onRemove.bind(null, i)}
+                ), 
+                React.DOM.span({className: "lock-value"}, 
+                  React.DOM.i({
+                    className: classLock, 
+                    onClick: this.props.toggleLock.bind(null,i)}
+                  )
                 )
               ), 
               EvaluationEdit({
@@ -152,15 +158,15 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
     this.props.simulate();
   },
   stopEdit: function(index, newValue){
-    simpleView.stopEdit();
     var visibles = this.state.visibles;
     var evaluations = this.state.evals;
+    var lastValue = evaluations[index].bounds.upper ;
     evaluations[index].bounds.upper = +Math.round(parseFloat(newValue));
     visibles[index] = 'visible';
     this.setState({
       visibles: visibles,
       eval: evaluations
-    });
+    });  
     this.props.simulate();
   },
   addEvaluation: function() {
@@ -187,6 +193,15 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
     }
     e.stopPropagation();
   },
+  toggleLock: function(index, e) {
+    var evaluations = this.state.evals;
+    evaluations[index].lock = !evaluations[index].lock;
+    this.setState({evals : evaluations});
+    e.stopPropagation();
+    if (myCourseView) {
+      $("#save-formula").popover('show');
+    }
+  },
   render: function() {
     return (
       React.DOM.div({className: "average-block"}, 
@@ -202,6 +217,7 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
           startEdit: this.startEdit, 
           evals: this.state.evals, 
           visibles: this.state.visibles, 
+          toggleLock: this.toggleLock, 
           stopEdit: this.stopEdit}), 
         React.DOM.div({
           className: "evaluation note phanthom", 
@@ -215,61 +231,14 @@ var AverageBox = React.createClass({displayName: 'AverageBox',
 
 var GradeBox = React.createClass({displayName: 'GradeBox',
   getInitialState: function() {
-    return {data: this.props.data};
+    return {
+      data: this.props.data,
+      visible: 'not-visible'
+    };
   },
   simulate: function() {
-    function simulation(node) {
-      var weights = 0;
-      var bounds = {lower: 0, upper: 0};
-      var minVal = {lower: 21, upper: 21};
-      var minWeight =  {lower: 0, upper: 0};
-      var weightBound = {lower: 0, upper: 0};
-      var childrenLength= node.children.length;
-
-      if (childrenLength == 0) {
-        return node.bounds;
-      }
-      for (var i = 0; i < node.children.length; i++) {
-        var actualNode = node.children[i];
-        var temp = simulation(actualNode);
-        
-        var weight = actualNode.weight;
-        bounds.lower += temp.lower * weight;
-        bounds.upper += temp.upper * weight;
-        weights += weight;
-
-        if (temp.lower < minVal.lower){
-          minVal.lower = temp.lower;
-          minWeight.lower = weight;
-        }
-
-        if (temp.upper < minVal.upper){
-          minVal.upper = temp.upper;
-          minWeight.upper = weight;
-        }
-      }
-      weightBound.lower = weights;
-      weightBound.upper = weights;
-
-      if (node.deleteMin) {
-        bounds.lower -= minVal.lower * minWeight.lower;
-        bounds.upper -= minVal.upper * minWeight.upper;
-        weightBound.lower -= minWeight.lower;
-        weightBound.upper -= minWeight.upper;
-      }
-
-      bounds.lower /= weightBound.lower;
-      bounds.upper /= weightBound.upper;
-
-      var precision = +Math.pow(10, node.decimals);
-      var round = node.trunk == 0 ? 0.5:0.0;
-      bounds.lower = Math.floor(bounds.lower * precision + round) / precision;
-      bounds.upper = Math.floor(bounds.upper * precision + round) / precision;
-      node.bounds = bounds;
-      return bounds;
-    }
     var nodes = this.state.data;
-    simulation(nodes);
+    Algorithm.simulation(nodes);
     this.setState({
       data: nodes
     });
@@ -277,12 +246,50 @@ var GradeBox = React.createClass({displayName: 'GradeBox',
       $("#save-formula").popover('show');
     }
   },
+  startUpdateAverage: function(e) {
+    this.setState({visible: 'visible'});
+    var value = this.state.data.bounds.upper;
+    $(e.target.parentNode.parentNode).find('input').val(value);
+  },
+  stopUpdateAverage: function(newValue) {
+    var newData = this.state.data;
+    var lastValue = this.state.data.bounds.upper;
+    newData.bounds.upper = parseFloat(newValue);
+    this.setState({
+      data: newData,
+      visible: 'not-visible'
+    });
+    if (newValue != ''+ lastValue) {
+      this.fillGradesToAverage();
+    }
+  },
+  fillGradesToAverage: function() {
+    var lastState = this.state.data;
+    var wishValue = this.state.data.bounds;
+
+    var nodes = this.state.data;
+    
+    Algorithm.fillGradesToAverage(nodes, wishValue);
+    this.setState({
+      data: nodes
+    });
+  },
   render: function() {
+    var className = this.state.visible == 'visible' ? 'not-visible': 'visible';
     return (
       React.DOM.div({className: "grades-box"}, 
-        React.DOM.div({className: "eva-info big"}, 
-          React.DOM.span({className: "big"}, this.state.data.label), 
-          React.DOM.span({className: "big"}, this.state.data.bounds.upper)
+        React.DOM.div({
+          className: "eva-info big", 
+          onClick: this.startUpdateAverage}, 
+          React.DOM.div({className: className}, 
+            React.DOM.span({className: "big"}, this.state.data.label), 
+            React.DOM.span({className: "big"}, this.state.data.bounds.upper)
+          ), 
+          AverageEdit({
+            val: this.state.data.bounds.upper, 
+            stopEdit: this.stopUpdateAverage, 
+            editClass: this.state.visible, 
+            label: this.state.data.label})
         ), 
         React.DOM.div({className: "notes-box eva-list"}, 
           this.state.data.children.map(function(item, i) {
@@ -295,6 +302,34 @@ var GradeBox = React.createClass({displayName: 'GradeBox',
             );
           }, this)
         )
+      )
+    );
+  }
+});
+
+var AverageEdit = React.createClass({displayName: 'AverageEdit',
+  handleBlur: function() {
+    var newValue = this.refs.newValue.getDOMNode().value;
+    this.props.stopEdit(newValue);
+  },
+  handleChange: function(e) {
+  },
+  componentDidUpdate  : function(data) {
+    $(this.getDOMNode()).find('input').focus();
+  },
+  render: function() {
+    var className = 'ave-edit '+ this.props.editClass;
+    return (
+      React.DOM.div({className: className}, 
+        React.DOM.span(null, 
+          this.props.label
+        ), 
+        React.DOM.input({
+          type: "text", 
+          ref: "newValue", 
+          onBlur: this.handleBlur, 
+          onChange: this.handleChange, 
+          defaultValue: this.props.val})
       )
     );
   }

@@ -470,12 +470,13 @@ line {
 /*** simple view ***/
 
 .note {
-    position: relative;
-    padding: 1em 1.5em;
-    margin: 2em auto;
-    color: #fff;
-    background: #97C02F;
-    overflow: hidden;
+  background: #97C02F;
+  color: #fff;
+  margin: 2em auto;
+  overflow: hidden;
+  padding: 1em 1.5em;
+  position: relative;
+  width: 60px;
 }
 
 .note:before {
@@ -492,6 +493,11 @@ line {
   right: 0;
   top: 0;
   width: 0;  
+}
+
+.lock-value {
+  cursor: pointer;
+  font-size: 1.5em;
 }
 
 .notes-box {
@@ -516,6 +522,19 @@ line {
   margin: 10px;
   vertical-align: middle;
   width: 50px;
+}
+
+.ave-edit *{
+  display: block;
+  font-size: 1.8em;
+  line-height: 1.8em;
+  position: relative;
+  text-align: center;
+  width: 70px;
+}
+.ave-edit input {
+  height: 1.2em;
+  line-height: 1.2em;
 }
 
 .eva-info.small {

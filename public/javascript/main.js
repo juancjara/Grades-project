@@ -95,7 +95,7 @@ var main = {
         {
           element: "#help-link",
           title: "Tour",
-          content: "Empieza el tour, puedes navegar haciendo click en Ant., Sgt. o utilizando las flechas del teclado."
+          content: "Empieza el tour, puedes navegar haciendo click en «, » . o utilizando las flechas del teclado."
         },
         {
           element: "#course-search-box",
@@ -105,7 +105,8 @@ var main = {
         {
           element: "#course-list",
           title: "Mis cursos",
-          content: "Los cursos que te pertenecen, puedes compartirlos dando click en el ícono con forma de nube"
+          content: "Los cursos que te pertenecen, puedes compartirlos dando clic en el ícono con forma de nube."+
+                    ' Cuando termine este tour aconsejamos empezar realizando clic sobre "curso ejemplo".'
         },
         {
           element: "#about",
@@ -116,13 +117,13 @@ var main = {
         {
           element: "#expand-navigation",
           title: "Compartir",
-          content: "Comparte esta página web",
+          content: "Comparte esta página web o cuéntale a tus amigos",
           placement: "top"
         },
         {
           element: "#help",
           title: "Ayuda",
-          content: "Obtén ayuda. Si es tu primera vez te recomendamos entrar aquí.",
+          content: "Obtén ayuda. Si es tu primera vez o quieres saber cómo utilizar la vista avanzada de cursos Clic aquí.",
           placement: "left"
         },
       ],
@@ -138,8 +139,8 @@ var main = {
                 "</div>"+
                 "</div>"
     });
-    tour.init();
     $help_link.on('click', function() {
+      tour.init();
       tour.restart();  
     });
 
@@ -177,6 +178,70 @@ var main = {
       main.updateTreeView();
     };
 
+    var decoratorTourCourse = function(f) {
+      return function() {
+        f.apply(this, arguments);
+        if(arguments[0].name == 'curso ejemplo') {
+          var optionsTourCourse = {      
+            steps: [
+              {
+                element: ".course.active",
+                title: "1 Curso Tour",
+                content: "Se realizaron algunos cambios aconsejamos seguir este pequeño tour. Puedes navegar haciendo click en «, » . "+
+                          "o utilizando las flechas del teclado.",
+                placement: 'top'
+              }, {
+                element: ".course.active .menu-icon.click-menu",
+                title: "2 Opciones del curso",
+                content: "Estas opciones permiten: compartir(para que otra persona utilice la fórmula),editar el nombre y eliminar respectivamente.",
+                placement: 'top'
+              }, {
+                element: "#course-base-formula",
+                title: "3 Fórmula",
+                content: "Cuando se crea un nuevo curso se debe ingresar la fórmula del curso. Luego se debe hacer click en aplicar fórmula",
+                placement: 'bottom'
+              }, {
+                element: ".phanthom:first",
+                title: "4 Agregando evaluaciones",
+                content:  "Luego de aplicar la fórmula se debe hacer clic sobre el + para agregar evaluaciones donde sea necesario."+
+                          "Para editar las notas se les debe dar un clic. Si la nota es real( ya te entregaron tu jalado ), " +
+                          "debes asegurar este valor cerrando el candado. "+
+                          "Además, se debe indicar si se debe eliminar la nota mínima para obtener el promedio.",
+                placement: "right"
+              }, {
+                element: "#simple-container .eva-info.big",
+                title: "5 Sólo quiero aprobar el curso",
+                content: "Se puede dar click y editar el promedio que se desea obtener. PD: Las evaluaciones que no tengan "+
+                        "el candado cerrado serán llenadas con otros valores para intentar llegar al promedio indicado. "+
+                        "No te olvides de guardar los cambios realizados."
+              }, {
+                element: "#simple-container .eva-info.big",
+                title: "6 Ahora te toca",
+                content: "Ahora puedes crear y compartir fórmula de los cursos y averiguar si te vas por 20."
+              }
+            ],
+            template: "<div class='popover tour'>"+
+                      "<div class='arrow'></div>"+
+                      "<h3 class='popover-title'></h3>"+
+                      "<div class='popover-content'></div>"+
+                      "<div class='popover-navigation'>"+
+                        "<button class='btn btn-default' data-role='prev'>«</button>"+
+                        "<span data-role='separator'>&nbsp;</span>"+
+                        "<button class='btn btn-default' data-role='next'>»</button>"+
+                        "<button class='btn btn-default' data-role='end'>Cerrar</button>"+
+                      "</div>"+
+                      "</div>"
+          };
+          var tourEx = new Tour(optionsTourCourse);
+          tourEx.init();
+          tourEx.restart();
+        }
+        
+      }
+    };
+
+    decoratorTourCourse = decoratorTourCourse(selected_handler);
+
     var remove_tree = function() {
       $('#save-formula').off('click').popover('hide');
       $('.on-sel-hide').hide();
@@ -196,13 +261,14 @@ var main = {
 
     var get_formula = function() {
       var formula = JSON.stringify(viewSelected.export());
+      console.log(formula);
       return {
         formula: formula,
         baseFormula: $course_base_formula.val()
       };
     };
 
-    my_list.selected_handler = selected_handler;
+    my_list.selected_handler = decoratorTourCourse;
     my_list.get_formula = get_formula;
     my_list.remove = remove_tree;
 

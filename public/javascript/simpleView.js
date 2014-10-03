@@ -36,29 +36,12 @@ var SimpleView = function() {
         deleteMin: 0,
         isEditable: true,
         trunk: 0,
-        weight: 1
+        weight: 1,
+        lock: false
       }
-    },
-    startEdit: function(el) {
-      var temp = $('.eva-edit');
-      //console.log('el', el.find('input').val('GGG').focus());
-      //console.log(temp.innerHtml);
-      return ;
-      for (var i = 0; i < temp.length; i++) {
-        console.log($(temp[i]).attr('class'));
-      }
-      
-      /*$(document).on('click.edit', function(e) {
-        e.stopPropagation();
-        console.log(handleStop);
-        handleStop();
-        console.log('gg');
-        exports.stopEdit();
-      });*/
-    },
-    stopEdit: function() {
-      $(document).off('click.edit');
     }
   };
   return exports;
 };
+
+//TODO add lock to tree view

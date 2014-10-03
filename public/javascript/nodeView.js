@@ -500,7 +500,8 @@ var NodeMgrGen =
           "label": null,
           "trunk": 1,
           "weight": 1,
-          "children" : []
+          "children" : [],
+          "lock": false
         };
         return data;
       };
@@ -590,6 +591,7 @@ function Node(nodeId, nodeView, data){
   var origin = null;
   var view = nodeView;
   var weight = 1;
+  var lock = false;
 
   var bounds = {upper: 20, lower: 0};
   var children = [];
@@ -621,6 +623,11 @@ function Node(nodeId, nodeView, data){
       node.setTrunkBehavior(data.trunk);
       node.setWeight(data.weight);
       node.setDeleteMinimum(data.deleteMin);
+      node.setLock(data.lock);
+    },
+    setLock: function(lockParam) {
+      lock = lockParam;
+      //TODO lock view
     },
     setDecimals: function(dec) {
       decimals = dec;
@@ -735,7 +742,8 @@ function Node(nodeId, nodeView, data){
         isEditable: isEditable,
         label: label,
         trunk: trunk,
-        weight: weight
+        weight: weight,
+        lock: lock
       };
     }
   };
